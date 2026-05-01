@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SEO Keyword Tags Generator - Free SEO Tools | Tolzo.site</title>
+    <meta name="description" content="Discover the perfect keywords to optimize your content and improve search rankings. Free SEO keyword generator with comprehensive insights and high-performing keyword suggestions." />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .gradient-bg {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      .hover-lift {
+        transition: transform 0.3s ease;
+      }
+      .hover-lift:hover {
+        transform: translateY(-5px);
+      }
+      .custom-shadow {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+      .dropdown {
+        display: none;
+      }
+      .dropdown.active {
+        display: block;
+      }
+      .mobile-menu {
+        display: none;
+      }
+      .mobile-menu.active {
+        display: block;
+      }
+      .keyword-tag {
+        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        border: 1px solid #2196f3;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .keyword-tag:hover {
+        background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+        color: white;
+        transform: translateY(-2px);
+      }
+      .keyword-tag.copied {
+        background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+        color: white;
+      }
+      .loading-spinner {
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #2196f3;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .difficulty-easy {
+        color: #4caf50;
+      }
+      .difficulty-medium {
+        color: #ff9800;
+      }
+      .difficulty-hard {
+        color: #f44336;
+      }
+      .search-volume-high {
+        color: #2196f3;
+      }
+      .search-volume-medium {
+        color: #ff9800;
+      }
+      .search-volume-low {
+        color: #9e9e9e;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+      <nav class="container mx-auto px-4 py-4">
+        <div class="flex justify-between items-center">
+          <!-- Logo -->
+          <div class="flex items-center space-x-2">
+            <svg class="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+            <span class="text-2xl font-bold text-gray-800" id="header-logo">Tolzo.site</span>
+          </div>
+
+          <!-- Desktop Navigation -->
+          <div class="hidden md:flex items-center space-x-8">
+            <a href="/" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+            <a href="/about" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
+            <div class="relative">
+              <button class="text-gray-700 hover:text-blue-600 font-medium flex items-center" onclick="toggleDropdown()">
+                Tools
+                <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                </svg>
+              </button>
+              <div class="dropdown absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border">
+                <a href="/instagram-tiktok-hashtag-tool" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">Instagram & TikTok Hashtag Generator</a>
+                <a href="/youtube-tags-generator" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">YouTube Tags Generator</a>
+                <a href="/seo-keyword-tags-generator" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 bg-blue-50">SEO Keyword Generator</a>
+                <a href="/trending-tags-finder" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">Trending Tags Finder</a>
+                <a href="/blog-post-tags-generator" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">Blog Post Tags Generator</a>
+              </div>
+            </div>
+            <a href="/contact" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <button class="md:hidden text-gray-700" onclick="toggleMobileMenu()">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="mobile-menu md:hidden mt-4 pb-4">
+          <a href="/" class="block py-2 text-gray-700 hover:text-blue-600">Home</a>
+          <a href="/about" class="block py-2 text-gray-700 hover:text-blue-600">About</a>
+          <div class="py-2">
+            <span class="text-gray-700 font-medium">Tools</span>
+            <div class="ml-4 mt-2 space-y-1">
+              <a href="/instagram-tiktok-hashtag-tool" class="block text-sm text-gray-600 hover:text-blue-600">Instagram & TikTok Hashtag Generator</a>
+              <a href="/youtube-tags-generator" class="block text-sm text-gray-600 hover:text-blue-600">YouTube Tags Generator</a>
+              <a href="/seo-keyword-tags-generator" class="block text-sm text-gray-600 hover:text-blue-600 text-blue-600">SEO Keyword Generator</a>
+              <a href="/trending-tags-finder" class="block text-sm text-gray-600 hover:text-blue-600">Trending Tags Finder</a>
+              <a href="/blog-post-tags-generator" class="block text-sm text-gray-600 hover:text-blue-600">Blog Post Tags Generator</a>
+            </div>
+          </div>
+          <a href="/contact" class="block py-2 text-gray-700 hover:text-blue-600">Contact</a>
+        </div>
+      </nav>
+    </header>
+    <section class="bg-gray-50 py-12 px-6">
+      <!-- Light Gray Background -->
+      <div class="max-w-4xl mx-auto">
+        <!-- Header Section -->
+        <div class="text-center mb-10">
+          <h1 class="text-3xl md:text-5xl font-bold text-slate-900 mb-4">Premium Tech & Coding Tags</h1>
+          <p class="text-slate-600">Boost your tech vlogs and coding tutorials with trending SEO tags.</p>
+        </div>
+
+        <!-- Tags Display Box -->
+        <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-lg relative">
+          <div id="tag-container" class="flex flex-wrap gap-2 text-sm text-blue-600 font-medium">#programming #webdevelopment #softwareengineer #codinglife #javascript #angular #python #aisolutions #frontend #backend #systemdesign #techvlog #developercommunity #techtips #productivity #darkmodeui #fullstack #datacenters #cloudcomputing #cybersecurity</div>
+
+          <!-- Copy Button -->
+          <div class="mt-6 flex justify-end">
+            <button id="copyBtn" onclick="copyTags()" id="copyBtn" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-all active:scale-95 shadow-md">Copy Tags</button>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- CARD 1 -->
+            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-lg">
+              <h3 class="font-semibold mb-3 text-gray-800">💻 Programming Tags</h3>
+              <div class="flex flex-wrap gap-2 text-sm text-blue-600 font-medium">#programming #codinglife #developer #softwareengineer #debugging #cleanCode #codingtips</div>
+              <div class="mt-4 flex justify-end">
+                <button onclick="copyTags()" id="copyBtn" class="copyBtn bg-blue-600 text-white px-4 py-2 rounded-lg">Copy</button>
+              </div>
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-lg">
+              <h3 class="font-semibold mb-3 text-gray-800">🌐 Web Development</h3>
+              <div class="flex flex-wrap gap-2 text-sm text-blue-600 font-medium">#webdevelopment #frontend #backend #fullstack #html #css #javascript #angular #react</div>
+              <div class="mt-4 flex justify-end">
+                <button onclick="copyTags(this)" class="copyBtn bg-blue-600 text-white px-4 py-2 rounded-lg">Copy</button>
+              </div>
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-lg">
+              <h3 class="font-semibold mb-3 text-gray-800">🤖 AI & Tech</h3>
+              <div class="flex flex-wrap gap-2 text-sm text-blue-600 font-medium">#ai #machinelearning #artificialintelligence #datascience #automation #chatgpt #aiTools</div>
+              <div class="mt-4 flex justify-end">
+                <button onclick="copyTags(this)" class="copyBtn bg-blue-600 text-white px-4 py-2 rounded-lg">Copy</button>
+              </div>
+            </div>
+
+            <!-- CARD 4 -->
+            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-lg">
+              <h3 class="font-semibold mb-3 text-gray-800">☁️ Cloud & Security</h3>
+              <div class="flex flex-wrap gap-2 text-sm text-blue-600 font-medium">#cloudcomputing #aws #azure #devops #cybersecurity #networking #server #datacenter</div>
+              <div class="mt-4 flex justify-end">
+                <button onclick="copyTags(this)" class="copyBtn bg-blue-600 text-white px-4 py-2 rounded-lg">Copy</button>
+              </div>
+            </div>
+
+            <!-- CARD 5 -->
+            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-lg">
+              <h3 class="font-semibold mb-3 text-gray-800">🚀 Productivity & Growth</h3>
+              <div class="flex flex-wrap gap-2 text-sm text-blue-600 font-medium">#productivity #motivation #selfgrowth #learning #consistency #success #focus</div>
+              <div class="mt-4 flex justify-end">
+                <button onclick="copyTags(this)" class="copyBtn bg-blue-600 text-white px-4 py-2 rounded-lg">Copy</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEO Content Section (Visible 700+ Words) -->
+        <div class="mt-16 text-slate-800 leading-relaxed space-y-6">
+          <h2 class="text-2xl font-bold text-slate-900">Why Tech Tags are Crucial for Growing Your Channel?</h2>
+          <p>In the rapidly evolving world of technology, staying ahead of the curve is not just about writing clean code; it's also about visibility. Whether you are a software engineer sharing your coding journey or a tech enthusiast reviewing gadgets, your success depends on SEO. These curated tech tags help search engine bots categorize your content effectively.</p>
+
+          <h3 class="text-xl font-semibold text-slate-900">Optimizing Tech Content for 2026</h3>
+          <p>Search algorithms have become smarter. They focus on context and utility. Our generator provides a mix of broad keywords like #programming and specific niche tags like #angular or #systemdesign. This helps in ranking your videos in both general tech searches and specific coding queries.</p>
+
+          <h3 class="text-xl font-semibold text-slate-900">The Psychology of Tech Searchers</h3>
+          <p>Tech users usually look for solutions—"how-to" guides or "best practices." By including tags that resonate with these intents, you position your content as a reliable resource. Building mental resilience is key in the coding world, and showing that through your content helps build a loyal community.</p>
+
+          <h3 class="text-xl font-semibold text-slate-900">Best Practices for Using These Tags</h3>
+          <ul class="list-disc pl-5 space-y-2">
+            <li><strong>Relevance First:</strong> Only use tags that directly relate to your topic. Irrelevant tags can hurt your SEO.</li>
+            <li><strong>Consistency:</strong> Maintain a regular posting schedule to stay relevant in the fast-changing tech world.</li>
+            <li><strong>Dual Identity:</strong> If you're a developer who loves the gym, mix in some lifestyle tags to show the person behind the screen.</li>
+            <li><strong>UI/UX Matters:</strong> A clean aesthetic appeals to the developer community. Whether it's a light or dark theme, keep it premium.</li>
+          </ul>
+
+          <p>Remember, tools are just a part of the ecosystem. The true value comes from your unique perspective as an engineer. Whether you're debugging a component or setting up a workstation, your story makes people click. Use these tags as a bridge to connect your expertise with the audience.</p>
+
+          <p>Technology is about more than just hardware; it's about the people who build it. As a software engineer, you have the power to inspire others. Using the right SEO strategies ensures that your hard work doesn't go unnoticed in the vast digital space of 2026.</p>
+
+          <p class="text-sm italic text-slate-500 pt-4 border-t border-gray-200">Note: This generator is updated regularly to reflect the latest trends in the tech industry.</p>
+        </div>
+      </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid md:grid-cols-4 gap-8">
+          <div>
+            <div class="flex items-center space-x-2 mb-4">
+              <svg class="w-8 h-8 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+              </svg>
+              <span class="text-2xl font-bold" id="footer-logo">Tolzo.site</span>
+            </div>
+            <p class="text-gray-300">Free digital optimization tools for creators, marketers, and bloggers.</p>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Tools</h4>
+            <ul class="space-y-2 text-gray-300">
+              <li><a href="/instagram-tiktok-hashtag-tool" class="hover:text-white">Instagram & TikTok Hashtag Tool</a></li>
+              <li><a href="/youtube-tags-generator" class="hover:text-white">YouTube Tags Generator</a></li>
+              <li><a href="/seo-keyword-tags-generator" class="hover:text-white text-blue-400">SEO Keyword Tags Generator</a></li>
+              <li><a href="/trending-tags-finder" class="hover:text-white">Trending Tags Finder</a></li>
+              <li><a href="/blog-post-tags-generator" class="hover:text-white">Blog Post Tags Generator</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Company</h4>
+            <ul class="space-y-2 text-gray-300">
+              <li><a href="/about" class="hover:text-white">About Us</a></li>
+              <li><a href="/contact" class="hover:text-white">Contact</a></li>
+              <li><a href="/privacy" class="hover:text-white">Privacy Policy</a></li>
+              <li><a href="/terms" class="hover:text-white">Terms & Conditions</a></li>
+              <li><a href="/disclaimer" class="hover:text-white">Disclaimer</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Newsletter</h4>
+            <p class="text-gray-300 mb-4">Subscribe to get updates on new tools and features.</p>
+            <form
+              class="flex flex-col space-y-2"
+              onsubmit="
+                event.preventDefault();
+                alert('Thank you for subscribing!');
+              "
+            >
+              <input type="email" placeholder="Your email" class="px-3 py-2 rounded text-gray-800" required />
+              <button type="submit" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700 transition duration-300">Subscribe</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
+          <p>&copy; 2025 <span id="copyright-domain">Tolzo.site</span>. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Keyword database for different topics
+      const keywordDatabase = {
+        "digital marketing": {
+          primary: ["digital marketing", "online marketing", "internet marketing", "digital advertising", "marketing strategy"],
+          longtail: ["digital marketing strategies for small business", "best digital marketing tools 2025", "how to start digital marketing agency", "digital marketing course online free", "digital marketing vs traditional marketing"],
+          lsi: ["SEO", "social media", "content marketing", "email marketing", "PPC", "analytics", "conversion rate", "brand awareness", "lead generation", "marketing automation"],
+          questions: ["What is digital marketing?", "How to learn digital marketing?", "Why is digital marketing important?", "Which digital marketing course is best?", "How much does digital marketing cost?"],
+        },
+        "healthy recipes": {
+          primary: ["healthy recipes", "nutritious meals", "healthy cooking", "diet recipes", "wellness food"],
+          longtail: ["easy healthy recipes for weight loss", "healthy recipes for busy families", "quick healthy breakfast recipes", "low carb healthy dinner recipes", "healthy meal prep recipes"],
+          lsi: ["nutrition", "calories", "protein", "vegetables", "whole grains", "meal planning", "cooking tips", "ingredients", "dietary", "vitamins"],
+          questions: ["What are some healthy recipes?", "How to cook healthy meals?", "What makes a recipe healthy?", "How to meal prep healthy foods?", "What are easy healthy recipes?"],
+        },
+        "home renovation": {
+          primary: ["home renovation", "house remodeling", "home improvement", "interior design", "home makeover"],
+          longtail: ["home renovation ideas on a budget", "DIY home renovation projects", "small home renovation tips", "home renovation cost calculator", "modern home renovation designs"],
+          lsi: ["contractor", "budget", "planning", "permits", "materials", "design", "construction", "flooring", "kitchen", "bathroom"],
+          questions: ["How to plan home renovation?", "What is the cost of home renovation?", "How to renovate home on budget?", "Which home renovation adds most value?", "How long does home renovation take?"],
+        },
+      };
+
+      // Get current domain and update all domain references
+      function updateDomainReferences() {
+        const currentDomain = window.location.hostname.replace("www.", "") || "Tolzo.site";
+        const domainElements = ["header-logo", "footer-logo", "copyright-domain"];
+
+        domainElements.forEach((id) => {
+          const element = document.getElementById(id);
+          if (element) {
+            element.textContent = currentDomain;
+          }
+        });
+      }
+
+      // Toggle dropdown menu
+      function toggleDropdown() {
+        const dropdown = document.querySelector(".dropdown");
+        dropdown.classList.toggle("active");
+      }
+
+      // Toggle mobile menu
+      function toggleMobileMenu() {
+        const mobileMenu = document.querySelector(".mobile-menu");
+        mobileMenu.classList.toggle("active");
+      }
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", function (event) {
+        const dropdown = document.querySelector(".dropdown");
+        const toolsButton = event.target.closest("button");
+
+        if (!toolsButton || !toolsButton.textContent.includes("Tools")) {
+          dropdown.classList.remove("active");
+        }
+      });
+
+      // Generate keywords based on input
+      function generateKeywords() {
+        const topic = document.getElementById("topicInput").value.trim().toLowerCase();
+
+        if (!topic) {
+          alert("Please enter a topic or keyword to generate suggestions.");
+          return;
+        }
+
+        // Show loading state
+        document.getElementById("loadingState").classList.remove("hidden");
+        document.getElementById("resultsSection").classList.add("hidden");
+        document.getElementById("generateBtn").disabled = true;
+
+        // Simulate API call delay
+        setTimeout(() => {
+          const keywords = getKeywordsForTopic(topic);
+          displayResults(keywords, topic);
+
+          // Hide loading state
+          document.getElementById("loadingState").classList.add("hidden");
+          document.getElementById("resultsSection").classList.remove("hidden");
+          document.getElementById("generateBtn").disabled = false;
+        }, 2000);
+      }
+
+      // Get keywords for a specific topic
+      function getKeywordsForTopic(topic) {
+        // Check if we have exact match in database
+        if (keywordDatabase[topic]) {
+          return keywordDatabase[topic];
+        }
+
+        // Generate keywords based on topic
+        const baseKeywords = {
+          primary: [topic, `${topic} guide`, `best ${topic}`, `${topic} tips`, `${topic} strategy`],
+          longtail: [`how to ${topic} for beginners`, `${topic} step by step guide`, `best ${topic} practices 2025`, `${topic} tools and resources`, `professional ${topic} services`, `${topic} course online`, `${topic} examples and case studies`],
+          lsi: generateLSIKeywords(topic),
+          questions: [`What is ${topic}?`, `How to start with ${topic}?`, `Why is ${topic} important?`, `What are the benefits of ${topic}?`, `How much does ${topic} cost?`, `Where to learn ${topic}?`],
+        };
+
+        return baseKeywords;
+      }
+
+      // Generate LSI keywords based on topic
+      function generateLSIKeywords(topic) {
+        const commonLSI = ["guide", "tips", "best", "how to", "examples", "tools", "resources", "strategy", "techniques", "methods"];
+        const topicWords = topic.split(" ");
+        const lsiKeywords = [];
+
+        // Add common LSI terms
+        commonLSI.forEach((term) => {
+          lsiKeywords.push(term);
+        });
+
+        // Add variations of the topic
+        topicWords.forEach((word) => {
+          lsiKeywords.push(`${word} basics`);
+          lsiKeywords.push(`${word} advanced`);
+          lsiKeywords.push(`${word} tutorial`);
+        });
+
+        return lsiKeywords.slice(0, 10); // Return first 10
+      }
+
+      // Display generated keywords
+      function displayResults(keywords, topic) {
+        displayKeywordCategory("primaryKeywords", keywords.primary, "primary");
+        displayKeywordCategory("longtailKeywords", keywords.longtail, "longtail");
+        displayKeywordCategory("lsiKeywords", keywords.lsi, "lsi");
+        displayKeywordCategory("questionKeywords", keywords.questions, "question");
+      }
+
+      // Display keywords in a specific category
+      function displayKeywordCategory(containerId, keywords, type) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = "";
+
+        keywords.forEach((keyword, index) => {
+          const keywordElement = createKeywordElement(keyword, type, index);
+          container.appendChild(keywordElement);
+        });
+      }
+
+      // Create individual keyword element
+      function createKeywordElement(keyword, type, index) {
+        const div = document.createElement("div");
+        div.className = "keyword-tag p-3 rounded-lg flex items-center justify-between group";
+
+        const difficulty = ["easy", "medium", "hard"][Math.floor(Math.random() * 3)];
+        const volume = ["high", "medium", "low"][Math.floor(Math.random() * 3)];
+
+        div.innerHTML = `
+                <div class="flex-1">
+                    <span class="font-medium">${keyword}</span>
+                    <div class="flex items-center mt-1 space-x-2 text-xs">
+                        <span class="difficulty-${difficulty}">
+                            <i class="fas fa-circle mr-1"></i>
+                            ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} difficulty
+                        </span>
+                        <span class="search-volume-${volume}">
+                            <i class="fas fa-chart-bar mr-1"></i>
+                            ${volume.charAt(0).toUpperCase() + volume.slice(1)} volume
+                        </span>
+                    </div>
+                </div>
+                <div class="opacity-0 group-hover:opacity-100 transition-opacity">
+                    <i class="fas fa-copy text-gray-500"></i>
+                </div>
+            `;
+
+        div.addEventListener("click", () => {
+          copyToClipboard(keyword, div);
+        });
+
+        return div;
+      }
+
+      // Copy keyword to clipboard
+      function copyToClipboard(text, element) {
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            // Visual feedback
+            element.classList.add("copied");
+            const icon = element.querySelector("i");
+            icon.className = "fas fa-check text-white";
+
+            // Reset after 2 seconds
+            setTimeout(() => {
+              element.classList.remove("copied");
+              icon.className = "fas fa-copy text-gray-500";
+            }, 2000);
+          })
+          .catch(() => {
+            // Fallback for older browsers
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
+
+            // Visual feedback
+            element.classList.add("copied");
+            setTimeout(() => {
+              element.classList.remove("copied");
+            }, 2000);
+          });
+      }
+
+      // Copy all keywords
+
+      // Download keywords as TXT file
+
+      // Clear results
+      function clearResults() {
+        document.getElementById("resultsSection").classList.add("hidden");
+        document.getElementById("topicInput").value = "";
+        document.getElementById("topicInput").focus();
+      }
+
+      // Allow Enter key to generate keywords
+      document.getElementById("topicInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          generateKeywords();
+        }
+      });
+
+      // Initialize domain references on page load
+      document.addEventListener("DOMContentLoaded", updateDomainReferences);
+      function copyTags(btn = null) {
+        let tags;
+
+        // 👉 Agar card ka button click hua
+        if (btn) {
+          const card = btn.closest(".bg-white");
+          tags = card.querySelector(".flex.flex-wrap").innerText;
+        }
+        // 👉 Agar top button click hua
+        else {
+          tags = document.getElementById("tag-container").innerText;
+          btn = document.getElementById("copyBtn");
+        }
+
+        navigator.clipboard.writeText(tags);
+
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "Copied! ✅";
+        btn.classList.replace("bg-blue-600", "bg-green-600");
+
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.classList.replace("bg-green-600", "bg-blue-600");
+        }, 1500);
+      }
+    </script>
+  </body>
+</html>
