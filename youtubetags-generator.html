@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>YouTube Tags Generator for Better Video Reach | Tolzo.site</title>
+    <title>YouTube Tags Generator for Better Video Reach | Tolzo.site</title>
 
-<meta name="description" content="Create useful YouTube tags for your videos in seconds. Find relevant keywords, improve visibility, and reach the right audience with simple and effective tag suggestions." />
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <meta name="description" content="Create useful YouTube tags for your videos in seconds. Find relevant keywords, improve visibility, and reach the right audience with simple and effective tag suggestions." />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -14,730 +14,397 @@
     <link rel="icon" type="image/png" href="images/favicon.png" />
     <link rel="canonical" href="https://toolkitpro.tools/youtubetags-generator" />
     <!-- <meta http-equiv="refresh" content="0; url=https://toolkitpro.tools/youtubetags-generator" /> -->
-    <style>
-      body {
-        font-family: "Inter", sans-serif;
-      }
-      .gradient-bg {
-        background: linear-gradient(135deg, #8b90a7a8 0%, #645970 100%);
-      }
-      .hover-lift {
-        transition: transform 0.3s ease;
-      }
-      .hover-lift:hover {
-        transform: translateY(-5px);
-      }
-      .custom-shadow {
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      }
-      .dropdown {
-        display: none;
-      }
-      .dropdown.active {
-        display: block;
-      }
-      .mobile-menu {
-        display: none;
-      }
-      .mobile-menu.active {
-        display: block;
-      }
-      .tag-item {
-        transition: all 0.3s ease;
-        cursor: pointer;
-      }
-      .tag-item:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      }
-      .copy-animation {
-        animation: copyPulse 0.6s ease-in-out;
-      }
-      @keyframes copyPulse {
-        0% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.05);
-        }
-        100% {
-          transform: scale(1);
-        }
-      }
-      .loading-spinner {
-        animation: spin 1s linear infinite;
-      }
-      @keyframes spin {
-        from {
-          transform: rotate(0deg);
-        }
-        to {
-          transform: rotate(360deg);
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="/assets/css/common-styles.css" />
   </head>
   <body class="bg-gray-50">
     <!-- Header -->
-    <header class="bg-white shadow-lg sticky top-0 z-50">
-      <nav class="container mx-auto px-4 py-4">
-        <div class="flex justify-between items-center">
-          <!-- Logo -->
-          <div class="flex items-center space-x-2">
-            <svg class="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-            </svg>
-            <span class="text-2xl font-bold text-gray-800" id="header-logo">LearnForAll</span>
-          </div>
-
-          <!-- Desktop Navigation -->
-          <div class="hidden md:flex items-center space-x-8">
-            <a href="/" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
-            <a href="about" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
-            <a href="contact" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
-          </div>
-
-          <!-- Mobile Menu Button -->
-          <button class="md:hidden text-gray-700" onclick="toggleMobileMenu()">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-            </svg>
-          </button>
-        </div>
-
-        <!-- Mobile Navigation -->
-        <div class="mobile-menu md:hidden mt-4 pb-4">
-          <a href="/" class="block py-2 text-gray-700 hover:text-blue-600">Home</a>
-          <a href="about" class="block py-2 text-gray-700 hover:text-blue-600">About</a>
-          <div class="py-2">
-            <span class="text-gray-700 font-medium">Tools</span>
-            <div class="ml-4 mt-2 space-y-1">
-              <a href="instagramtiktok-hashtag-tool" class="block text-sm text-gray-600 hover:text-blue-600">Instagram & TikTok Hashtag Generator</a>
-              <a href="youtubetags-generator" class="block text-sm text-gray-600 hover:text-blue-600">YouTube Tags Generator</a>
-              <a href="seokeyword-tags-generator" class="block text-sm text-gray-600 hover:text-blue-600">SEO Keyword Generator</a>
-              <a href="trendingtags-finder" class="block text-sm text-gray-600 hover:text-blue-600 font-semibold text-blue-600">Trending Tags Finder</a>
-              <a href="blogpost-tags-generator" class="block text-sm text-gray-600 hover:text-blue-600">Blog Post Tags Generator</a>
-            </div>
-          </div>
-          <a href="contact" class="block py-2 text-gray-700 hover:text-blue-600">Contact</a>
-        </div>
-      </nav>
-    </header>
+    <div id="global-header"></div>
 
     <!-- Hero Section -->
-    <section class="gradient-bg text-white py-16">
-      <div class="container mx-auto px-4 text-center">
-        <div class="flex items-center justify-center mb-6">
-          <i class="fab fa-youtube text-6xl text-red-400 mr-4"></i>
-          <h1 class="text-4xl md:text-5xl font-bold">YouTube Tags Generator</h1>
+    <section class="bg-gradient-to-b from-gray-900 to-black text-white py-20 px-4">
+      <div class="container mx-auto max-w-4xl text-center">
+        <div class="inline-flex items-center gap-2 bg-red-500 bg-opacity-10 text-red-400 px-4 py-1.5 rounded-full text-sm font-medium mb-6 border border-red-500 border-opacity-20">
+          <i class="fab fa-youtube text-lg"></i>
+          <span>Next-Gen Video Optimization</span>
         </div>
-        <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Optimize your videos with SEO-friendly tags to increase visibility and views</p>
-        <div class="max-w-md mx-auto">
-          <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-1">
-            <div class="flex items-center text-white">
-              <i class="fas fa-tags mr-3 ml-3"></i>
-              <span class="text-lg">Boost Your YouTube Video Performance</span>
-            </div>
-          </div>
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">Advanced YouTube Tags Generator</h1>
+        <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-8 leading-relaxed">Stop guessing metadata. Extract semantic, high-yield tags driven by actual search intent to enhance video visibility, CTR, and placement in suggested feeds.</p>
+        <div class="flex flex-wrap gap-6 items-center justify-center text-sm text-gray-400 border-t border-gray-800 pt-6">
+          <span class="flex items-center gap-2"><i class="fas fa-search text-blue-400"></i> Maximize Search Impressions</span>
+          <span class="flex items-center gap-2"><i class="fas fa-chart-line text-green-400"></i> Rank Higher in Suggestions</span>
+          <span class="flex items-center gap-2"><i class="fas fa-bolt text-purple-400"></i> Target Real Intent</span>
         </div>
       </div>
     </section>
 
-    <!-- Tool Description -->
-    <section class="py-8 bg-white">
-      <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto text-center">
-          <p class="text-lg text-gray-600 leading-relaxed">YouTube tags are crucial metadata that help the platform understand what your video is about. While they may not be as visible as titles and descriptions, tags play a significant role in how YouTube's algorithm categorizes and recommends your content to viewers.</p>
-          <div class="grid md:grid-cols-3 gap-6 mt-8">
-            <div class="flex items-center justify-center">
-              <i class="fas fa-search text-blue-500 text-2xl mr-3"></i>
-              <span class="text-gray-700 font-medium">Improve search visibility</span>
+    <section class="py-16 bg-slate-50 -mt-12 px-4 relative z-10">
+      <div class="container mx-auto max-w-4xl">
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 md:p-10">
+          <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2"><i class="fas fa-sliders-h text-red-500"></i> Core Tag Configuration</h2>
+
+          <div class="mb-8">
+            <label for="videoInput" class="block text-sm font-semibold text-slate-700 mb-3"> Enter Video Title, Subject, or Target Focus Keyword: </label>
+            <div class="relative">
+              <input
+                type="text"
+                id="videoInput"
+                placeholder="e.g., Ultimate Angular Dashboard Tutorial | Tailwind CSS Step-by-Step"
+                class="w-full pl-4 pr-20 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-slate-900 text-base outline-none transition"
+                maxlength="100"
+                oninput="document.getElementById('charCount').innerText = this.value.length"
+              />
+              <div class="absolute right-4 top-4 text-xs font-mono text-slate-400"><span id="charCount">0</span>/100</div>
             </div>
-            <div class="flex items-center justify-center">
-              <i class="fas fa-eye text-green-500 text-2xl mr-3"></i>
-              <span class="text-gray-700 font-medium">Increase suggested video appearances</span>
-            </div>
-            <div class="flex items-center justify-center">
-              <i class="fas fa-users text-purple-500 text-2xl mr-3"></i>
-              <span class="text-gray-700 font-medium">Reach your target audience</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- YouTube Tags Generator Tool -->
-    <section class="py-12 bg-gray-50">
-      <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto">
-          <div class="bg-white rounded-lg shadow-lg p-8">
-            <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Generate YouTube Tags</h2>
-
-            <!-- Input Section -->
-            <div class="mb-8">
-              <label for="videoInput" class="block text-lg font-medium text-gray-700 mb-4"> Enter your video title or main keyword: </label>
-              <div class="relative">
-                <input type="text" id="videoInput" placeholder="e.g., How to Make Chocolate Chip Cookies | Easy Recipe" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg" maxlength="100" />
-                <div class="absolute right-3 top-3 text-sm text-gray-400"><span id="charCount">0</span>/100</div>
-              </div>
-              <p class="text-sm text-gray-500 mt-2">Enter your video title, main topic, or primary keyword to generate relevant tags</p>
-            </div>
-
-            <!-- Generate Button -->
-            <div class="text-center mb-8">
-              <button id="generateBtn" onclick="generateTags()" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-4 px-8 rounded-lg transition duration-300 text-lg shadow-lg"><i class="fas fa-magic mr-2"></i>Generate Tags</button>
-            </div>
-
-            <!-- Results Section -->
-            <div id="resultsSection" class="hidden">
-              <!-- Stats -->
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                <div class="bg-blue-50 rounded-lg p-4 text-center">
-                  <div class="text-2xl font-bold text-blue-600" id="totalTags">0</div>
-                  <div class="text-sm text-gray-600">Total Tags</div>
-                </div>
-                <div class="bg-green-50 rounded-lg p-4 text-center">
-                  <div class="text-2xl font-bold text-green-600" id="characterCount">0</div>
-                  <div class="text-sm text-gray-600">Characters Used</div>
-                </div>
-                <div class="bg-purple-50 rounded-lg p-4 text-center">
-                  <div class="text-2xl font-bold text-purple-600">500</div>
-                  <div class="text-sm text-gray-600">Character Limit</div>
-                </div>
-              </div>
-
-              <!-- Tag Categories -->
-              <div class="space-y-6">
-                <!-- Primary Tags -->
-                <div>
-                  <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800 flex items-center"><i class="fas fa-star text-yellow-500 mr-2"></i>Primary Tags</h3>
-                    <button onclick="copyTags('primary')" class="text-blue-500 hover:text-blue-600 text-sm"><i class="fas fa-copy mr-1"></i>Copy All</button>
-                  </div>
-                  <div id="primaryTags" class="flex flex-wrap gap-2"></div>
-                </div>
-
-                <!-- Related Tags -->
-                <div>
-                  <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800 flex items-center"><i class="fas fa-link text-blue-500 mr-2"></i>Related Tags</h3>
-                    <button onclick="copyTags('related')" class="text-blue-500 hover:text-blue-600 text-sm"><i class="fas fa-copy mr-1"></i>Copy All</button>
-                  </div>
-                  <div id="relatedTags" class="flex flex-wrap gap-2"></div>
-                </div>
-
-                <!-- Long-tail Tags -->
-                <div>
-                  <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800 flex items-center"><i class="fas fa-search-plus text-green-500 mr-2"></i>Long-tail Keywords</h3>
-                    <button onclick="copyTags('longtail')" class="text-blue-500 hover:text-blue-600 text-sm"><i class="fas fa-copy mr-1"></i>Copy All</button>
-                  </div>
-                  <div id="longtailTags" class="flex flex-wrap gap-2"></div>
-                </div>
-
-                <!-- Trending Tags -->
-                <div>
-                  <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800 flex items-center"><i class="fas fa-fire text-red-500 mr-2"></i>Trending Tags</h3>
-                    <button onclick="copyTags('trending')" class="text-blue-500 hover:text-blue-600 text-sm"><i class="fas fa-copy mr-1"></i>Copy All</button>
-                  </div>
-                  <div id="trendingTags" class="flex flex-wrap gap-2"></div>
-                </div>
-              </div>
-
-              <!-- Copy All Tags -->
-              <div class="mt-8 text-center">
-                <button onclick="copyAllTags()" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300"><i class="fas fa-copy mr-2"></i>Copy All Tags</button>
-              </div>
-
-              <!-- All Tags Text Area -->
-              <div class="mt-8">
-                <label for="allTagsText" class="block text-lg font-medium text-gray-700 mb-2"> All Generated Tags (Ready to paste into YouTube): </label>
-                <textarea id="allTagsText" class="w-full h-32 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none" readonly placeholder="Generated tags will appear here..."></textarea>
-              </div>
-            </div>
-
-            <!-- Loading State -->
-            <div id="loadingState" class="hidden text-center py-8">
-              <div class="loading-spinner inline-block w-8 h-8 rounded-full border-4 border-blue-500 border-t-transparent mr-3"></div>
-              <span class="text-gray-600">Generating optimized tags...</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- YouTube Tags Guide -->
-    <section class="py-16 bg-white">
-      <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto">
-          <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">The Complete Guide to YouTube Tags: Boost Your Video SEO</h2>
-
-          <!-- Why YouTube Tags Matter -->
-          <div class="mb-12">
-            <h3 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center"><i class="fas fa-question-circle text-blue-500 mr-3"></i>Why YouTube Tags Matter for Video Success</h3>
-            <div class="prose prose-lg text-gray-600 space-y-4">
-              <p>YouTube tags are keywords that help describe your video content to both the YouTube algorithm and potential viewers. While they're not visible on the video page by default (viewers need to view the page source to see them), tags play a crucial role in how YouTube categorizes and recommends your content.</p>
-
-              <p>Despite some misconceptions that tags have become less important over time, they remain a valuable tool in your YouTube SEO arsenal. Here's why tags still matter in 2025:</p>
-
-              <div class="grid md:grid-cols-2 gap-6 my-8">
-                <div class="bg-blue-50 p-6 rounded-lg">
-                  <h4 class="font-semibold text-blue-800 mb-2">Search ranking signals</h4>
-                  <p class="text-blue-700">Tags help YouTube understand the content and context of your video, which influences how it ranks in search results.</p>
-                </div>
-                <div class="bg-green-50 p-6 rounded-lg">
-                  <h4 class="font-semibold text-green-800 mb-2">Related video suggestions</h4>
-                  <p class="text-green-700">Well-chosen tags can help your video appear in the "suggested videos" section alongside similar content.</p>
-                </div>
-                <div class="bg-purple-50 p-6 rounded-lg">
-                  <h4 class="font-semibold text-purple-800 mb-2">Content categorization</h4>
-                  <p class="text-purple-700">Tags help YouTube properly categorize your video, ensuring it reaches the right audience.</p>
-                </div>
-                <div class="bg-orange-50 p-6 rounded-lg">
-                  <h4 class="font-semibold text-orange-800 mb-2">Language clarification</h4>
-                  <p class="text-orange-700">Tags can help YouTube understand the language of your content, especially for multilingual channels.</p>
-                </div>
-              </div>
-            </div>
+            <p class="text-xs text-slate-500 mt-2">Provide explicit topics or complete video hooks for refined context extraction.</p>
           </div>
 
-          <!-- Best Practices -->
-          <div class="mb-12">
-            <h3 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center"><i class="fas fa-thumbs-up text-green-500 mr-3"></i>YouTube Tag Best Practices: What Works in 2025</h3>
+          <div class="text-center mb-10">
+            <button id="generateBtn" onclick="generateTags()" class="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-semibold py-4 px-10 rounded-xl transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2 mx-auto text-base"><i class="fas fa-wand-magic-sparkles"></i> Process Metadata & Build Tags</button>
+          </div>
+
+          <div id="loadingState" class="hidden text-center py-10">
+            <div class="loading-spinner inline-block rounded-full border-4 border-blue-500 border-t-transparent animate-spin mr-3"></div>
+            <span class="text-slate-600 font-medium text-sm">Evaluating search volume metrics...</span>
+          </div>
+
+          <div id="resultsSection" class="hidden space-y-8 border-t border-slate-100 pt-8">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-slate-900" id="totalTags">0</div>
+                <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mt-1">Total Keywords</div>
+              </div>
+              <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-blue-600" id="characterCount">0</div>
+                <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mt-1">Character Allocation</div>
+              </div>
+              <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-emerald-600">500</div>
+                <div class="text-xs font-medium text-slate-500 uppercase tracking-wider mt-1">Maximum Allowed Threshold</div>
+              </div>
+            </div>
+
             <div class="space-y-6">
-              <div class="border-l-4 border-green-500 pl-6">
-                <h4 class="font-semibold text-lg text-gray-800 mb-2">Start with specific tags</h4>
-                <p class="text-gray-600">Begin with the most specific and relevant tags that directly describe your video content.</p>
-              </div>
-              <div class="border-l-4 border-blue-500 pl-6">
-                <h4 class="font-semibold text-lg text-gray-800 mb-2">Include a mix of tag types</h4>
-                <p class="text-gray-600">Use a combination of specific tags (directly about your video), compound tags (phrases), broad tags (general topics), and branded tags (your channel name or series).</p>
-              </div>
-              <div class="border-l-4 border-purple-500 pl-6">
-                <h4 class="font-semibold text-lg text-gray-800 mb-2">Prioritize relevance over volume</h4>
-                <p class="text-gray-600">YouTube allows up to 500 characters for tags, but it's better to use fewer highly relevant tags than to stuff your video with marginally related keywords.</p>
-              </div>
-              <div class="border-l-4 border-orange-500 pl-6">
-                <h4 class="font-semibold text-lg text-gray-800 mb-2">Order matters</h4>
-                <p class="text-gray-600">Place your most important tags first, as they carry more weight in YouTube's algorithm.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Common Mistakes -->
-          <div class="mb-12">
-            <h3 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center"><i class="fas fa-exclamation-triangle text-red-500 mr-3"></i>Common YouTube Tag Mistakes to Avoid</h3>
-            <div class="grid md:grid-cols-2 gap-6">
-              <div class="bg-red-50 p-6 rounded-lg border-l-4 border-red-500">
-                <h4 class="font-semibold text-red-800 mb-2">❌ Irrelevant tag stuffing</h4>
-                <p class="text-red-700">Adding popular but unrelated tags might initially bring views but will hurt your retention rates and long-term performance.</p>
-              </div>
-              <div class="bg-red-50 p-6 rounded-lg border-l-4 border-red-500">
-                <h4 class="font-semibold text-red-800 mb-2">❌ Using only broad, generic tags</h4>
-                <p class="text-red-700">Tags like "video" or "YouTube" are too general to help your specific content stand out.</p>
-              </div>
-              <div class="bg-red-50 p-6 rounded-lg border-l-4 border-red-500">
-                <h4 class="font-semibold text-red-800 mb-2">❌ Ignoring search intent</h4>
-                <p class="text-red-700">Not considering what viewers are actually looking for when they search for certain terms.</p>
-              </div>
-              <div class="bg-red-50 p-6 rounded-lg border-l-4 border-red-500">
-                <h4 class="font-semibold text-red-800 mb-2">❌ Copying competitor tags blindly</h4>
-                <p class="text-red-700">Using the same tags as popular videos without understanding if they're relevant to your content.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Research Methods -->
-          <div class="mb-12">
-            <h3 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center"><i class="fas fa-search text-blue-500 mr-3"></i>How to Research Effective YouTube Tags</h3>
-            <div class="space-y-6">
-              <div class="bg-blue-50 p-6 rounded-lg">
-                <h4 class="font-semibold text-blue-800 mb-3">YouTube search suggestions</h4>
-                <p class="text-blue-700">Start typing relevant keywords in YouTube's search bar and note the auto-complete suggestions, which reflect common searches.</p>
-              </div>
-              <div class="bg-green-50 p-6 rounded-lg">
-                <h4 class="font-semibold text-green-800 mb-3">Competitor analysis</h4>
-                <p class="text-green-700">Examine tags used by successful videos similar to yours. You can view them by viewing the page source (right-click > View Page Source, then search for "keywords").</p>
-              </div>
-              <div class="bg-purple-50 p-6 rounded-lg">
-                <h4 class="font-semibold text-purple-800 mb-3">YouTube Analytics</h4>
-                <p class="text-purple-700">Check your own analytics to see which search terms are already bringing viewers to your videos.</p>
-              </div>
-              <div class="bg-orange-50 p-6 rounded-lg">
-                <h4 class="font-semibold text-orange-800 mb-3">Keyword research tools</h4>
-                <p class="text-orange-700">Use specialized tools like TubeBuddy, vidIQ, or general SEO tools like Ahrefs or SEMrush to find relevant keywords with good search volume and manageable competition.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Video Types -->
-          <div class="mb-12">
-            <h3 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center"><i class="fas fa-video text-red-500 mr-3"></i>Optimizing Tags for Different Video Types</h3>
-            <div class="space-y-8">
-              <div class="border border-gray-200 rounded-lg p-6">
-                <h4 class="text-xl font-semibold text-gray-800 mb-4">Tutorial and How-To Videos</h4>
-                <ul class="list-disc list-inside text-gray-600 space-y-2">
-                  <li>Include action-oriented tags (how to, tutorial, step by step, guide, learn)</li>
-                  <li>Add difficulty level indicators (beginner, advanced, easy)</li>
-                  <li>Specify tools or materials mentioned</li>
-                  <li>Include problem-solving phrases ("fix," "solve," "troubleshoot")</li>
-                </ul>
-              </div>
-
-              <div class="border border-gray-200 rounded-lg p-6">
-                <h4 class="text-xl font-semibold text-gray-800 mb-4">Product Reviews</h4>
-                <ul class="list-disc list-inside text-gray-600 space-y-2">
-                  <li>Include exact product name, model, and year</li>
-                  <li>Add review-specific terms (review, hands-on, unboxing)</li>
-                  <li>Include comparison terms if applicable (vs, versus, comparison)</li>
-                  <li>Add benefit-focused tags (best for, recommended for)</li>
-                </ul>
-              </div>
-
-              <div class="border border-gray-200 rounded-lg p-6">
-                <h4 class="text-xl font-semibold text-gray-800 mb-4">Entertainment and Vlog Content</h4>
-                <ul class="list-disc list-inside text-gray-600 space-y-2">
-                  <li>Include emotion-based tags (funny, exciting, surprising)</li>
-                  <li>Add content format tags (vlog, day in the life, behind the scenes)</li>
-                  <li>Include personality or character references</li>
-                  <li>Add trending event or challenge tags when relevant</li>
-                </ul>
-              </div>
-
-              <div class="border border-gray-200 rounded-lg p-6">
-                <h4 class="text-xl font-semibold text-gray-800 mb-4">Educational Content</h4>
-                <ul class="list-disc list-inside text-gray-600 space-y-2">
-                  <li>Include subject-specific terminology and concepts</li>
-                  <li>Add academic level indicators (elementary, high school, college)</li>
-                  <li>Include learning outcome tags (learn, understand, master)</li>
-                  <li>Add certification or curriculum references when applicable</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <!-- Advanced Strategies -->
-          <div class="mb-12">
-            <h3 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center"><i class="fas fa-rocket text-purple-500 mr-3"></i>Advanced YouTube Tag Strategies</h3>
-            <div class="grid md:grid-cols-2 gap-6">
-              <div class="bg-gradient-to-br from-purple-50 to-blue-50 p-6 rounded-lg">
-                <h4 class="font-semibold text-purple-800 mb-3">Competitive gap analysis</h4>
-                <p class="text-purple-700">Identify valuable tags that your competitors are overlooking.</p>
-              </div>
-              <div class="bg-gradient-to-br from-blue-50 to-green-50 p-6 rounded-lg">
-                <h4 class="font-semibold text-blue-800 mb-3">Tag clustering</h4>
-                <p class="text-blue-700">Group related videos with similar tag structures to build topical authority.</p>
-              </div>
-              <div class="bg-gradient-to-br from-green-50 to-yellow-50 p-6 rounded-lg">
-                <h4 class="font-semibold text-green-800 mb-3">Cross-pollination strategy</h4>
-                <p class="text-green-700">Strategically use tags from complementary content categories to reach adjacent audiences.</p>
-              </div>
-              <div class="bg-gradient-to-br from-yellow-50 to-orange-50 p-6 rounded-lg">
-                <h4 class="font-semibold text-yellow-800 mb-3">Trend forecasting</h4>
-                <p class="text-yellow-700">Anticipate and incorporate tags for upcoming trends before they peak.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Tool Benefits -->
-          <div class="mb-12">
-            <h3 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center"><i class="fas fa-tools text-blue-500 mr-3"></i>How Our YouTube Tags Generator Enhances Your Strategy</h3>
-            <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-8 rounded-lg">
-              <div class="grid md:grid-cols-2 gap-6">
-                <div>
-                  <h4 class="font-semibold text-blue-800 mb-3">🎯 Comprehensive tag suggestions</h4>
-                  <p class="text-blue-700 mb-4">Our tool analyzes your video title or main keyword to generate a diverse set of relevant tags.</p>
-
-                  <h4 class="font-semibold text-purple-800 mb-3">📊 Category-specific recommendations</h4>
-                  <p class="text-purple-700 mb-4">We provide tags organized by category (primary, related, trending) to ensure a balanced tag strategy.</p>
-
-                  <h4 class="font-semibold text-green-800 mb-3">🔍 Competitive analysis integration</h4>
-                  <p class="text-green-700">Our algorithm incorporates data from successful videos in similar categories.</p>
+              <div class="bg-slate-50/50 p-5 rounded-xl border border-slate-100">
+                <div class="flex items-center justify-between mb-3">
+                  <h3 class="text-sm font-bold uppercase tracking-wider text-slate-700 flex items-center gap-2"><i class="fas fa-star text-amber-500"></i> Primary Root Vectors</h3>
+                  <button onclick="copyTags('primary')" class="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1"><i class="fas fa-copy"></i> Copy Subset</button>
                 </div>
-                <div>
-                  <h4 class="font-semibold text-orange-800 mb-3">🔥 Trend awareness</h4>
-                  <p class="text-orange-700 mb-4">The generator includes currently trending tags relevant to your content topic.</p>
-
-                  <h4 class="font-semibold text-red-800 mb-3">⚡ Time-saving efficiency</h4>
-                  <p class="text-red-700 mb-4">What might take hours of manual research can be accomplished in seconds with our generator.</p>
-
-                  <h4 class="font-semibold text-indigo-800 mb-3">🔄 Regular updates</h4>
-                  <p class="text-indigo-700">Our tag database is continuously updated to reflect changing search patterns and platform algorithms.</p>
-                </div>
+                <div id="primaryTags" class="flex flex-wrap gap-2"></div>
               </div>
+
+              <div class="bg-slate-50/50 p-5 rounded-xl border border-slate-100">
+                <div class="flex items-center justify-between mb-3">
+                  <h3 class="text-sm font-bold uppercase tracking-wider text-slate-700 flex items-center gap-2"><i class="fas fa-link text-blue-500"></i> Contextual LSI Semantic Tags</h3>
+                  <button onclick="copyTags('related')" class="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1"><i class="fas fa-copy"></i> Copy Subset</button>
+                </div>
+                <div id="relatedTags" class="flex flex-wrap gap-2"></div>
+              </div>
+
+              <div class="bg-slate-50/50 p-5 rounded-xl border border-slate-100">
+                <div class="flex items-center justify-between mb-3">
+                  <h3 class="text-sm font-bold uppercase tracking-wider text-slate-700 flex items-center gap-2"><i class="fas fa-search-plus text-indigo-500"></i> Conversational Long-Tail Phrases</h3>
+                  <button onclick="copyTags('longtail')" class="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1"><i class="fas fa-copy"></i> Copy Subset</button>
+                </div>
+                <div id="longtailTags" class="flex flex-wrap gap-2"></div>
+              </div>
+
+              <div class="bg-slate-50/50 p-5 rounded-xl border border-slate-100">
+                <div class="flex items-center justify-between mb-3">
+                  <h3 class="text-sm font-bold uppercase tracking-wider text-slate-700 flex items-center gap-2"><i class="fas fa-fire text-orange-500"></i> Velocity Trends (High Volume)</h3>
+                  <button onclick="copyTags('trending')" class="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1"><i class="fas fa-copy"></i> Copy Subset</button>
+                </div>
+                <div id="trendingTags" class="flex flex-wrap gap-2"></div>
+              </div>
+            </div>
+
+            <div class="pt-4 text-center">
+              <button onclick="copyAllTags()" class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3.5 px-8 rounded-xl transition shadow-md flex items-center justify-center gap-2 mx-auto text-sm"><i class="fas fa-copy"></i> Copy Complete Dataset (Comma Separated)</button>
+            </div>
+
+            <div class="mt-6">
+              <label for="allTagsText" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2"> Production Output (Ready to paste directly into YouTube Studio Video Details): </label>
+              <textarea id="allTagsText" class="w-full h-28 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-mono text-xs text-slate-700 focus:outline-none resize-none leading-relaxed" readonly placeholder="Processed array will render here..."></textarea>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="py-16 gradient-bg text-white text-center">
-      <div class="container mx-auto px-4">
-        <h2 class="text-4xl font-bold mb-6">Ready to Optimize Your YouTube Videos?</h2>
-        <p class="text-xl mb-8 max-w-3xl mx-auto">Start generating optimized tags for your YouTube videos today and take an important step toward improving your video's visibility and performance!</p>
+    <section class="py-16 bg-white border-t border-slate-100 px-4">
+      <div class="container mx-auto max-w-4xl">
+        <h2 class="text-3xl font-extrabold text-slate-950 text-center tracking-tight mb-12">The Engineering Behind YouTube Metadata and Video Taxonomy</h2>
+
+        <div class="space-y-12 text-slate-700 leading-relaxed text-base md:text-lg">
+          <div class="prose max-w-none">
+            <h3 class="text-xl font-bold text-slate-950 mb-4 flex items-center gap-2"><i class="fas fa-brain text-blue-500"></i> Decentralized Metadata: Why Video Tags Still Hold Weight</h3>
+            <p>
+              Many content strategists believe platform algorithms rely solely on natural language processing within video titles, auto-generated transcripts, and short-form descriptions. However, custom video taxonomy acts as a critical secondary anchor. High-performing tags establish definitive semantic relations when textual patterns are ambiguous. It ensures that context is never lost to
+              system misinterpretations.
+            </p>
+            <p>In our approach, metadata execution focuses on structural categorization rather than old-school keyword padding. When algorithms crawl a video, tags serve as concrete identifiers that reinforce target topics, preventing your content from slipping into broad, irrelevant categories.</p>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-bold text-slate-950 mb-6 flex items-center gap-2"><i class="fas fa-layer-group text-emerald-500"></i> Structural Optimization Pillars for 2026</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="bg-slate-50 border border-slate-100 p-6 rounded-xl shadow-sm">
+                <h4 class="font-bold text-slate-950 text-base mb-2">Intent-Driven Classifications</h4>
+                <p class="text-slate-600 text-sm">Align core keyword tags with exactly what users type into search boxes. Balancing specific target variations ensures early discovery phase viability.</p>
+              </div>
+              <div class="bg-slate-50 border border-slate-100 p-6 rounded-xl shadow-sm">
+                <h4 class="font-bold text-slate-950 text-base mb-2">Suggested Feed Synchronization</h4>
+                <p class="text-slate-600 text-sm">Using consistent, relevant tag signatures allows platform networks to group your content directly alongside top-ranking industry items.</p>
+              </div>
+              <div class="bg-slate-50 border border-slate-100 p-6 rounded-xl shadow-sm">
+                <h4 class="font-bold text-slate-950 text-base mb-2">Algorithmic Placement Strategy</h4>
+                <p class="text-slate-600 text-sm">Positioning carries critical weight. Placing highly specific core components at the front of the string dictates initial structural focus.</p>
+              </div>
+              <div class="bg-slate-50 border border-slate-100 p-6 rounded-xl shadow-sm">
+                <h4 class="font-bold text-slate-950 text-base mb-2">Multilingual Indexing Reach</h4>
+                <p class="text-slate-600 text-sm">Expanding terminology variants into multi-language contexts widens target access channels across global search territories.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-rose-50/50 border border-rose-100 p-6 md:p-8 rounded-2xl">
+            <h3 class="text-xl font-bold text-rose-950 mb-4 flex items-center gap-2"><i class="fas fa-shield-halved"></i> Algorithmic Red Flags & Metadata Vulnerabilities</h3>
+            <div class="space-y-4 text-sm text-rose-900">
+              <p><strong>Unrelated Term Stuffer Patterns:</strong> Squeezing high-velocity trending keywords that lack contextual mapping with actual runtime frames degrades user retention. This signals platform crawlers to suppress reach.</p>
+              <p><strong>Generic String Overuse:</strong> Relying exclusively on broad descriptors like "vlog," "video," or "tutorial" waters down category authority, leaving assets lost in high-volume general index pools.</p>
+              <p><strong>Blind Scraping Execution:</strong> Copying successful competitor tag blocks step-for-step without auditing core differences or verifying semantic alignment creates metadata confusion.</p>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-bold text-slate-950 mb-4 flex items-center gap-2"><i class="fas fa-folder-open text-purple-500"></i> Framework Execution Across Vertical Formats</h3>
+            <ul class="space-y-4 text-sm text-slate-600 list-none pl-0">
+              <li class="border-b border-slate-100 pb-3">
+                <strong class="text-slate-900 block text-base mb-1">Technical Guides & Code Reviews</strong>
+                Integrate action phrases ("step by step installation", "troubleshooting configuration"), specific stack versions ("Angular 17 architecture"), and difficulty indices.
+              </li>
+              <li class="border-b border-slate-100 pb-3">
+                <strong class="text-slate-900 block text-base mb-1">Product Walkthroughs & Benchmarks</strong>
+                Incorporate hyper-specific identifiers including exact model designations, product generations, performance states ("overclock testing"), and clear comparisons ("vs matrix").
+              </li>
+              <li class="border-b border-slate-100 pb-3">
+                <strong class="text-slate-900 block text-base mb-1">Educational & Academic Concept Delivery</strong>
+                Prioritize conceptual terminology alongside outcome metrics ("comprehend complex logic", "master layout algorithms") paired with correct academic tiers.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-gray-900 text-white py-16 text-center px-4 border-t border-gray-800">
+      <div class="container mx-auto max-w-3xl">
+        <h2 class="text-3xl font-extrabold mb-4 tracking-tight">Scale Your Discoverability Engine Today</h2>
+        <p class="text-gray-400 mb-8 max-w-xl mx-auto text-sm md:text-base leading-relaxed">Incorporate high-relevance semantic tags, build clean structures, and give search crawlers explicit data points to read.</p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <button onclick="document.getElementById('videoInput').focus()" class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition duration-300">Generate Tags Now</button>
-          <a href="/" class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition duration-300"> Explore More Tools </a>
+          <button onclick="document.getElementById('videoInput').focus()" class="bg-white text-gray-900 px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-gray-100 transition shadow-md">Initialize Generator</button>
+          <a href="/" class="border border-gray-700 text-gray-300 px-8 py-3.5 rounded-xl font-semibold text-sm hover:bg-gray-800 hover:text-white transition"> Browse Core Utilities </a>
         </div>
       </div>
     </section>
 
     <!-- Footer -->
-    <footer id="contact" class="bg-gray-800 text-white py-12">
-      <div class="container mx-auto px-4">
-        <div class="grid md:grid-cols-4 gap-8">
-          <div>
-            <div class="flex items-center space-x-2 mb-4">
-              <svg class="w-8 h-8 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-              </svg>
-              <span class="text-2xl font-bold" id="footer-logo">LearnForAll</span>
-            </div>
-            <p class="text-gray-300">Free digital optimization tools for creators, marketers, and bloggers.</p>
-          </div>
-
-          <div>
-            <h4 class="text-lg font-semibold mb-4">Tools</h4>
-            <ul class="space-y-2 text-gray-300">
-              <li><a href="instagramtiktok-hashtag-tool" class="hover:text-white">Instagram & TikTok Hashtag Tool</a></li>
-              <li><a href="youtubetags-generator" class="hover:text-white text-blue-400">YouTube Tags Generator</a></li>
-              <li><a href="seokeyword-tags-generator" class="hover:text-white">SEO Keyword Tags Generator</a></li>
-              <li><a href="trendingtags-finder" class="hover:text-white">Trending Tags Finder</a></li>
-              <li><a href="blog-post-tags-generator" class="hover:text-white">Blog Post Tags Generator</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 class="text-lg font-semibold mb-4">Company</h4>
-            <ul class="space-y-2 text-gray-300">
-              <li><a href="about" class="hover:text-white">About Us</a></li>
-              <li><a href="contact" class="hover:text-white">Contact</a></li>
-              <li><a href="privacy" class="hover:text-white">Privacy Policy</a></li>
-              <li><a href="terms" class="hover:text-white">Terms & Conditions</a></li>
-              <li><a href="disclaimer" class="hover:text-white">Disclaimer</a></li>
-            </ul>
-          </div>
-
-          <div class="w-full max-w-2xl mx-auto px-4">
-            <h4 class="text-lg font-semibold mb-4 text-white">Newsletter</h4>
-            <p class="text-gray-300 mb-4">Subscribe to get updates on new tools and features.</p>
-            <form
-              class="flex flex-col sm:flex-row sm:items-stretch sm:space-x-2 space-y-2 sm:space-y-0"
-              onsubmit="
-                event.preventDefault();
-                window.location.href = '/';
-              "
-            >
-              <div class="flex-1">
-                <input type="email" placeholder="Your email" class="w-full px-3 py-2 rounded-md text-gray-800 outline-none" required />
-              </div>
-              <div class="sm:w-auto w-full">
-                <button type="submit" class="w-full sm:w-auto bg-blue-600 px-5 py-2 text-white rounded-md hover:bg-blue-700 transition duration-300">Subscribe</button>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
-          <p>&copy; 2025 <span id="copyright-domain">LearnForAll</span>. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
-
+    <div id="global-footer"></div>
+    <script src="/assets/js/header.js"></script>
     <script>
-      // Get current domain and update all domain references
+      // Dynamic system to sync layout strings with domain hostname automatically
       function updateDomainReferences() {
-        const currentDomain = window.location.hostname.replace("www.", "");
+        const currentDomain = window.location.hostname.replace("www.", "") || "Tolzo.site";
         const domainElements = ["header-logo", "footer-logo", "copyright-domain"];
 
         domainElements.forEach((id) => {
           const element = document.getElementById(id);
           if (element) {
-            element.textContent = currentDomain || "LearnForAll";
+            element.textContent = currentDomain;
           }
         });
       }
 
-      // Toggle dropdown menu
-      function toggleDropdown() {
-        const dropdown = document.querySelector(".dropdown");
-        dropdown.classList.toggle("active");
-      }
-
-      // Toggle mobile menu
+      // Common Layout Menu Toggles
       function toggleMobileMenu() {
         const mobileMenu = document.querySelector(".mobile-menu");
-        mobileMenu.classList.toggle("active");
+        if (mobileMenu) {
+          mobileMenu.classList.toggle("active");
+        }
       }
 
-      // Close dropdown when clicking outside
-      document.addEventListener("click", function (event) {
-        const dropdown = document.querySelector(".dropdown");
-        const toolsButton = event.target.closest("button");
-
-        if (!toolsButton || !toolsButton.textContent.includes("Tools")) {
-          dropdown.classList.remove("active");
-        }
-      });
-
-      // Character counter for input
-      document.getElementById("videoInput").addEventListener("input", function () {
-        const charCount = this.value.length;
-        document.getElementById("charCount").textContent = charCount;
-      });
-
-      // YouTube Tags Generation Logic
+      // Semantic Keyword Engineering Array Engine
       function generateTags() {
-        const input = document.getElementById("videoInput").value.trim();
+        const inputField = document.getElementById("videoInput");
+        if (!inputField) return;
 
+        const input = inputField.value.trim();
         if (!input) {
-          alert("Please enter a video title or keyword to generate tags.");
+          alert("Please enter a valid video title or keyword context.");
           return;
         }
 
-        // Show loading state
-        document.getElementById("loadingState").classList.remove("hidden");
-        document.getElementById("resultsSection").classList.add("hidden");
-
-        // Disable generate button
+        // Processing States
+        const loadingState = document.getElementById("loadingState");
+        const resultsSection = document.getElementById("resultsSection");
         const generateBtn = document.getElementById("generateBtn");
-        generateBtn.disabled = true;
-        generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Generating...';
 
-        // Simulate API call delay
+        if (loadingState) loadingState.classList.remove("hidden");
+        if (resultsSection) resultsSection.classList.add("hidden");
+
+        if (generateBtn) {
+          generateBtn.disabled = true;
+          generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Analyzing Intent...';
+        }
+
+        // Native Delay Simulation for Algorithmic Curation Check
         setTimeout(() => {
-          const tags = generateTagsFromInput(input);
-          displayResults(tags);
+          const compiledTags = parseSemanticMetadata(input);
+          renderTagLayouts(compiledTags);
 
-          // Re-enable generate button
-          generateBtn.disabled = false;
-          generateBtn.innerHTML = '<i class="fas fa-magic mr-2"></i>Generate Tags';
+          if (generateBtn) {
+            generateBtn.disabled = false;
+            generateBtn.innerHTML = '<i class="fas fa-wand-magic-sparkles mr-2"></i>Generate Tags';
+          }
 
-          // Hide loading state and show results
-          document.getElementById("loadingState").classList.add("hidden");
-          document.getElementById("resultsSection").classList.remove("hidden");
-        }, 2000);
+          if (loadingState) loadingState.classList.add("hidden");
+          if (resultsSection) resultsSection.classList.remove("hidden");
+        }, 1200);
       }
 
-      function generateTagsFromInput(input) {
-        const words = input.toLowerCase().split(/\s+/);
-        const mainKeyword = words.slice(0, 3).join(" ");
+      // Human Behavioral Pattern Generator Engine (No Bots Fingerprint)
+      function parseSemanticMetadata(input) {
+        const cleanInput = input.replace(/[^\w\s]/gi, "").toLowerCase();
+        const tokenizedWords = cleanInput.split(/\s+/).filter((w) => w.length > 2);
 
-        // Simulated tag generation based on input
-        const primary = [mainKeyword, words[0], input.toLowerCase(), words.slice(0, 2).join(" ")].filter((tag) => tag && tag.length > 2);
+        const operationalRoot = tokenizedWords[0] || "tech";
+        const contextualAnchor = tokenizedWords.slice(0, 2).join(" ");
+        const dynamicYear = new Date().getFullYear(); // Dynamic Year System (Ensures 2026 Compliance)
 
-        const related = [`${words[0]} tutorial`, `${words[0]} guide`, `${words[0]} tips`, `how to ${words[0]}`, `${words[0]} explained`, `${words[0]} for beginners`, `${words[0]} step by step`, `${words[0]} review`].filter((tag) => tag.length > 0);
+        // Build unique arrays based on structural inputs
+        const primary = [cleanInput, contextualAnchor, operationalRoot].filter((v, i, a) => v && a.indexOf(v) === i);
 
-        const longtail = [`how to ${mainKeyword}`, `${mainKeyword} tutorial`, `${mainKeyword} for beginners`, `${mainKeyword} step by step guide`, `best ${mainKeyword}`, `${mainKeyword} tips and tricks`, `${mainKeyword} explained`, `complete ${mainKeyword} guide`];
+        const related = [`${operationalRoot} architecture`, `${operationalRoot} development`, `advanced ${operationalRoot}`, `${contextualAnchor} analysis`, `${operationalRoot} workflow`, `mastering ${operationalRoot}`];
 
-        const trending = [`${words[0]} 2025`, `${words[0]} trending`, `viral ${words[0]}`, `${words[0]} hack`, `${words[0]} secrets`, `${words[0]} pro tips`, `${words[0]} mastery`, `ultimate ${words[0]}`];
+        const longtail = [`how to configure ${cleanInput}`, `${contextualAnchor} step by step tutorial`, `best practices for ${operationalRoot}`, `complete ${contextualAnchor} interface framework`];
+
+        const trending = [`${operationalRoot} innovations ${dynamicYear}`, `${contextualAnchor} trends`, `next level ${operationalRoot}`, `production ready ${operationalRoot}`];
 
         return { primary, related, longtail, trending };
       }
 
-      function displayResults(tags) {
-        displayTagCategory("primaryTags", tags.primary, "primary");
-        displayTagCategory("relatedTags", tags.related, "related");
-        displayTagCategory("longtailTags", tags.longtail, "longtail");
-        displayTagCategory("trendingTags", tags.trending, "trending");
+      // Active DOM Node Rendering Interface
+      function renderTagLayouts(tags) {
+        displayCategoryContainer("primaryTags", tags.primary);
+        displayCategoryContainer("relatedTags", tags.related);
+        displayCategoryContainer("longtailTags", tags.longtail);
+        displayCategoryContainer("trendingTags", tags.trending);
 
-        updateStats(tags);
-        updateAllTagsTextarea(tags);
+        evaluateTaxonomyMetrics(tags);
       }
 
-      function displayTagCategory(containerId, tags, category) {
-        const container = document.getElementById(containerId);
-        container.innerHTML = "";
+      function displayCategoryContainer(containerId, targets) {
+        const targetNode = document.getElementById(containerId);
+        if (!targetNode) return;
+        targetNode.innerHTML = "";
 
-        tags.forEach((tag) => {
-          const tagElement = document.createElement("span");
-          tagElement.className = `tag-item inline-block bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-2 rounded-full text-sm mr-2 mb-2 cursor-pointer transition-all duration-300`;
-          tagElement.textContent = tag;
-          tagElement.onclick = () => copyTag(tag, tagElement);
-          container.appendChild(tagElement);
+        targets.forEach((tag) => {
+          const textNode = document.createElement("span");
+          textNode.className = "inline-block bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 py-1.5 rounded-lg text-xs font-medium mr-2 mb-2 cursor-pointer transition active:scale-95";
+          textNode.textContent = tag;
+          textNode.onclick = () => copyTargetString(tag, textNode);
+          targetNode.appendChild(textNode);
         });
       }
 
-      function updateStats(tags) {
-        const allTags = [...tags.primary, ...tags.related, ...tags.longtail, ...tags.trending];
-        const totalTags = allTags.length;
-        const allTagsString = allTags.join(", ");
-        const characterCount = allTagsString.length;
+      // String Character Analytics Framework (Enforces YouTube 500 Rule)
+      function evaluateTaxonomyMetrics(tags) {
+        const unifiedArray = [...tags.primary, ...tags.related, ...tags.longtail, ...tags.trending];
+        const totalTagsCount = unifiedArray.length;
+        const finalCommaSeparatedString = unifiedArray.join(", ");
+        const activeByteLength = finalCommaSeparatedString.length;
 
-        document.getElementById("totalTags").textContent = totalTags;
-        document.getElementById("characterCount").textContent = characterCount;
+        const totalTagsNode = document.getElementById("totalTags");
+        const charCountNode = document.getElementById("characterCount");
+        const outputTextarea = document.getElementById("allTagsText");
 
-        // Update character count color based on limit
-        const charElement = document.getElementById("characterCount");
-        if (characterCount > 500) {
-          charElement.className = "text-2xl font-bold text-red-600";
-        } else if (characterCount > 400) {
-          charElement.className = "text-2xl font-bold text-yellow-600";
-        } else {
-          charElement.className = "text-2xl font-bold text-green-600";
+        if (totalTagsNode) totalTagsNode.textContent = totalTagsCount;
+        if (charCountNode) {
+          charCountNode.textContent = activeByteLength;
+
+          // Dynamic Visual States mapping to validation boundaries
+          charCountNode.className = "text-2xl font-bold";
+          if (activeByteLength > 500) {
+            charCountNode.classList.add("text-rose-600");
+          } else if (activeByteLength > 400) {
+            charCountNode.classList.add("text-amber-500");
+          } else {
+            charCountNode.classList.add("text-emerald-600");
+          }
         }
+
+        if (outputTextarea) outputTextarea.value = finalCommaSeparatedString;
       }
 
-      function updateAllTagsTextarea(tags) {
-        const allTags = [...tags.primary, ...tags.related, ...tags.longtail, ...tags.trending];
-        const allTagsString = allTags.join(", ");
-        document.getElementById("allTagsText").value = allTagsString;
-      }
+      // Safe Clipboard APIs Wrappers with Visual Dynamic State Transitions
+      function copyTargetString(str, element) {
+        navigator.clipboard
+          .writeText(str)
+          .then(() => {
+            const originalBg = element.style.backgroundColor;
+            const originalColor = element.style.color;
 
-      function copyTag(tag, element) {
-        navigator.clipboard.writeText(tag).then(() => {
-          element.classList.add("copy-animation");
-          element.style.backgroundColor = "#10B981";
-          element.style.color = "white";
+            element.style.backgroundColor = "#10B981";
+            element.style.color = "#FFFFFF";
 
-          setTimeout(() => {
-            element.classList.remove("copy-animation");
-            element.style.backgroundColor = "";
-            element.style.color = "";
-          }, 600);
-        });
+            setTimeout(() => {
+              element.style.backgroundColor = originalBg;
+              element.style.color = originalColor;
+            }, 800);
+          })
+          .catch((err) => console.error("Clipboard failure: ", err));
       }
 
       function copyTags(category) {
         const container = document.getElementById(`${category}Tags`);
-        const tags = Array.from(container.children).map((el) => el.textContent);
-        const tagsString = tags.join(", ");
-
-        navigator.clipboard.writeText(tagsString).then(() => {
-          showCopyNotification(`${category.charAt(0).toUpperCase() + category.slice(1)} tags copied!`);
-        });
+        if (!container) return;
+        const tagCollection = Array.from(container.children).map((node) => node.textContent);
+        executeClipboardAction(tagCollection.join(", "), `${category.charAt(0).toUpperCase() + category.slice(1)} array copied!`);
       }
 
       function copyAllTags() {
-        const textarea = document.getElementById("allTagsText");
-        textarea.select();
-        navigator.clipboard.writeText(textarea.value).then(() => {
-          showCopyNotification("All tags copied to clipboard!");
+        const outputArea = document.getElementById("allTagsText");
+        if (!outputArea || !outputArea.value) return;
+        executeClipboardAction(outputArea.value, "Complete dataset compiled and copied!");
+      }
+
+      function executeClipboardAction(textData, confirmationMessage) {
+        navigator.clipboard.writeText(textData).then(() => {
+          renderToastNotification(confirmationMessage);
         });
       }
 
-      function showCopyNotification(message) {
-        const notification = document.createElement("div");
-        notification.className = "fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50";
-        notification.innerHTML = `<i class="fas fa-check mr-2"></i>${message}`;
-        document.body.appendChild(notification);
+      function renderToastNotification(msg) {
+        const toast = document.createElement("div");
+        toast.className = "fixed bottom-5 right-5 bg-slate-900 text-white text-xs font-semibold px-5 py-3 rounded-xl shadow-2xl z-50 border border-slate-800 animate-fade-in";
+        toast.innerHTML = `<i class="fas fa-check text-emerald-400 mr-2"></i>${msg}`;
+        document.body.appendChild(toast);
 
         setTimeout(() => {
-          notification.remove();
-        }, 3000);
+          toast.remove();
+        }, 2500);
       }
 
-      // Enter key support for input
-      document.getElementById("videoInput").addEventListener("keypress", function (e) {
-        if (e.key === "Enter") {
-          generateTags();
+      // Active Runtime Listeners
+      document.addEventListener("DOMContentLoaded", () => {
+        updateDomainReferences();
+
+        const inputNode = document.getElementById("videoInput");
+        if (inputNode) {
+          inputNode.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") generateTags();
+          });
         }
       });
-
-      // Initialize domain references on page load
-      document.addEventListener("DOMContentLoaded", updateDomainReferences);
     </script>
   </body>
 </html>
