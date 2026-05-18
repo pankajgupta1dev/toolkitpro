@@ -1,562 +1,414 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google-site-verification" content="DI0jcc81uruoDtzD6hwFtUyV4qZ3sZqfZCZuag7zLjw" />
     <title>Tolzo.site - Free Digital Tools for Content Creators & Marketers</title>
-    <meta name="description" content="Powerful, free digital marketing tools for content creators. Generate hashtags, SEO keywords, YouTube tags, and trending content ideas - all completely free.">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="images/favicon.png">
-    <meta name="google-adsense-account" content="ca-pub-2680341383748351">
-    <link rel="canonical" href="https://toolkitpro.tools/">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        .gradient-bg { background: linear-gradient(135deg, #8b90a7a8 0%, #645970 100%); }
-        .hover-lift { transition: transform 0.3s ease; }
-        .hover-lift:hover { transform: translateY(-5px); }
-        .custom-shadow { box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .dropdown { display: none; }
-        .dropdown.active { display: block; }
-        .mobile-menu { display: none; }
-        .mobile-menu.active { display: block; }
-    </style>
-</head>
-<body class="bg-gray-50">
+    <meta name="description" content="Powerful, free digital marketing tools for content creators. Generate hashtags, SEO keywords, YouTube tags, and trending content ideas - all completely free." />
+    <link rel="stylesheet" href="/assets/css/common-styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="images/favicon.png" />
+    <meta name="google-adsense-account" content="ca-pub-2680341383748351" />
+    <link rel="canonical" href="https://toolkitpro.tools/" />
+  </head>
+  <body class="bg-gray-50">
     <!-- Header -->
-    <header class="bg-white shadow-lg sticky top-0 z-50">
-        <nav class="container mx-auto px-4 py-4">
-            <div class="flex justify-between items-center">
-                <!-- Logo -->
-                <div class="flex items-center space-x-2">
-                    <svg class="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                    </svg>
-                    <span class="text-2xl font-bold text-gray-800" id="header-logo">LearnForAll</span>
-                </div>
-
-                <!-- Desktop Navigation -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="index" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
-                    <a href="about" class="text-gray-700 hover:text-blue-600 font-medium">About</a>
-                    <a href="contact" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <button class="md:hidden text-gray-700" onclick="toggleMobileMenu()">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                </button>
-            </div>
-
-            <!-- Mobile Navigation -->
-            <div class="mobile-menu md:hidden mt-4 pb-4">
-                <a href="index" class="block py-2 text-gray-700 hover:text-blue-600">Home</a>
-                <a href="about" class="block py-2 text-gray-700 hover:text-blue-600">About</a>
-                <div class="py-2">
-                    <span class="text-gray-700 font-medium">Tools</span>
-                    <div class="ml-4 mt-2 space-y-1">
-                        <a href="instagramtiktok-hashtag-tool" class="block text-sm text-gray-600 hover:text-blue-600">Instagram & TikTok Hashtag Generator</a>
-                        <a href="youtubetags-generator" class="block text-sm text-gray-600 hover:text-blue-600">YouTube Tags Generator</a>
-                        <a href="seokeyword-tags-generator" class="block text-sm text-gray-600 hover:text-blue-600">SEO Keyword Generator</a>
-                        <a href="trendingtags-finder" class="block text-sm text-gray-600 hover:text-blue-600">Trending Tags Finder</a>
-                        <a href="blogpost-tags-generator" class="block text-sm text-gray-600 hover:text-blue-600">Blog Post Tags Generator</a>
-                    </div>
-                </div>
-                <a href="contact" class="block py-2 text-gray-700 hover:text-blue-600">Contact</a>
-            </div>
-        </nav>
-    </header>
+    <div id="global-header"></div>
 
     <!-- Hero Section -->
-<section id="home" class="gradient-bg text-white py-20">
-  <div class="container mx-auto px-4 text-center">
-    
-    <h1 class="text-5xl md:text-6xl font-bold mb-6">
-      Smart Digital Tools to Grow Your Content Faster
-    </h1>
-
-    <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
-      Discover simple and effective tools designed for creators, developers, and marketers. 
-      Whether you're improving SEO, generating tags, or optimizing content — everything here is built to save your time and boost results.
-    </p>
-
-    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      
-      <a href="#tools">
-        <button class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition duration-300">
-          Explore Tools
-        </button>
-      </a>
-
-      <a href="/about">
-        <button class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition duration-300">
-          Learn More
-        </button>
-      </a>
-
-    </div>
-  </div>
-</section>
-
-    <!-- Welcome Section -->
-<section class="py-16 bg-white">
-  <div class="container mx-auto px-4">
-    <div class="max-w-4xl mx-auto">
-
-      <h2 class="text-4xl font-bold text-center mb-8 text-gray-800">
-        Welcome to <span id="welcome-domain">LearnForAll</span>
-      </h2>
-
-      <div class="text-lg text-gray-600 leading-relaxed space-y-6">
-
-        <p>
-          Creating content today is easy, but getting people to actually see it is the real challenge. 
-          Whether you are a YouTuber, blogger, marketer, or social media creator, visibility depends on using the right strategy and tools.
-        </p>
-
-        <p>
-          <span id="content-domain">LearnForAll</span> is built to make that process simple. 
-          Here you’ll find practical tools that help you improve your content — from generating SEO-friendly tags to finding the right keywords and hashtags for better reach.
-        </p>
-
-        <p>
-          The best part? Everything is completely free. 
-          No sign-up, no hidden charges, and no limitations. 
-          Just open the tool you need and start using it instantly.
-        </p>
-
-        <p>
-          Our goal is simple — to help creators grow faster without wasting time on complicated tools. 
-          Whether you're just starting or already creating regularly, 
-          <span id="mission-domain">LearnForAll</span> gives you the support you need to improve your results.
-        </p>
-
+    <section id="home" class="bg-gradient-to-b from-gray-900 to-black text-white py-24 px-4">
+      <div class="container mx-auto max-w-4xl text-center">
+        <div class="inline-flex items-center gap-2 bg-blue-500 bg-opacity-10 text-blue-200 px-4 py-1.5 rounded-full text-xs font-medium mb-6 border border-blue-500 border-opacity-20">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+            />
+          </svg>
+          <span>Central Web Utility Dashboard</span>
+        </div>
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">Smart Digital Tools to Grow Your Content Faster</h1>
+        <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mb-10 leading-relaxed">Accelerate your production workflow. Access context-aware metadata generators, semantic extraction arrays, and utility pipelines built to scale digital visibility seamlessly.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <button onclick="document.getElementById('tools').scrollIntoView({ behavior: 'smooth' })" class="bg-white text-gray-900 px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-gray-100 transition shadow-md active:scale-95">Explore Active Tools</button>
+          <button onclick="document.getElementById('about').scrollIntoView({ behavior: 'smooth' })" class="border border-gray-700 text-gray-300 px-8 py-3.5 rounded-xl font-semibold text-sm hover:bg-gray-800 hover:text-white transition active:scale-95">Platform Framework Matrix</button>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-    <!-- Tools Section -->
-    <section id="tools" class="py-16 bg-white">
-  <section class="py-16 bg-gray-50">
-  <div class="container mx-auto px-4">
-
-    <h2 class="text-4xl font-bold text-center mb-6 text-gray-800">
-      Free Tools to Improve Your Content
-    </h2>
-
-    <p class="text-lg text-center mb-12 text-gray-600 max-w-2xl mx-auto">
-      These tools are designed to make your work easier. Whether you're posting on social media, creating YouTube videos, or writing blogs, you can quickly generate tags, keywords, and ideas to improve your reach.
-    </p>
-
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-      <!-- Tool 1 -->
-      <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold mb-2">Instagram & TikTok Hashtag Generator</h3>
-        <p class="text-gray-600 mb-3">
-          Find the right hashtags for your posts in seconds. This tool helps you choose tags that match your content and improve visibility.
-        </p>
-        <ul class="text-sm text-gray-500 mb-4">
-          <li>• Relevant hashtag suggestions</li>
-          <li>• Mix of trending and niche tags</li>
-          <li>• Easy to copy and use</li>
-        </ul>
-        <a href="instagramtiktok-hashtag-tool" class="text-pink-500 font-semibold">Use Tool →</a>
+    <section class="py-16 bg-white px-4 border-b border-gray-100">
+      <div class="container mx-auto max-w-4xl">
+        <h2 class="text-3xl font-extrabold text-center mb-8 tracking-tight text-gray-900">Topical Curation Engine Framework</h2>
+        <div class="text-base md:text-lg text-gray-600 leading-relaxed space-y-6 max-w-3xl mx-auto">
+          <p>In the contemporary content ecosystems of 2026, establishing visibility requires deep alignment with semantic search mechanics. Whether organizing long-form articles, social feeds, or cross-platform audio assets, distribution algorithms mandate explicit category validation maps to prevent properties from getting lost in general index pools.</p>
+          <p>Our core workspace architecture simplifies metadata optimization patterns. By running automated loop checks, creators can instantly isolate high-yield target tags, structured long-tail phrase networks, and contextual LSI matrices to safely expand distribution limits.</p>
+          <p class="font-medium text-gray-900 bg-gray-50 border-l-4 border-gray-900 p-4 rounded-r-xl font-mono text-sm">Operational Directive: Every baseline module executes with zero restriction gates, requiring zero subscription tokens or tracking account creations. Launch the required processing layout to extract data parameters instantly.</p>
+        </div>
       </div>
+    </section>
 
-      <!-- Tool 2 -->
-      <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold mb-2">YouTube Tags Generator</h3>
-        <p class="text-gray-600 mb-3">
-          Improve your video reach by adding better tags. This tool suggests keywords that help your videos appear in search.
-        </p>
-        <ul class="text-sm text-gray-500 mb-4">
-          <li>• SEO-friendly tags</li>
-          <li>• Better discoverability</li>
-          <li>• Quick suggestions</li>
-        </ul>
-        <a href="youtubetags-generator" class="text-red-500 font-semibold">Use Tool →</a>
-      </div>
+    <section id="tools" class="py-16 bg-gray-50 border-b border-gray-100 px-4">
+      <div class="container mx-auto max-w-6xl">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 mb-3">Active Content Optimization Vectors</h2>
+          <p class="text-sm text-gray-600 max-w-2xl mx-auto leading-relaxed">Deploy optimized taxonomies straight into your content file properties. Use these light web interfaces to safely capture early user discovery queues.</p>
+        </div>
 
-      <!-- Tool 3 -->
-      <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold mb-2">SEO Keyword Generator</h3>
-        <p class="text-gray-600 mb-3">
-          Find useful keywords for your website or blog. It helps you understand what people are searching for.
-        </p>
-        <ul class="text-sm text-gray-500 mb-4">
-          <li>• Keyword ideas</li>
-          <li>• Long-tail suggestions</li>
-          <li>• Helpful for SEO</li>
-        </ul>
-        <a href="seokeyword-tags-generator" class="text-green-500 font-semibold">Use Tool →</a>
-      </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-3xs hover:shadow-2xs transition flex flex-col justify-between">
+            <div>
+              <div class="bg-pink-50 text-pink-500 w-10 h-10 rounded-lg flex items-center justify-center mb-4 border border-pink-100">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+                </svg>
+              </div>
+              <h3 class="text-base font-bold text-gray-900 mb-2">Instagram & TikTok Hashtag Generator</h3>
+              <p class="text-xs text-gray-600 leading-relaxed mb-4">Extract structured, niche-focused hash identifiers built cleanly for rapid multi-platform short-form explore feeds.</p>
+              <ul class="text-2xs font-semibold text-gray-400 space-y-1.5 mb-6 list-none pl-0">
+                <li class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-pink-500"></span> Contextual Intent Tracking</li>
+                <li class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-pink-500"></span> Saturated Density Management</li>
+              </ul>
+            </div>
+            <a href="instagramtiktok-hashtag-tool" class="inline-flex items-center gap-1 text-xs font-bold text-pink-600 hover:text-pink-700">Initialize Module <span class="transition-transform group-hover:translate-x-1">→</span></a>
+          </div>
 
-      <!-- Tool 4 -->
-      <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold mb-2">Trending Tags Finder</h3>
-        <p class="text-gray-600 mb-3">
-          Check what’s trending right now and use it in your content to get more attention.
-        </p>
-        <ul class="text-sm text-gray-500 mb-4">
-          <li>• Latest trends</li>
-          <li>• Platform-based tags</li>
-          <li>• Easy to use</li>
-        </ul>
-        <a href="trendingtags-finder" class="text-purple-500 font-semibold">Use Tool →</a>
-      </div>
+          <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-3xs hover:shadow-2xs transition flex flex-col justify-between">
+            <div>
+              <div class="bg-red-50 text-red-500 w-10 h-10 rounded-lg flex items-center justify-center mb-4 border border-red-100">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <h3 class="text-base font-bold text-gray-900 mb-2">YouTube Tags Generator</h3>
+              <p class="text-xs text-gray-600 leading-relaxed mb-4">Maximize sidebar suggested placements using explicit taxonomic strings matching core metadata focus keys.</p>
+              <ul class="text-2xs font-semibold text-gray-400 space-y-1.5 mb-6 list-none pl-0">
+                <li class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Complete 500-Byte Validation</li>
+                <li class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Intent Feed Synchronization</li>
+              </ul>
+            </div>
+            <a href="youtubetags-generator" class="inline-flex items-center gap-1 text-xs font-bold text-red-600 hover:text-red-700">Initialize Module →</a>
+          </div>
 
-      <!-- Tool 5 -->
-      <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold mb-2">Blog Post Tags Generator</h3>
-        <p class="text-gray-600 mb-3">
-          Generate tags for your blog posts to organize content and improve search visibility.
-        </p>
-        <ul class="text-sm text-gray-500 mb-4">
-          <li>• Relevant tags</li>
-          <li>• Better structure</li>
-          <li>• Improves SEO</li>
-        </ul>
-        <a href="blogpost-tags-generator" class="text-blue-500 font-semibold">Use Tool →</a>
-      </div>
+          <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-3xs hover:shadow-2xs transition flex flex-col justify-between">
+            <div>
+              <div class="bg-green-50 text-green-500 w-10 h-10 rounded-lg flex items-center justify-center mb-4 border border-green-100">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <h3 class="text-base font-bold text-gray-900 mb-2">SEO Keyword Generator</h3>
+              <p class="text-xs text-gray-600 leading-relaxed mb-4">Discover conversational search queries and LSI configurations to build immediate multi-intent entry clusters.</p>
+              <ul class="text-2xs font-semibold text-gray-400 space-y-1.5 mb-6 list-none pl-0">
+                <li class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Entity Search Architecture</li>
+                <li class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Long-Tail Context Extraction</li>
+              </ul>
+            </div>
+            <a href="seokeyword-tags-generator" class="inline-flex items-center gap-1 text-xs font-bold text-green-600 hover:text-green-700">Initialize Module →</a>
+          </div>
 
-    </div>
-  </div>
-</section>
+          <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-3xs hover:shadow-2xs transition flex flex-col justify-between">
+            <div>
+              <div class="bg-purple-50 text-purple-500 w-10 h-10 rounded-lg flex items-center justify-center mb-4 border border-purple-100">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                </svg>
+              </div>
+              <h3 class="text-base font-bold text-gray-900 mb-2">Trending Tags Finder</h3>
+              <p class="text-xs text-gray-600 leading-relaxed mb-4">Isolate live velocity shifts cross-linked across central digital hubs to anchor data lifecycles effectively.</p>
+              <ul class="text-2xs font-semibold text-gray-400 space-y-1.5 mb-6 list-none pl-0">
+                <li class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> Real-Time Signal Tracking</li>
+                <li class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> Live Cluster Refreshes</li>
+              </ul>
+            </div>
+            <a href="trendingtags-finder" class="inline-flex items-center gap-1 text-xs font-bold text-purple-600 hover:text-purple-700">Initialize Module →</a>
+          </div>
 
-    <!-- Why Choose Us Section -->
-    <section id="about" class="py-16 bg-white">
-  <div class="container mx-auto px-4">
-
-    <h2 class="text-4xl font-bold text-center mb-10 text-gray-800">
-      Why People Use <span id="choose-domain">LearnForAll</span>
-    </h2>
-
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-      <!-- 1 -->
-      <div class="text-center">
-        <h3 class="text-xl font-semibold mb-2">Completely Free</h3>
-        <p class="text-gray-600">
-          You can use all tools without paying anything. There are no locked features or premium plans.
-        </p>
-      </div>
-
-      <!-- 2 -->
-      <div class="text-center">
-        <h3 class="text-xl font-semibold mb-2">No Sign-Up Needed</h3>
-        <p class="text-gray-600">
-          Just open the tool and start using it. No account creation or personal details required.
-        </p>
-      </div>
-
-      <!-- 3 -->
-      <div class="text-center">
-        <h3 class="text-xl font-semibold mb-2">Fast & Simple</h3>
-        <p class="text-gray-600">
-          The tools are designed to give results instantly, so you don’t waste time figuring things out.
-        </p>
-      </div>
-
-      <!-- 4 -->
-      <div class="text-center">
-        <h3 class="text-xl font-semibold mb-2">Works on All Devices</h3>
-        <p class="text-gray-600">
-          Whether you're on mobile or desktop, everything works smoothly without any extra setup.
-        </p>
-      </div>
-
-      <!-- 5 -->
-      <div class="text-center">
-        <h3 class="text-xl font-semibold mb-2">Updated Regularly</h3>
-        <p class="text-gray-600">
-          Tools are improved based on trends and user needs, so you always get relevant results.
-        </p>
-      </div>
-
-      <!-- 6 -->
-      <div class="text-center">
-        <h3 class="text-xl font-semibold mb-2">Easy to Use</h3>
-        <p class="text-gray-600">
-          No technical knowledge needed. Everything is kept simple so anyone can use it easily.
-        </p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-    <!-- Target Audience Section -->
-   <section class="py-16 bg-gray-50">
-  <div class="container mx-auto px-4">
-
-    <h2 class="text-4xl font-bold text-center mb-8 text-gray-800">
-      Who Can Use These Tools?
-    </h2>
-
-    <p class="text-lg text-center mb-12 text-gray-600 max-w-2xl mx-auto">
-      These tools are useful for anyone who creates content online and wants better reach without spending too much time on research.
-    </p>
-
-    <div class="grid md:grid-cols-2 gap-10">
-
-      <!-- Creators -->
-      <div>
-        <h3 class="text-2xl font-semibold mb-4 text-gray-800">For Content Creators</h3>
-        <ul class="text-gray-600 space-y-2">
-          <li>• YouTubers who want better tags for their videos</li>
-          <li>• Instagram creators looking for the right hashtags</li>
-          <li>• TikTok users trying to reach more people</li>
-          <li>• Podcasters who want their content to be easier to find</li>
-        </ul>
-      </div>
-
-      <!-- Marketers -->
-      <div>
-        <h3 class="text-2xl font-semibold mb-4 text-gray-800">For Marketers</h3>
-        <ul class="text-gray-600 space-y-2">
-          <li>• Digital marketers managing multiple platforms</li>
-          <li>• SEO users searching for useful keywords</li>
-          <li>• Social media managers tracking trends</li>
-          <li>• Anyone working on content growth</li>
-        </ul>
-      </div>
-
-      <!-- Writers -->
-      <div>
-        <h3 class="text-2xl font-semibold mb-4 text-gray-800">For Writers & Bloggers</h3>
-        <ul class="text-gray-600 space-y-2">
-          <li>• Bloggers who want better visibility on Google</li>
-          <li>• Writers looking for SEO-friendly tags</li>
-          <li>• Website owners organizing their content</li>
-          <li>• Anyone publishing articles online</li>
-        </ul>
-      </div>
-
-      <!-- Business -->
-      <div>
-        <h3 class="text-2xl font-semibold mb-4 text-gray-800">For Businesses</h3>
-        <ul class="text-gray-600 space-y-2">
-          <li>• Small businesses handling their own marketing</li>
-          <li>• Online store owners improving product reach</li>
-          <li>• Startups with limited budget</li>
-          <li>• Freelancers building their online presence</li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-    <!-- Testimonials Section -->
-  <section class="py-16 bg-white">
-  <div class="container mx-auto px-4">
-
-    <h2 class="text-4xl font-bold text-center mb-10 text-gray-800">
-      What Users Say
-    </h2>
-
-    <div class="grid md:grid-cols-3 gap-8">
-
-      <!-- 1 -->
-      <div class="bg-gray-50 p-6 rounded-lg">
-        <div class="flex items-center mb-4">
-          <div class="w-12 h-12 bg-pink-500 rounded-full flex items-center justify-center text-white font-bold">SM</div>
-          <div class="ml-4">
-            <h4 class="font-semibold text-gray-800">Sarah</h4>
-            <p class="text-sm text-gray-600">Content Creator</p>
+          <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-3xs hover:shadow-2xs transition flex flex-col justify-between">
+            <div>
+              <div class="bg-blue-50 text-blue-500 w-10 h-10 rounded-lg flex items-center justify-center mb-4 border border-blue-100">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+              <h3 class="text-base font-bold text-gray-900 mb-2">Blog Post Tags Generator</h3>
+              <p class="text-xs text-gray-600 leading-relaxed mb-4">Design logical, flat taxonomic structures to manage document folders and reinforce internal link matrices.</p>
+              <ul class="text-2xs font-semibold text-gray-400 space-y-1.5 mb-6 list-none pl-0">
+                <li class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Target Segment Sorting</li>
+                <li class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Core Casing Transformations</li>
+              </ul>
+            </div>
+            <a href="blogpost-tags-generator" class="inline-flex items-center gap-1 text-xs font-bold text-blue-600 hover:text-blue-700">Initialize Module →</a>
           </div>
         </div>
-        <p class="text-gray-600 italic">
-          "I use the hashtag tool regularly. It saves time and helps me pick better tags for my posts."
-        </p>
       </div>
+    </section>
 
-      <!-- 2 -->
-      <div class="bg-gray-50 p-6 rounded-lg">
-        <div class="flex items-center mb-4">
-          <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">JT</div>
-          <div class="ml-4">
-            <h4 class="font-semibold text-gray-800">James</h4>
-            <p class="text-sm text-gray-600">Digital Marketer</p>
-          </div>
-        </div>
-        <p class="text-gray-600 italic">
-          "The tools are simple and easy to use. I mostly use them for quick keyword ideas and tag suggestions."
-        </p>
-      </div>
+    <section class="py-16 bg-white border-b border-gray-100 px-4">
+      <div class="container mx-auto max-w-5xl">
+        <div class="bg-gradient-to-br from-gray-900 to-black rounded-2xl p-8 md:p-12 text-white shadow-xl border border-gray-800 relative overflow-hidden">
+          <div class="absolute inset-0 opacity-5 pointer-events-none bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
-      <!-- 3 -->
-      <div class="bg-gray-50 p-6 rounded-lg">
-        <div class="flex items-center mb-4">
-          <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-white font-bold">AK</div>
-          <div class="ml-4">
-            <h4 class="font-semibold text-gray-800">Alex</h4>
-            <p class="text-sm text-gray-600">YouTube Creator</p>
-          </div>
-        </div>
-        <p class="text-gray-600 italic">
-          "Helpful tools for finding tags quickly. Good option if you don’t want to spend time searching manually."
-        </p>
-      </div>
-
-    </div>
-
-  </div>
-</section>
-
-    <!-- CTA Section -->
-  <section class="py-16 gradient-bg text-white text-center">
-  <div class="container mx-auto px-4">
-
-    <h2 class="text-4xl font-bold mb-6">
-      Start Using These Tools Today
-    </h2>
-
-    <p class="text-lg mb-8 max-w-2xl mx-auto">
-      If you create content online, these tools can help you save time and find better tags, keywords, and ideas. 
-      No sign-up is needed — just open a tool and start using it.
-    </p>
-
-    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-
-      <a href="#tools" 
-         class="inline-block bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition duration-300">
-        Explore Tools
-      </a>
-
-      <a href="/" 
-         class="inline-block border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition duration-300">
-        Save This Page
-      </a>
-
-    </div>
-
-  </div>
-</section>
-
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-12">
-        <div class="container mx-auto px-4">
-            <div class="grid md:grid-cols-4 gap-8">
-                <div>
-                    <div class="flex items-center space-x-2 mb-4">
-                        <svg class="w-8 h-8 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                        </svg>
-                        <span class="text-2xl font-bold" id="footer-logo">LearnForAll</span>
-                    </div>
-                    <p class="text-gray-300">Free digital optimization tools for creators, marketers, and bloggers. Enhance your content and grow your audience with our powerful, easy-to-use tools.</p>
-                </div>
-
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Tools</h4>
-                    <ul class="space-y-2 text-gray-300">
-                        <li><a href="instagramtiktok-hashtag-tool" class="hover:text-white">Instagram & TikTok Hashtag Tool</a></li>
-                        <li><a href="youtubetags-generator" class="hover:text-white">YouTube Tags Generator</a></li>
-                        <li><a href="seokeyword-tags-generator" class="hover:text-white">SEO Keyword Tags Generator</a></li>
-                        <li><a href="trendingtags-finder" class="hover:text-white">Trending Tags Finder</a></li>
-                        <li><a href="blogpost-tags-generator" class="hover:text-white">Blog Post Tags Generator</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Company</h4>
-                    <ul class="space-y-2 text-gray-300">
-                        <li><a href="about" class="hover:text-white">About Us</a></li>
-                        <li><a href="contact" class="hover:text-white">Contact</a></li>
-                        <li><a href="privacy" class="hover:text-white">Privacy Policy</a></li>
-                        <li><a href="terms" class="hover:text-white">Terms & Conditions</a></li>
-                        <li><a href="disclaimer" class="hover:text-white">Disclaimer</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Newsletter</h4>
-                    <p class="text-gray-300 mb-4">Subscribe to get updates on new tools and features.</p>
-                    <form class="flex flex-col sm:flex-row sm:items-stretch sm:space-x-2 space-y-2 sm:space-y-0" onsubmit="event.preventDefault(); window.location.href='/'">
-                        <div class="flex-1">
-                            <input type="email" placeholder="Your email" class="w-full px-3 py-2 rounded-md text-gray-800 outline-none" required>
-                        </div>
-                        <div class="sm:w-auto w-full">
-                            <button type="submit" class="w-full sm:w-auto bg-blue-600 px-5 py-2 text-white rounded-md hover:bg-blue-700 transition duration-300">
-                                Subscribe
-                            </button>
-                        </div>
-                    </form>
-                </div>
+          <div class="relative z-10">
+            <div class="max-w-xl mb-12">
+              <div class="inline-flex items-center gap-2 bg-blue-500 bg-opacity-10 text-blue-200 border border-blue-500 border-opacity-20 px-3 py-1 rounded-xl text-2xs font-bold uppercase tracking-wider mb-4">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
+                Engineering Roadmap Active
+              </div>
+              <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight text-white mb-4">Upcoming File & Asset Transformation Matrix</h2>
+              <p class="text-xs md:text-sm text-gray-400 leading-relaxed">We are actively expanding our central computation nodes. Core scripts for cross-compiling documents, vector format resizing, and system compression operations are undergoing staging analysis to ensure rapid client-side conversions.</p>
             </div>
 
-            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
-                <p>&copy; 2025 <span id="copyright-domain">LearnForAll</span>. All rights reserved.</p>
+            <div class="space-y-4">
+              <div class="bg-white bg-opacity-5 hover:bg-opacity-10 border border-gray-800 rounded-xl p-5 transition flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="flex items-start gap-4">
+                  <div class="bg-blue-500 bg-opacity-10 p-3 rounded-xl border border-blue-500 border-opacity-20 text-blue-200 flex-shrink-0">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                      PDF Elements Compile
+                      <span class="text-3xs font-mono font-medium px-2 py-0.5 rounded-md bg-blue-500 bg-opacity-10 text-blue-200 border border-blue-500 border-opacity-20">v0.1.0-beta</span>
+                    </h3>
+                    <p class="text-2xs text-gray-400 mt-1 max-w-xl leading-relaxed">Client-side rendering models mapping discrete Portable Document configurations into direct high-fidelity image streams instantly without server-side transaction overhead.</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-3 sm:text-right flex-shrink-0 border-t border-gray-800 pt-3 sm:border-0 sm:pt-0">
+                  <div class="hidden sm:block">
+                    <div class="text-xs font-mono font-bold text-blue-200">Staging 84%</div>
+                    <div class="text-3xs text-gray-500 mt-0.5">Core Testing Phase</div>
+                  </div>
+                  <div class="w-2.5 h-2.5 rounded-full bg-blue-500 animate-ping"></div>
+                </div>
+              </div>
+
+              <div class="bg-white bg-opacity-5 hover:bg-opacity-10 border border-gray-800 rounded-xl p-5 transition flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="flex items-start gap-4">
+                  <div class="bg-emerald-500 bg-opacity-10 p-3 rounded-xl border border-emerald-500 border-opacity-20 text-emerald-100 flex-shrink-0">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                      Asset Vector Packers
+                      <span class="text-3xs font-mono font-medium px-2 py-0.5 rounded-md bg-emerald-500 bg-opacity-10 text-emerald-100 border border-emerald-500 border-opacity-20">v0.1.0-dev</span>
+                    </h3>
+                    <p class="text-2xs text-gray-400 mt-1 max-w-xl leading-relaxed">Compiling HTML5 canvas hooks to bundle raw discrete raster files straight inside clean, responsive, and compressed unified PDF document containers.</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-3 sm:text-right flex-shrink-0 border-t border-gray-800 pt-3 sm:border-0 sm:pt-0">
+                  <div class="hidden sm:block">
+                    <div class="text-xs font-mono font-bold text-emerald-100">Curation Loop</div>
+                    <div class="text-3xs text-gray-500 mt-0.5">Architecture Review</div>
+                  </div>
+                  <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-    </footer>
+      </div>
+    </section>
+
+    <section id="about" class="py-16 bg-white px-4 border-b border-gray-100">
+      <div class="container mx-auto max-w-5xl">
+        <h2 class="text-2xl font-extrabold text-center text-gray-900 tracking-tight mb-10">Architecture Design Priorities</h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-sm">
+          <div class="border border-gray-100 p-5 rounded-xl bg-gray-50/50">
+            <h4 class="font-bold text-gray-900 mb-1">Zero Overhead Operations</h4>
+            <p class="text-gray-600 text-xs">Execute configurations completely free of cost walls. No hidden premium feature locks or data distribution billing limits.</p>
+          </div>
+          <div class="border border-gray-100 p-5 rounded-xl bg-gray-50/50">
+            <h4 class="font-bold text-gray-900 mb-1">Authorization Layer Omission</h4>
+            <p class="text-gray-600 text-xs">Run processing instances instantly. No user registration parameters, token checks, or credential tracking arrays required.</p>
+          </div>
+          <div class="border border-gray-100 p-5 rounded-xl bg-gray-50/50">
+            <h4 class="font-bold text-gray-900 mb-1">Performance Speed Targets</h4>
+            <p class="text-gray-600 text-xs">Light client-side execution loops return structured metrics arrays instantly, maximizing systemic time-saving efficiencies.</p>
+          </div>
+          <div class="border border-gray-100 p-5 rounded-xl bg-gray-50/50">
+            <h4 class="font-bold text-gray-900 mb-1">Responsive Viewport Fluidity</h4>
+            <p class="text-gray-600 text-xs">Complete interface layouts adjust smoothly across variable screen dimensions without requiring manual device setup steps.</p>
+          </div>
+          <div class="border border-gray-100 p-5 rounded-xl bg-gray-50/50">
+            <h4 class="font-bold text-gray-900 mb-1">Continuous Index Calibration</h4>
+            <p class="text-gray-600 text-xs">Data sets are monitored regularly matching active search pattern dynamics, preserving output string real-time accuracy values.</p>
+          </div>
+          <div class="border border-gray-100 p-5 rounded-xl bg-gray-50/50">
+            <h4 class="font-bold text-gray-900 mb-1">Simplified Execution Flow</h4>
+            <p class="text-gray-600 text-xs">Clean, intuitive interaction paths focus purely on metadata input and output blocks. No complex multi-layer nested parameters.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 bg-gray-50 px-4 border-b border-gray-100">
+      <div class="container mx-auto max-w-5xl">
+        <h2 class="text-2xl font-extrabold text-center tracking-tight text-gray-900 mb-12">Target Segment Integration Capabilities</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
+          <div class="p-5 bg-white border border-gray-200 rounded-xl shadow-3xs">
+            <h3 class="text-base font-bold text-gray-900 mb-3 flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg> Social Media Video channels
+            </h3>
+            <ul class="space-y-1.5 text-xs text-gray-600 list-none pl-0">
+              <li>• YouTubers looking to scale discovery parameters via structured descriptions.</li>
+              <li>• Short-form mobile loop channels refining target metadata hashtags.</li>
+            </ul>
+          </div>
+
+          <div class="p-5 bg-white border border-gray-200 rounded-xl shadow-3xs">
+            <h3 class="text-base font-bold text-gray-900 mb-3 flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> Content Marketers & SEO Operators
+            </h3>
+            <ul class="space-y-1.5 text-xs text-gray-600 list-none pl-0">
+              <li>• Digital operators managing multi-client semantic indexing campaigns.</li>
+              <li>• Search analysts targeting emerging intent phrases to expand traffic streams.</li>
+            </ul>
+          </div>
+
+          <div class="p-5 bg-white border border-gray-200 rounded-xl shadow-3xs">
+            <h3 class="text-base font-bold text-gray-900 mb-3 flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg> Independent Writers & Bloggers
+            </h3>
+            <ul class="space-y-1.5 text-xs text-gray-600 list-none pl-0">
+              <li>• Bloggers mapping precise entity descriptions to satisfy search engine crawlers.</li>
+              <li>• Web publishers designing granular post tagging systems to build topical authority.</li>
+            </ul>
+          </div>
+
+          <div class="p-5 bg-white border border-gray-200 rounded-xl shadow-3xs">
+            <h3 class="text-base font-bold text-gray-900 mb-3 flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg> Emerging Small Business Nodes
+            </h3>
+            <ul class="space-y-1.5 text-xs text-gray-600 list-none pl-0">
+              <li>• Online storefront operators looking to optimize raw search query footprints locally.</li>
+              <li>• Bootstrapped startups aiming to expand organic domain referral loops on a budget.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 bg-white px-4">
+      <div class="container mx-auto max-w-5xl">
+        <h2 class="text-2xl font-extrabold text-center text-gray-900 tracking-tight mb-10">Workflow Validation Logs</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+          <div class="bg-gray-50 border border-gray-100 p-5 rounded-xl flex flex-col justify-between">
+            <p class="text-gray-600 italic text-xs leading-relaxed">"The dynamic hashtag compiler operates smoothly. It streamlines metadata selection workflows for daily platform publishing, filtering out saturated terms effectively."</p>
+            <div class="flex items-center gap-3 mt-4 pt-4 border-t border-gray-100">
+              <div class="w-8 h-8 bg-pink-600 rounded-full flex items-center justify-center text-white font-bold text-2xs">SR</div>
+              <div>
+                <h4 class="font-bold text-gray-900 text-xs">Sarah R.</h4>
+                <p class="text-4xs text-gray-400 font-semibold uppercase">Platform Curator</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 border border-gray-100 p-5 rounded-xl flex flex-col justify-between">
+            <p class="text-gray-600 italic text-xs leading-relaxed">"The keyword extraction utilities provide reliable semantic options. Excellent baseline framework to quickly configure long-tail search intent strings for text containers."</p>
+            <div class="flex items-center gap-3 mt-4 pt-4 border-t border-gray-100">
+              <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-2xs">JM</div>
+              <div>
+                <h4 class="font-bold text-gray-900 text-xs">James M.</h4>
+                <p class="text-4xs text-gray-400 font-semibold uppercase">SEO Analyst</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 border border-gray-100 p-5 rounded-xl flex flex-col justify-between">
+            <p class="text-gray-600 italic text-xs leading-relaxed">"Simple metadata extraction with clean parameters. Replaces long manual indexing methods with automated, production-ready vector string layouts instantly."</p>
+            <div class="flex items-center gap-3 mt-4 pt-4 border-t border-gray-100">
+              <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center text-white font-bold text-2xs">AM</div>
+              <div>
+                <h4 class="font-bold text-gray-900 text-xs">Alex M.</h4>
+                <p class="text-4xs text-gray-400 font-semibold uppercase">Video Engineer</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-gray-900 text-white py-16 text-center px-4 border-t border-gray-800">
+      <div class="container mx-auto max-w-3xl">
+        <h2 class="text-3xl font-extrabold mb-4 tracking-tight">Scale Your Discoverability Engine Today</h2>
+        <p class="text-gray-400 mb-8 max-w-xl mx-auto text-sm md:text-base leading-relaxed">Incorporate high-relevance semantic tags, build clean structures, and give search crawlers explicit data points to read.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <button onclick="document.getElementById('tools').scrollIntoView({ behavior: 'smooth' })" class="bg-white text-gray-900 px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-gray-100 transition shadow-md">Initialize Utility Workspace</button>
+          <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" class="border border-gray-700 text-gray-300 px-8 py-3.5 rounded-xl font-semibold text-sm hover:bg-gray-800 hover:text-white transition">Back to Top</button>
+        </div>
+      </div>
+    </section>
+
+    <div id="global-footer"></div>
+
+    <script src="/assets/js/header.js"></script>
 
     <script>
-        // Get current domain and update all domain references
-        function updateDomainReferences() {
-            const currentDomain = window.location.hostname.replace('www.', '');
-            const domainElements = [
-                'header-logo', 'welcome-domain', 'content-domain', 'platform-domain', 
-                'mission-domain', 'choose-domain', 'audience-domain', 'testimonial-domain', 
-                'testimonial2-domain', 'testimonial3-domain', 'cta-domain', 'footer-logo', 
-                'copyright-domain'
-            ];
-            
-            domainElements.forEach(id => {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.textContent = currentDomain || 'LearnForAll';
-                }
-            });
-        }
+      // Core System: Synchronize available DOM identity nodes with the active domain
+      function updateDomainReferences() {
+        const currentDomain = window.location.hostname.replace("www.", "") || "toolkitpro.tools";
 
-        // Toggle dropdown menu
-        function toggleDropdown() {
-            const dropdown = document.querySelector('.dropdown');
-            dropdown.classList.toggle('active');
-        }
+        // Kept only the active IDs used in your cleaned structured HTML layers
+        const structuralIdentityNodes = ["header-logo", "welcome-domain", "choose-domain", "footer-logo", "copyright-domain"];
 
-        // Toggle mobile menu
-        function toggleMobileMenu() {
-            const mobileMenu = document.querySelector('.mobile-menu');
-            mobileMenu.classList.toggle('active');
-        }
+        structuralIdentityNodes.forEach((id) => {
+          const DOMNode = document.getElementById(id);
+          if (DOMNode) {
+            DOMNode.textContent = currentDomain;
+          }
+        });
+      }
 
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const dropdown = document.querySelector('.dropdown');
-            const toolsButton = event.target.closest('button');
-            
-            if (!toolsButton || !toolsButton.textContent.includes('Tools')) {
-                dropdown.classList.remove('active');
+      // Common UI Layout Interactions
+      function toggleMobileMenu() {
+        const mobileMenu = document.querySelector(".mobile-menu");
+        if (mobileMenu) {
+          mobileMenu.classList.toggle("active");
+        }
+      }
+
+      // Smooth Viewport Scrolling Navigation Router
+      document.addEventListener("DOMContentLoaded", () => {
+        updateDomainReferences();
+
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            const targetAttr = this.getAttribute("href");
+            if (targetAttr === "#") return;
+
+            const targetElementNode = document.querySelector(targetAttr);
+            if (targetElementNode) {
+              targetElementNode.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
             }
+          });
         });
+      });
 
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+      // Global Event Listener: Secure click targets outside active navigation dropdowns
+      document.addEventListener("click", (event) => {
+        const dropdown = document.querySelector(".dropdown");
+        if (!dropdown) return;
 
-        // Initialize domain references on page load
-        document.addEventListener('DOMContentLoaded', updateDomainReferences);
+        const toolsButton = event.target.closest("button");
+        if (!toolsButton || !toolsButton.textContent.includes("Tools")) {
+          dropdown.classList.remove("active");
+        }
+      });
     </script>
-</body>
+  </body>
 </html>
