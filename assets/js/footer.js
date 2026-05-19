@@ -1,38 +1,53 @@
-  function toggleMobileMenu() {
-        const mobileMenu = document.querySelector(".mobile-menu");
-        if (mobileMenu) {
-          mobileMenu.classList.toggle("active");
-        }
+// Global Mobile Menu Toggle matching modern layout states
+function toggleMobileMenu() {
+  const mobileDrawerNode = document.getElementById("mobile-menu-container");
+  if (mobileDrawerNode) {
+    mobileDrawerNode.classList.toggle("hidden");
+  }
+}
+
+// Optimized High-Performance Safe String Clipboard Actions Core
+function copyTags(btnReference = null) {
+  let textPayload = "";
+  let targetActionElement = btnReference;
+
+  try {
+    // Check if target copy operations are scoped to an independent inner card block
+    if (btnReference && btnReference.id !== "copyBtn") {
+      const cardWrapperNode = btnReference.closest(".bg-white") || btnReference.closest(".rounded-2xl");
+      if (cardWrapperNode) {
+        // Targets active runtime compiled tokens grids safely
+        const flexTagsContainer = cardWrapperNode.querySelector(".flex-wrap") || cardWrapperNode.querySelector("[id$='Tags']");
+        textPayload = flexTagsContainer ? flexTagsContainer.innerText.trim() : "";
       }
+    } else {
+      // Fallback target routing execution straight to global input canvas nodes
+      const globalOutputNode = document.getElementById("tag-container") || document.getElementById("allTagsText");
+      textPayload = globalOutputNode ? (globalOutputNode.value || globalOutputNode.innerText).trim() : "";
+      targetActionElement = document.getElementById("copyBtn") || btnReference;
+    }
 
-      // Robust Copy Tags Logic for Main Container and Cards
-      function copyTags(btn = null) {
-        let tags;
-        let targetBtn = btn;
+    if (!textPayload) return;
 
-        // 👉 Agar kisi card ka copy button click hua hai
-        if (btn && btn.id !== "copyBtn") {
-          const card = btn.closest(".bg-white");
-          tags = card.querySelector(".flex.flex-wrap").innerText;
-        } 
-        // 👉 Agar top main box ka button click hua hai
-        else {
-          tags = document.getElementById("tag-container").innerText;
-          targetBtn = document.getElementById("copyBtn");
-        }
+    // Execute absolute native text allocation strings capture
+    navigator.clipboard.writeText(textPayload).then(() => {
+      if (!targetActionElement) return;
 
-        navigator.clipboard.writeText(tags).then(() => {
-          const originalText = targetBtn.innerHTML;
-          targetBtn.innerHTML = "Copied! ✅";
-          
-          // Tailwind color transition feedback
-          targetBtn.classList.replace("bg-blue-600", "bg-green-600");
-          targetBtn.classList.replace("hover:bg-blue-700", "hover:bg-green-700");
+      const dynamicSavedLabel = targetActionElement.innerHTML;
+      targetActionElement.innerHTML = "Copied Data! ✓";
 
-          setTimeout(() => {
-            targetBtn.innerHTML = originalText;
-            targetBtn.classList.replace("bg-green-600", "bg-blue-600");
-            targetBtn.classList.replace("hover:bg-green-700", "hover:bg-blue-700");
-          }, 1500);
-        }).catch(err => console.error("Copy failed: ", err));
-      }
+      // Execute stable style shifts that comply uniformly with standard tokens systems
+      targetActionElement.style.backgroundColor = "#10B981";
+      targetActionElement.style.color = "#FFFFFF";
+
+      setTimeout(() => {
+        targetActionElement.innerHTML = dynamicSavedLabel;
+        targetActionElement.style.backgroundColor = "";
+        targetActionElement.style.color = "";
+      }, 1500);
+    });
+
+  } catch (matrixAnomaly) {
+    console.error("System structural clipboard allocation block tracking: ", matrixAnomaly);
+  }
+}
