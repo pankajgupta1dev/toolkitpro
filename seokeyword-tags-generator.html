@@ -51,25 +51,30 @@
       </div>
     </section>
 
-    <section class="py-16 bg-white px-4 relative z-10 -mt-8">
-      <div class="container mx-auto max-w-4xl">
-        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-10">
-          <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-            </svg>
+    <section class="py-12 bg-black px-4 relative z-10 -mt-8">
+      <div class="absolute top-10 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-blue-600/10 blur-[100px] rounded-full pointer-events-none"></div>
+
+      <div class="container mx-auto max-w-4xl relative z-10">
+        <div class="bg-gradient-to-b from-gray-900 via-gray-950 to-black rounded-2xl shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-gray-800 p-4 sm:p-6 md:p-10 backdrop-blur-md">
+          <h2 class="text-xl md:text-2xl font-black text-white mb-6 flex items-center gap-2 tracking-tight">
+            <div class="bg-blue-500/10 text-blue-400 p-2 rounded-lg border border-blue-500/20">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+              </svg>
+            </div>
             Core Keyword Framework Configuration
           </h2>
 
-          <div class="mb-8">
-            <label for="topicInput" class="block text-sm font-semibold text-gray-700 mb-3">Enter a Seed Topic or Anchor Phrase:</label>
+          <div class="mb-8 bg-white/5 border border-gray-800 p-4 rounded-xl">
+            <label for="topicInput" class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Enter a Seed Topic or Anchor Phrase:</label>
             <div class="flex flex-col sm:flex-row gap-3">
-              <input type="text" id="topicInput" placeholder="e.g., frontend frameworks, muscle recovery routines, cloud hosting options" class="flex-1 px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:ring-2 focus:ring-blue-500 outline-none transition text-sm" />
+              <input type="text" id="topicInput" placeholder="e.g., frontend frameworks, cloud hosting options" class="w-full flex-1 px-4 py-3.5 bg-gray-950 border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500/50 outline-none transition text-sm font-medium shadow-inner" />
+
               <div class="flex gap-2 w-full sm:w-auto">
-                <button onclick="generateKeywords()" class="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 px-6 rounded-xl transition shadow-md flex items-center justify-center gap-2 text-sm" id="generateBtn">
-                  <span>Generate Keywords</span>
+                <button onclick="generateKeywords()" class="w-full sm:w-auto flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-6 rounded-xl transition shadow-md flex items-center justify-center gap-2 text-sm cursor-pointer active:scale-98" id="generateBtn">
+                  <span>Compile Matrix</span>
                 </button>
-                <button onclick="window.location.href = '/moretags/seomoretags.html'" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3.5 px-4 rounded-xl transition flex items-center justify-center text-sm" title="Explore More Generators">
+                <button onclick="window.location.href = '/moretags/seomoretags.html'" class="bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold py-3.5 px-4 rounded-xl transition flex items-center justify-center text-sm outline-none border border-gray-700 cursor-pointer active:scale-95" title="Explore More Generators">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7" />
                   </svg>
@@ -80,79 +85,83 @@
 
           <div id="loadingState" class="hidden text-center py-12">
             <div class="loading-spinner mx-auto mb-4 border-4 border-blue-500 border-t-transparent rounded-full w-8 h-8 animate-spin"></div>
-            <p class="text-gray-500 font-medium text-sm">Parsing search landscape entities...</p>
+            <p class="text-gray-400 font-semibold font-mono text-xs uppercase tracking-wider">Parsing search landscape entities...</p>
           </div>
 
-          <div id="resultsSection" class="hidden space-y-8 border-t border-gray-100 pt-8">
-            <div class="p-4 bg-emerald-50 border-l-4 border-emerald-500 rounded-xl flex items-start gap-2.5">
-              <svg class="w-5 h-5 text-emerald-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <p class="text-xs text-emerald-800 leading-relaxed font-medium">Analysis complete. Click on individual tags to interactively copy targeted strings straight to your production clipboard dashboard.</p>
-            </div>
-
-            <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100">
-              <h3 class="text-sm font-bold uppercase tracking-wider text-gray-700 mb-2 flex items-center gap-2">
-                <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                Primary Root Terms
-              </h3>
-              <p class="text-xs text-gray-500 mb-4">Core short-tail variations representing central target intent vectors.</p>
-              <div id="primaryKeywords" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
-            </div>
-
-            <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100">
-              <h3 class="text-sm font-bold uppercase tracking-wider text-gray-700 mb-2 flex items-center gap-2">
-                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-                Long-Tail Extensions
-              </h3>
-              <p class="text-xs text-gray-500 mb-4">Specific conversational queries tracking high-intent, low-volume conversions.</p>
-              <div id="longtailKeywords" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
-            </div>
-
-            <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100">
-              <h3 class="text-sm font-bold uppercase tracking-wider text-gray-700 mb-2 flex items-center gap-2">
-                <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
-                Latent Semantic Co-Occurrences (LSI)
-              </h3>
-              <p class="text-xs text-gray-500 mb-4">Contextual vocabulary properties reinforcing primary entity clusters for machine crawlers.</p>
-              <div id="lsiKeywords" class="grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
-            </div>
-
-            <div class="bg-gray-50/50 p-5 rounded-xl border border-gray-100">
-              <h3 class="text-sm font-bold uppercase tracking-wider text-gray-700 mb-2 flex items-center gap-2">
-                <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                Interrogative Intent Phrases
-              </h3>
-              <p class="text-xs text-gray-500 mb-4">Direct questions optimized specifically for voice search parameters and features framework blocks.</p>
-              <div id="questionKeywords" class="grid grid-cols-1 gap-3"></div>
-            </div>
-
-            <div class="flex flex-col sm:flex-row gap-3 justify-center pt-6 border-t border-gray-100">
-              <button onclick="copyAllKeywords()" class="bg-gray-900 hover:bg-gray-800 text-white px-6 py-3 rounded-xl font-semibold transition flex items-center justify-center gap-2 text-sm shadow-sm active:scale-95">
+          <div id="resultsSection" class="hidden space-y-6 border-t border-gray-850 pt-8 animate-fade-in">
+            <div class="p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-xl flex items-start gap-3">
+              <div class="text-emerald-400 mt-0.5 flex-shrink-0">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                Copy Full Matrix
+              </div>
+              <p class="text-2xs sm:text-xs text-emerald-400 leading-relaxed font-medium">Analysis complete. Click on individual keyword blocks to interactively copy target strings straight to your clipboard dashboard.</p>
+            </div>
+
+            <div class="bg-white/5 p-4 sm:p-5 rounded-xl border border-gray-850">
+              <div class="flex items-center gap-2 mb-1">
+                <div class="text-amber-400">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                </div>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-gray-200">Primary Root Terms</h3>
+              </div>
+              <p class="text-4xs font-medium uppercase tracking-widest text-gray-500 mb-4">Core short-tail variations representing central target intent vectors.</p>
+              <div id="primaryKeywords" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 min-w-0 overflow-hidden"></div>
+            </div>
+
+            <div class="bg-white/5 p-4 sm:p-5 rounded-xl border border-gray-850">
+              <div class="flex items-center gap-2 mb-1">
+                <div class="text-blue-400">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                </div>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-gray-200">Long-Tail Extensions</h3>
+              </div>
+              <p class="text-4xs font-medium uppercase tracking-widest text-gray-500 mb-4">Specific conversational queries tracking high-intent, low-volume conversions.</p>
+              <div id="longtailKeywords" class="grid grid-cols-1 sm:grid-cols-2 gap-3 min-w-0 overflow-hidden"></div>
+            </div>
+
+            <div class="bg-white/5 p-4 sm:p-5 rounded-xl border border-gray-850">
+              <div class="flex items-center gap-2 mb-1">
+                <div class="text-purple-400">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                </div>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-gray-200">Latent Semantic Co-Occurrences (LSI)</h3>
+              </div>
+              <p class="text-4xs font-medium uppercase tracking-widest text-gray-500 mb-4">Contextual vocabulary properties reinforcing primary entity clusters for machine crawlers.</p>
+              <div id="lsiKeywords" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 min-w-0 overflow-hidden"></div>
+            </div>
+
+            <div class="bg-white/5 p-4 sm:p-5 rounded-xl border border-gray-850">
+              <div class="flex items-center gap-2 mb-1">
+                <div class="text-green-400">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                </div>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-gray-200">Interrogative Intent Phrases</h3>
+              </div>
+              <p class="text-4xs font-medium uppercase tracking-widest text-gray-500 mb-4">Direct questions optimized specifically for voice search parameters and features framework blocks.</p>
+              <div id="questionKeywords" class="grid grid-cols-1 gap-3 min-w-0 overflow-hidden"></div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3 justify-center pt-6 border-t border-gray-850">
+              <button onclick="copyAllKeywords()" class="w-full sm:w-auto bg-white hover:bg-gray-100 text-gray-900 font-bold px-6 py-3 rounded-xl transition flex items-center justify-center gap-2 text-xs shadow-sm cursor-pointer active:scale-95">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                <span>Copy Full Matrix</span>
               </button>
-              <button onclick="downloadKeywords()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition flex items-center justify-center gap-2 text-sm shadow-sm active:scale-95">
+              <button onclick="downloadKeywords()" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl transition flex items-center justify-center gap-2 text-xs shadow-sm cursor-pointer active:scale-95">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
-                Export TXT Dataset
+                <span>Export TXT Dataset</span>
               </button>
-              <button onclick="clearResults()" class="bg-gray-100 hover:bg-gray-200 text-gray-600 px-6 py-3 rounded-xl font-semibold transition flex items-center justify-center gap-2 text-sm active:scale-95">
+              <button onclick="clearResults()" class="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 text-gray-400 border border-gray-700 font-semibold px-6 py-3 rounded-xl transition flex items-center justify-center gap-2 text-xs cursor-pointer active:scale-95">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>
-                Reset Canvas
+                <span>Reset Canvas</span>
               </button>
             </div>
           </div>
@@ -372,33 +381,64 @@
 
         dataArray.forEach((item) => {
           const targetDiv = document.createElement("div");
-          targetDiv.className = "bg-white border border-gray-100 p-3.5 rounded-xl flex items-center justify-between shadow-3xs hover:shadow-2xs transition group cursor-pointer active:scale-98";
 
-          // Dynamic metric indicators generating variable boundaries cleanly inside loops
-          const difficultyScores = ["Easy", "Medium", "Hard"];
-          const volumeStates = ["High", "Medium", "Low"];
+          // 100% Mobile Responsive premium dark template classes matching our dashboard grid
+          targetDiv.className = "keyword-tag bg-white/5 hover:bg-white/10 border border-gray-800 hover:border-blue-500/40 p-3.5 sm:p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 group transition-all duration-300 cursor-pointer relative overflow-hidden backdrop-blur-xs min-w-0 w-full";
+
+          // Dynamic arrays tracking keyword metrics variables securely
+          const difficultyScores = ["easy", "medium", "hard"];
+          const volumeStates = ["high", "medium", "low"];
           const scoreIdx = Math.floor(Math.random() * 3);
           const volIdx = Math.floor(Math.random() * 3);
 
-          const colorMap = { Easy: "text-emerald-600", Medium: "text-amber-500", Hard: "text-rose-600" };
-          const volMap = { High: "text-blue-500", Medium: "text-yellow-600", Low: "text-gray-400" };
+          const diffSelected = difficultyScores[scoreIdx];
+          const volSelected = volumeStates[volIdx];
+
+          // Elite UI Color tokens synchronization maps
+          const colorMap = {
+            easy: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+            medium: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+            hard: "bg-rose-500/10 text-rose-400 border-rose-500/20",
+          };
+
+          const volMap = {
+            high: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+            medium: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+            low: "bg-gray-500/10 text-gray-400 border-gray-500/20",
+          };
 
           targetDiv.innerHTML = `
-        <div class="flex-1 pr-2">
-          <span class="font-bold text-xs text-gray-900 font-mono tracking-tight block mb-1">${item}</span>
-          <div class="flex items-center gap-3 text-2xs font-semibold tracking-wide">
-            <span class="${colorMap[difficultyScores[scoreIdx]]} flex items-center gap-1">
-              <svg class="w-1.5 h-1.5" fill="currentColor" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3"/></svg> ${difficultyScores[scoreIdx]} Difficulty
-            </span>
-            <span class="${volMap[volumeStates[volIdx]]}">Volume: ${volumeStates[volIdx]}</span>
-          </div>
+      <div class="min-w-0 flex-1 space-y-2">
+        <span class="font-bold text-black-100 text-sm sm:text-base tracking-tight block break-words pr-2 font-mono">${item}</span>
+        
+        <div class="flex flex-wrap items-center gap-1.5 text-4xs font-mono font-bold uppercase tracking-wider">
+          <span class="px-2 py-0.5 rounded border ${colorMap[diffSelected]} flex items-center gap-1">
+            <span class="w-1 h-1 rounded-full bg-current"></span>
+            ${diffSelected}
+          </span>
+          <span class="px-2 py-0.5 rounded text-black-100 border ${volMap[volSelected]} flex items-center gap-1">
+            <span class="w-1 h-1 rounded-full bg-current"></span>
+            ${volSelected} Vol
+          </span>
         </div>
-        <div class="text-gray-400 group-hover:text-blue-600 transition">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
-        </div>
-      `;
+      </div>
+      
+      <div class="copy-icon-container flex-shrink-0 self-end sm:self-center bg-gray-800 border border-gray-700 p-2 rounded-lg text-gray-400 group-hover:text-blue-400 group-hover:border-blue-500/30 transition opacity-80 sm:opacity-0 group-hover:opacity-100 shadow-sm">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2" />
+        </svg>
+      </div>
+    `;
 
-          targetDiv.onclick = () => copyTargetKeywordNode(item, targetDiv);
+          // Make sure your click engine references matches: copyTargetKeywordNode or copyToClipboard
+          targetDiv.onclick = () => {
+            if (typeof copyTargetKeywordNode === "function") {
+              copyTargetKeywordNode(item, targetDiv);
+            } else if (typeof copyToClipboard === "function") {
+              copyToClipboard(item, targetDiv);
+            }
+          };
+
           rootNode.appendChild(targetDiv);
         });
       }
