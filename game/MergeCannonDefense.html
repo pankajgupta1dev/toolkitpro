@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Merge Cannon Defense</title>
+    <link rel="stylesheet" href="../dist/style.css" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        user-select: none;
+      }
+      body {
+        background-color: #1a1a24;
+        color: #fff;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        overflow: hidden;
+      }
+
+      /* Back / Home Button Styling */
+      .back-btn {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        background: #2563eb;
+        color: white;
+        padding: 8px 16px;
+        font-weight: 600;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+        transition:
+          background 0.2s,
+          transform 0.1s;
+        z-index: 50;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .back-btn:hover {
+        background: #3b82f6;
+        transform: translateY(-1px);
+      }
+
+      #game-wrapper {
+        width: 420px;
+        height: 650px;
+        background-color: #0f0f15;
+        border: 3px solid #2e2e40;
+        border-radius: 12px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+      #ui-bar {
+        height: 50px;
+        background: #181824;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 16px;
+        border-bottom: 2px solid #2e2e40;
+      }
+      .stat-box {
+        font-weight: bold;
+        font-size: 16px;
+        color: #ffd700;
+      }
+      #game-canvas {
+        width: 100%;
+        height: 480px;
+        background: #0d0d12;
+        display: block;
+      }
+      #grid-area {
+        height: 170px;
+        background: #15151f;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 8px;
+        padding: 8px;
+        border-top: 2px solid #2e2e40;
+      }
+      .slot {
+        background: #222230;
+        border: 2px dashed #3a3a50;
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+      .cannon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: 18px;
+        color: #fff;
+        cursor: grab;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        position: absolute;
+        z-index: 10;
+        transition: transform 0.1s;
+      }
+      .cannon:active {
+        cursor: grabbing;
+        transform: scale(1.1);
+      }
+      #controls {
+        height: 60px;
+        background: #181824;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-top: 2px solid #2e2e40;
+      }
+      .btn {
+        background: linear-gradient(135deg, #00b4db, #0083b0);
+        border: none;
+        padding: 10px 24px;
+        color: white;
+        font-weight: bold;
+        font-size: 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 180, 219, 0.3);
+      }
+      .btn:disabled {
+        background: #444;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+      #game-over-modal {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        z-index: 100;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      #game-over-modal h1 {
+        color: #ff4757;
+        margin-bottom: 10px;
+      }
+      #game-over-modal button {
+        margin-top: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Left Back to Home Button -->
+    <button onclick="window.location.href = '../index.html'" class="back-btn">🏠 Home</button>
+
+    <div id="game-wrapper">
+      <div id="ui-bar">
+        <div class="stat-box" id="coins-display">💰 Coins: 100</div>
+        <div class="stat-box" style="color: #ff4757" id="score-display">🎯 Score: 0</div>
+      </div>
+
+      <canvas id="game-canvas" width="420" height="480"></canvas>
+
+      <div id="grid-area">
+        <div class="slot" data-index="0"></div>
+        <div class="slot" data-index="1"></div>
+        <div class="slot" data-index="2"></div>
+        <div class="slot" data-index="3"></div>
+        <div class="slot" data-index="4"></div>
+        <div class="slot" data-index="5"></div>
+        <div class="slot" data-index="6"></div>
+        <div class="slot" data-index="7"></div>
+      </div>
+
+      <div id="controls">
+        <button class="btn" id="buy-btn">Buy Cannon ($50)</button>
+      </div>
+
+      <div id="game-over-modal">
+        <h1>GAME OVER</h1>
+        <p id="final-score">Final Score: 0</p>
+        <button class="btn" onclick="resetGame()">Play Again</button>
+      </div>
+    </div>
+
+    <script>
+      const canvas = document.getElementById("game-canvas");
+      const ctx = canvas.getContext("2d");
+
+      let coins = 100;
+      let score = 0;
+      let buyCost = 50;
+      let isGameOver = false;
+
+      const levelColors = ["#3498db", "#2ecc71", "#e67e22", "#e74c3c", "#9b59b6", "#f1c40f", "#1abc9c", "#e84393"];
+
+      let grid = new Array(8).fill(null);
+      let bullets = [];
+      let enemies = [];
+      let enemySpawnTimer = 0;
+
+      class Enemy {
+        constructor() {
+          this.width = 50;
+          this.height = 40;
+          this.x = Math.random() * (canvas.width - this.width);
+          this.y = -this.height;
+          this.speed = 0.6 + Math.random() * 0.4;
+          this.maxHp = Math.floor(10 + score * 1.5);
+          this.hp = this.maxHp;
+        }
+
+        update() {
+          this.y += this.speed;
+          if (this.y + this.height >= canvas.height) {
+            triggerGameOver();
+          }
+        }
+
+        draw() {
+          ctx.fillStyle = "#ff4757";
+          ctx.beginPath();
+          ctx.roundRect(this.x, this.y, this.width, this.height, 6);
+          ctx.fill();
+
+          // Health bar
+          ctx.fillStyle = "#2ed573";
+          const hpWidth = (this.hp / this.maxHp) * this.width;
+          ctx.fillRect(this.x, this.y - 8, Math.max(0, hpWidth), 4);
+
+          // HP Text
+          ctx.fillStyle = "#fff";
+          ctx.font = "12px sans-serif";
+          ctx.textAlign = "center";
+          ctx.fillText(Math.ceil(this.hp), this.x + this.width / 2, this.y + 24);
+        }
+      }
+
+      class Bullet {
+        constructor(x, y, damage, target) {
+          this.x = x;
+          this.y = y;
+          this.damage = damage;
+          this.target = target;
+          this.speed = 7;
+          this.radius = 4;
+        }
+
+        update() {
+          if (!this.target || this.target.hp <= 0) return true;
+
+          const dx = this.target.x + this.target.width / 2 - this.x;
+          const dy = this.target.y + this.target.height / 2 - this.y;
+          const dist = Math.hypot(dx, dy);
+
+          if (dist < 10) {
+            this.target.hp -= this.damage;
+            return true;
+          }
+
+          this.x += (dx / dist) * this.speed;
+          this.y += (dy / dist) * this.speed;
+          return false;
+        }
+
+        draw() {
+          ctx.fillStyle = "#ffd700";
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // Handle Drag and Drop for Merging
+      let draggedIdx = null;
+
+      function renderGrid() {
+        const slots = document.querySelectorAll(".slot");
+        slots.forEach((slot, idx) => {
+          slot.innerHTML = "";
+          if (grid[idx]) {
+            const el = document.createElement("div");
+            el.className = "cannon";
+            const lvl = grid[idx].level;
+            el.style.backgroundColor = levelColors[(lvl - 1) % levelColors.length];
+            el.innerText = lvl;
+            el.draggable = true;
+
+            el.addEventListener("dragstart", (e) => {
+              draggedIdx = idx;
+              e.dataTransfer.setData("text/plain", idx);
+            });
+
+            slot.appendChild(el);
+          }
+
+          slot.addEventListener("dragover", (e) => e.preventDefault());
+          slot.addEventListener("drop", (e) => {
+            e.preventDefault();
+            const fromIdx = draggedIdx;
+            const toIdx = idx;
+
+            if (fromIdx !== null && fromIdx !== toIdx) {
+              if (!grid[toIdx]) {
+                grid[toIdx] = grid[fromIdx];
+                grid[fromIdx] = null;
+              } else if (grid[toIdx].level === grid[fromIdx].level) {
+                grid[toIdx].level += 1;
+                grid[toIdx].fireRate = Math.max(15, 60 - grid[toIdx].level * 4);
+                grid[toIdx].damage = grid[toIdx].level * 5;
+                grid[fromIdx] = null;
+              }
+              renderGrid();
+            }
+          });
+        });
+
+        document.getElementById("buy-btn").innerText = `Buy Cannon ($${buyCost})`;
+        document.getElementById("buy-btn").disabled = coins < buyCost || grid.every((cell) => cell !== null);
+      }
+
+      document.getElementById("buy-btn").addEventListener("click", () => {
+        if (coins >= buyCost) {
+          const emptyIdx = grid.findIndex((cell) => cell === null);
+          if (emptyIdx !== -1) {
+            coins -= buyCost;
+            grid[emptyIdx] = {
+              level: 1,
+              damage: 5,
+              fireRate: 50,
+              timer: 0,
+            };
+            buyCost = Math.floor(buyCost * 1.2);
+            updateUI();
+            renderGrid();
+          }
+        }
+      });
+
+      function updateUI() {
+        document.getElementById("coins-display").innerText = `💰 Coins: ${coins}`;
+        document.getElementById("score-display").innerText = `🎯 Score: ${score}`;
+      }
+
+      function triggerGameOver() {
+        isGameOver = true;
+        document.getElementById("final-score").innerText = `Final Score: ${score}`;
+        document.getElementById("game-over-modal").style.display = "flex";
+      }
+
+      function resetGame() {
+        coins = 100;
+        score = 0;
+        buyCost = 50;
+        grid = new Array(8).fill(null);
+        bullets = [];
+        enemies = [];
+        isGameOver = false;
+        document.getElementById("game-over-modal").style.display = "none";
+        updateUI();
+        renderGrid();
+        gameLoop();
+      }
+
+      function gameLoop() {
+        if (isGameOver) return;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Spawn enemies
+        enemySpawnTimer++;
+        if (enemySpawnTimer > 120) {
+          enemies.push(new Enemy());
+          enemySpawnTimer = 0;
+        }
+
+        // Update & Draw Enemies
+        for (let i = enemies.length - 1; i >= 0; i--) {
+          const enemy = enemies[i];
+          enemy.update();
+          enemy.draw();
+
+          if (enemy.hp <= 0) {
+            coins += 15 + enemy.maxHp;
+            score += 10;
+            updateUI();
+            renderGrid();
+            enemies.splice(i, 1);
+          }
+        }
+
+        // Cannon Shooting Logic
+        grid.forEach((cannon, idx) => {
+          if (!cannon) return;
+
+          cannon.timer++;
+          if (cannon.timer >= cannon.fireRate) {
+            if (enemies.length > 0) {
+              // Target closest enemy to bottom
+              let target = enemies[0];
+              for (let e of enemies) {
+                if (e.y > target.y) target = e;
+              }
+
+              // Calculate firing position from slot
+              const slotEl = document.querySelectorAll(".slot")[idx];
+              const rect = slotEl.getBoundingClientRect();
+              const canvasRect = canvas.getBoundingClientRect();
+              const fireX = rect.left - canvasRect.left + rect.width / 2;
+              const fireY = canvas.height;
+
+              bullets.push(new Bullet(fireX, fireY, cannon.damage, target));
+              cannon.timer = 0;
+            }
+          }
+        });
+
+        // Update & Draw Bullets
+        for (let i = bullets.length - 1; i >= 0; i--) {
+          const bullet = bullets[i];
+          const hit = bullet.update();
+          bullet.draw();
+          if (hit) bullets.splice(i, 1);
+        }
+
+        requestAnimationFrame(gameLoop);
+      }
+
+      renderGrid();
+      updateUI();
+      gameLoop();
+    </script>
+  </body>
+</html>
