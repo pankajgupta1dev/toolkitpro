@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Stack Colors - Premium Fixed Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap");
+
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background: radial-gradient(circle at top, #0f172a 0%, #020617 100%);
+        color: #fff;
+        touch-action: none;
+        overflow: hidden;
+      }
+
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .glow-cyan {
+        box-shadow: 0 0 25px rgba(6, 182, 212, 0.3);
+      }
+
+      #game-canvas {
+        border-radius: 20px;
+        background: linear-gradient(180deg, #0b1120 0%, #020617 100%);
+        box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
+        touch-action: none;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex items-center justify-center p-2 sm:p-4">
+    <!-- Home Button -->
+    <button onclick="window.location.href = '../index.html'" class="fixed top-4 left-4 z-50 flex items-center gap-2 px-4 py-2.5 rounded-2xl glass-card hover:bg-white/10 text-slate-200 text-xs sm:text-sm font-semibold transition-all duration-200 hover:scale-105 active:scale-95 shadow-lg"><span>🏠</span> Home</button>
+
+    <div class="w-full max-w-[420px] flex flex-col items-center gap-3">
+      <!-- Top Stats -->
+      <div class="w-full glass-panel rounded-2xl p-3 px-5 flex justify-between items-center border-b border-white/10">
+        <div class="flex flex-col">
+          <span class="text-[10px] tracking-wider uppercase font-extrabold text-cyan-400">SCORE</span>
+          <span id="score-display" class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-teal-400 to-cyan-500">0</span>
+        </div>
+
+        <div class="flex flex-col items-end">
+          <span class="text-[10px] tracking-wider uppercase font-extrabold text-cyan-400">STACK SIZE</span>
+          <span id="stack-count-display" class="text-lg font-bold text-amber-300">📦 0</span>
+        </div>
+      </div>
+
+      <!-- Game Viewport -->
+      <div class="relative w-full glass-panel rounded-3xl p-2 flex flex-col items-center glow-cyan">
+        <canvas id="game-canvas" width="380" height="520" class="w-full h-auto max-h-[55vh] object-contain"></canvas>
+
+        <!-- Drag Hint -->
+        <div id="drag-hint" class="absolute bottom-6 px-6 py-2.5 rounded-full bg-cyan-500/20 backdrop-blur-md border border-cyan-400/30 text-cyan-200 text-xs font-bold tracking-wider uppercase animate-pulse pointer-events-none">SLIDE TO MOVE STACK 🪩</div>
+
+        <!-- Game Over Modal -->
+        <div id="modal-overlay" class="absolute inset-0 bg-black/85 backdrop-blur-md rounded-3xl hidden flex-col justify-center items-center gap-4 z-40 p-6 text-center">
+          <div id="modal-icon" class="w-16 h-16 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-3xl mb-1">🏁</div>
+          <h2 id="modal-title" class="text-2xl font-black text-cyan-400 tracking-wide">STAGE COMPLETE!</h2>
+          <p id="modal-subtitle" class="text-sm text-slate-300">Final Score Multiplier: <span id="final-multiplier" class="font-bold text-amber-400">0x</span></p>
+          <button id="modal-action-btn" onclick="restartLevel()" class="mt-2 px-8 py-3 rounded-2xl bg-gradient-to-r from-cyan-600 to-teal-600 font-extrabold text-white shadow-lg shadow-cyan-500/30 hover:scale-105 active:scale-95 transition-all duration-200">PLAY AGAIN</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const canvas = document.getElementById("game-canvas");
+      const ctx = canvas.getContext("2d");
+
+      // Colors Catalog
+      const COLORS = [
+        { id: "cyan", hex: "#06b6d4" },
+        { id: "magenta", hex: "#ec4899" },
+        { id: "yellow", hex: "#eab308" },
+      ];
+
+      let score = 0;
+      let isGameOver = false;
+
+      // Game Track Mechanics
+      const speed = 4;
+      let distanceTraveled = 0;
+      const totalDistance = 2800;
+
+      // Stable Player Mechanics
+      const player = {
+        x: canvas.width / 2, // Centered initially
+        color: COLORS[0],
+        stack: [COLORS[0], COLORS[0]],
+      };
+
+      let items = [];
+      let gates = [];
+
+      // Stable Touch / Mouse Controller
+      let isDragging = false;
+      let lastMouseX = 0;
+
+      function buildLevel() {
+        items = [];
+        gates = [];
+        distanceTraveled = 0;
+        score = 0;
+        isGameOver = false;
+        player.x = canvas.width / 2;
+        player.color = COLORS[0];
+        player.stack = [COLORS[0], COLORS[0]];
+
+        let activeColor = COLORS[0];
+
+        // Generate Level Items
+        for (let z = 300; z < totalDistance - 300; z += 120) {
+          if (z % 600 === 0 && z > 400) {
+            // Color Change Gate
+            const nextColor = COLORS[Math.floor(Math.random() * COLORS.length)];
+            gates.push({ z: z, color: nextColor, passed: false });
+            activeColor = nextColor;
+          } else {
+            // 3 Lanes of Pickup Tiles
+            const lanes = [canvas.width / 2 - 70, canvas.width / 2, canvas.width / 2 + 70];
+            lanes.forEach((laneX) => {
+              if (Math.random() > 0.25) {
+                const isMatch = Math.random() < 0.6;
+                const tileColor = isMatch ? activeColor : COLORS[Math.floor(Math.random() * COLORS.length)];
+                items.push({ x: laneX, z: z, color: tileColor, collected: false });
+              }
+            });
+          }
+        }
+        updateUI();
+      }
+
+      // Precise Drag Input Handling
+      function onPointerDown(clientX) {
+        if (isGameOver) return;
+        isDragging = true;
+        lastMouseX = clientX;
+        document.getElementById("drag-hint").style.display = "none";
+      }
+
+      function onPointerMove(clientX) {
+        if (!isDragging || isGameOver) return;
+        const deltaX = clientX - lastMouseX;
+        player.x += deltaX * 1.1;
+
+        // Clamp position strictly within boundaries
+        const minX = canvas.width / 2 - 100;
+        const maxX = canvas.width / 2 + 100;
+        player.x = Math.max(minX, Math.min(maxX, player.x));
+
+        lastMouseX = clientX;
+      }
+
+      function onPointerUp() {
+        isDragging = false;
+      }
+
+      canvas.addEventListener("mousedown", (e) => onPointerDown(e.clientX));
+      window.addEventListener("mousemove", (e) => onPointerMove(e.clientX));
+      window.addEventListener("mouseup", onPointerUp);
+
+      canvas.addEventListener(
+        "touchstart",
+        (e) => {
+          if (e.touches.length > 0) onPointerDown(e.touches[0].clientX);
+        },
+        { passive: true },
+      );
+
+      window.addEventListener(
+        "touchmove",
+        (e) => {
+          if (e.touches.length > 0) onPointerMove(e.touches[0].clientX);
+        },
+        { passive: true },
+      );
+
+      window.addEventListener("touchend", onPointerUp);
+
+      // Physics Update
+      function update() {
+        if (isGameOver) return;
+
+        distanceTraveled += speed;
+
+        // Gate Logic
+        gates.forEach((gate) => {
+          if (!gate.passed && distanceTraveled >= gate.z - 30) {
+            gate.passed = true;
+            player.color = gate.color;
+            player.stack = player.stack.map(() => gate.color);
+          }
+        });
+
+        // Item Collection
+        items.forEach((item) => {
+          if (!item.collected && Math.abs(distanceTraveled - item.z) < 20) {
+            if (Math.abs(player.x - item.x) < 32) {
+              item.collected = true;
+              if (item.color.id === player.color.id) {
+                player.stack.push(item.color);
+                score += 10;
+              } else {
+                if (player.stack.length > 1) player.stack.pop();
+              }
+              updateUI();
+            }
+          }
+        });
+
+        // Finish Check
+        if (distanceTraveled >= totalDistance) {
+          triggerFinish();
+        }
+      }
+
+      // 2.5D Isometric Rendering System
+      function projectZ(z) {
+        const relZ = z - distanceTraveled;
+        const fov = 300;
+        const scale = fov / (relZ + fov);
+        const screenY = canvas.height - 80 - relZ * 0.35;
+        return { y: screenY, scale: scale, relZ: relZ };
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Track Road Render
+        const startP = projectZ(distanceTraveled);
+        const endP = projectZ(distanceTraveled + 600);
+
+        ctx.fillStyle = "#1e293b";
+        ctx.beginPath();
+        ctx.moveTo(canvas.width / 2 - 120, startP.y);
+        ctx.lineTo(canvas.width / 2 + 120, startP.y);
+        ctx.lineTo(canvas.width / 2 + 80, endP.y);
+        ctx.lineTo(canvas.width / 2 - 80, endP.y);
+        ctx.closePath();
+        ctx.fill();
+
+        // Track Border Glow Lines
+        ctx.strokeStyle = "#38bdf8";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Render Gates
+        gates.forEach((gate) => {
+          if (gate.z > distanceTraveled - 50 && gate.z < distanceTraveled + 600) {
+            const p = projectZ(gate.z);
+            ctx.strokeStyle = gate.color.hex;
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            ctx.moveTo(canvas.width / 2 - 100 * p.scale, p.y);
+            ctx.lineTo(canvas.width / 2 + 100 * p.scale, p.y);
+            ctx.stroke();
+          }
+        });
+
+        // Render Pickup Items
+        items.forEach((item) => {
+          if (!item.collected && item.z > distanceTraveled - 30 && item.z < distanceTraveled + 550) {
+            const p = projectZ(item.z);
+            const w = 38 * p.scale;
+            const h = 10 * p.scale;
+
+            ctx.fillStyle = item.color.hex;
+            ctx.beginPath();
+            ctx.roundRect(item.x - w / 2, p.y - h / 2, w, h, 3);
+            ctx.fill();
+          }
+        });
+
+        // Render Player Tile Stack
+        const playerP = projectZ(distanceTraveled + 40);
+
+        player.stack.forEach((tileColor, idx) => {
+          const stackY = playerP.y - idx * 8;
+          const w = 46;
+          const h = 10;
+
+          ctx.fillStyle = tileColor.hex;
+          ctx.beginPath();
+          ctx.roundRect(player.x - w / 2, stackY - h / 2, w, h, 3);
+          ctx.fill();
+
+          ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        });
+      }
+
+      function updateUI() {
+        document.getElementById("score-display").innerText = score;
+        document.getElementById("stack-count-display").innerText = `📦 ${player.stack.length}`;
+      }
+
+      function triggerFinish() {
+        isGameOver = true;
+        const multiplier = Math.min(10, Math.max(1, Math.floor(player.stack.length / 2)));
+        const finalScore = score * multiplier;
+
+        document.getElementById("final-multiplier").innerText = `${multiplier}x (${finalScore} PTS)`;
+        document.getElementById("modal-overlay").style.display = "flex";
+      }
+
+      function restartLevel() {
+        document.getElementById("modal-overlay").style.display = "none";
+        buildLevel();
+      }
+
+      function gameLoop() {
+        update();
+        draw();
+        requestAnimationFrame(gameLoop);
+      }
+
+      buildLevel();
+      gameLoop();
+    </script>
+  </body>
+</html>

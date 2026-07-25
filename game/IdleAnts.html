@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Idle Ants - Premium Glitch-Free Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap");
+
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+        color: #fff;
+        touch-action: manipulation;
+      }
+
+      /* Glassmorphism Styling */
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .glow-lime {
+        box-shadow: 0 0 25px rgba(132, 204, 22, 0.25);
+      }
+
+      /* Canvas styling */
+      #game-canvas {
+        border-radius: 20px;
+        background: radial-gradient(circle at center, #1a2e1a 0%, #0d1a0d 60%, #050b05 100%);
+        box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
+        cursor: pointer;
+      }
+
+      /* Upgrade Buttons */
+      .upg-btn {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .upg-btn:hover:not(:disabled) {
+        transform: translateY(-2px);
+        background: linear-gradient(135deg, rgba(132, 204, 22, 0.2), rgba(34, 197, 94, 0.2));
+        border-color: rgba(132, 204, 22, 0.5);
+      }
+      .upg-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex items-center justify-center overflow-hidden select-none p-2 sm:p-4">
+    <!-- Home Navigation Button -->
+    <button onclick="window.location.href = '../index.html'" class="fixed top-4 left-4 z-50 flex items-center gap-2 px-4 py-2.5 rounded-2xl glass-card hover:bg-white/10 text-slate-200 text-xs sm:text-sm font-semibold transition-all duration-200 hover:scale-105 active:scale-95 shadow-lg"><span>🏠</span> Home</button>
+
+    <!-- Main Game Layout -->
+    <div class="w-full max-w-[420px] flex flex-col items-center gap-3">
+      <!-- Top Stats Bar -->
+      <div class="w-full glass-panel rounded-2xl p-3 px-5 flex justify-between items-center border-b border-white/10">
+        <div class="flex flex-col">
+          <span class="text-[10px] tracking-wider uppercase font-extrabold text-lime-400">TOTAL EARNINGS</span>
+          <span id="cash-display" class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-lime-300 via-emerald-400 to-lime-500">💰 $0</span>
+        </div>
+
+        <div class="flex flex-col items-end">
+          <span class="text-[10px] tracking-wider uppercase font-extrabold text-lime-400">ANT COLONY</span>
+          <span id="ants-count-display" class="text-lg font-bold text-slate-200">🐜 5</span>
+        </div>
+      </div>
+
+      <!-- Game Viewport Canvas -->
+      <div class="relative w-full glass-panel rounded-3xl p-2 flex flex-col items-center glow-lime">
+        <canvas id="game-canvas" width="380" height="380" class="w-full h-auto max-h-[50vh] object-contain"></canvas>
+
+        <!-- Food Health Progress Bar -->
+        <div class="w-11/12 mt-2 flex flex-col gap-1">
+          <div class="flex justify-between text-[11px] font-extrabold text-slate-300 uppercase">
+            <span id="food-name">🍉 WATERMELON</span>
+            <span id="food-percent">100%</span>
+          </div>
+          <div class="w-full h-2 rounded-full bg-slate-800/80 overflow-hidden p-0.5 border border-white/10">
+            <div id="food-bar" class="h-full rounded-full bg-gradient-to-r from-lime-400 to-emerald-500 transition-all duration-200" style="width: 100%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upgrades Control Panel -->
+      <div class="w-full grid grid-cols-2 gap-2">
+        <!-- Speed Upgrade -->
+        <button id="upg-speed-btn" class="upg-btn rounded-2xl p-2.5 flex justify-between items-center text-left">
+          <div class="flex flex-col">
+            <span class="text-[10px] font-extrabold text-slate-400 uppercase">ANT SPEED</span>
+            <span id="speed-lvl" class="text-xs font-bold text-lime-300">Lvl 1</span>
+          </div>
+          <span id="speed-cost" class="text-xs font-black text-amber-400">$10</span>
+        </button>
+
+        <!-- Count Upgrade -->
+        <button id="upg-count-btn" class="upg-btn rounded-2xl p-2.5 flex justify-between items-center text-left">
+          <div class="flex flex-col">
+            <span class="text-[10px] font-extrabold text-slate-400 uppercase">ADD ANT</span>
+            <span id="count-lvl" class="text-xs font-bold text-lime-300">+1 Ant</span>
+          </div>
+          <span id="count-cost" class="text-xs font-black text-amber-400">$15</span>
+        </button>
+
+        <!-- Strength Upgrade -->
+        <button id="upg-strength-btn" class="upg-btn rounded-2xl p-2.5 flex justify-between items-center text-left">
+          <div class="flex flex-col">
+            <span class="text-[10px] font-extrabold text-slate-400 uppercase">BITE POWER</span>
+            <span id="strength-lvl" class="text-xs font-bold text-lime-300">Lvl 1</span>
+          </div>
+          <span id="strength-cost" class="text-xs font-black text-amber-400">$25</span>
+        </button>
+
+        <!-- Unlock Next Food -->
+        <button id="upg-food-btn" class="upg-btn rounded-2xl p-2.5 flex justify-between items-center text-left">
+          <div class="flex flex-col">
+            <span class="text-[10px] font-extrabold text-slate-400 uppercase">NEW FOOD</span>
+            <span id="food-next-label" class="text-xs font-bold text-lime-300">🍩 Donut</span>
+          </div>
+          <span id="food-cost" class="text-xs font-black text-amber-400">$100</span>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const canvas = document.getElementById("game-canvas");
+      const ctx = canvas.getContext("2d");
+
+      // Game Economy
+      let cash = 0;
+      let antBaseSpeed = 1.8;
+      let antStrength = 1;
+      let totalAnts = 5;
+
+      // Upgrades Pricing Engine
+      let speedCost = 10;
+      let countCost = 15;
+      let strengthCost = 25;
+      let foodCost = 100;
+
+      let speedLvl = 1;
+      let strengthLvl = 1;
+
+      // Catalog of Foods
+      const FOODS = [
+        { name: "Watermelon", icon: "🍉", maxHp: 200, reward: 1, color: "#ef4444" },
+        { name: "Donut", icon: "🍩", maxHp: 500, reward: 3, color: "#ec4899" },
+        { name: "Pizza", icon: "🍕", maxHp: 1000, reward: 8, color: "#f59e0b" },
+        { name: "Giant Cheese", icon: "🧀", maxHp: 2200, reward: 18, color: "#eab308" },
+      ];
+
+      let currentFoodIdx = 0;
+      let currentFoodHp = FOODS[0].maxHp;
+
+      // Fixed Anchors
+      const nestPos = { x: 70, y: 310 };
+      const foodPos = { x: 290, y: 100 };
+
+      let ants = [];
+      let popups = [];
+      let ripples = [];
+
+      // Initialize Colony
+      function initColony() {
+        ants = [];
+        for (let i = 0; i < totalAnts; i++) {
+          ants.push(spawnAnt());
+        }
+      }
+
+      function spawnAnt() {
+        return {
+          x: nestPos.x + (Math.random() - 0.5) * 20,
+          y: nestPos.y + (Math.random() - 0.5) * 20,
+          targetX: foodPos.x,
+          targetY: foodPos.y,
+          state: "MOVING_TO_FOOD",
+          carryingFood: false,
+          speedOffset: 0.8 + Math.random() * 0.4,
+          angle: 0,
+        };
+      }
+
+      // Manual Click Bite Event
+      canvas.addEventListener("click", (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const clickY = e.clientY - rect.top;
+
+        const dist = Math.hypot(clickX - foodPos.x, clickY - foodPos.y);
+        if (dist < 55) {
+          processBite(true);
+          ripples.push({ x: clickX, y: clickY, r: 5, alpha: 1.0 });
+        }
+      });
+
+      function processBite(isManual = false) {
+        const food = FOODS[currentFoodIdx];
+        const earn = food.reward * antStrength * (isManual ? 2 : 1);
+
+        cash += earn;
+        currentFoodHp -= antStrength;
+
+        // Create Floating Money Text
+        popups.push({
+          x: foodPos.x + (Math.random() - 0.5) * 40,
+          y: foodPos.y + (Math.random() - 0.5) * 20,
+          text: `+$${earn}`,
+          alpha: 1.0,
+        });
+
+        // Respawn Food when fully eaten
+        if (currentFoodHp <= 0) {
+          currentFoodHp = food.maxHp;
+        }
+
+        updateUI();
+      }
+
+      // Main Engine Logic Update
+      function update() {
+        // Ants Path Navigation
+        ants.forEach((ant) => {
+          const destX = ant.state === "MOVING_TO_FOOD" ? foodPos.x : nestPos.x;
+          const destY = ant.state === "MOVING_TO_FOOD" ? foodPos.y : nestPos.y;
+
+          const dx = destX - ant.x;
+          const dy = destY - ant.y;
+          const dist = Math.hypot(dx, dy);
+
+          ant.angle = Math.atan2(dy, dx);
+          const actualSpeed = antBaseSpeed * ant.speedOffset;
+
+          if (dist > 10) {
+            ant.x += Math.cos(ant.angle) * actualSpeed;
+            ant.y += Math.sin(ant.angle) * actualSpeed;
+          } else {
+            // Reached Destination State Machine
+            if (ant.state === "MOVING_TO_FOOD") {
+              ant.state = "RETURNING_TO_NEST";
+              ant.carryingFood = true;
+              processBite(false);
+            } else {
+              ant.state = "MOVING_TO_FOOD";
+              ant.carryingFood = false;
+            }
+          }
+        });
+
+        // Update Money Popups
+        for (let i = popups.length - 1; i >= 0; i--) {
+          popups[i].y -= 0.7;
+          popups[i].alpha -= 0.025;
+          if (popups[i].alpha <= 0) popups.splice(i, 1);
+        }
+
+        // Update Click Ripples
+        for (let i = ripples.length - 1; i >= 0; i--) {
+          ripples[i].r += 1.5;
+          ripples[i].alpha -= 0.05;
+          if (ripples[i].alpha <= 0) ripples.splice(i, 1);
+        }
+      }
+
+      // Visual Render Engine
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Pheromone Trail Path
+        ctx.strokeStyle = "rgba(132, 204, 22, 0.12)";
+        ctx.lineWidth = 16;
+        ctx.beginPath();
+        ctx.moveTo(nestPos.x, nestPos.y);
+        ctx.lineTo(foodPos.x, foodPos.y);
+        ctx.stroke();
+
+        // Nest Base
+        ctx.fillStyle = "#2d1f10";
+        ctx.beginPath();
+        ctx.arc(nestPos.x, nestPos.y, 30, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "#784c21";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        ctx.fillStyle = "#0c0804";
+        ctx.beginPath();
+        ctx.arc(nestPos.x, nestPos.y, 14, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Render Active Food
+        const food = FOODS[currentFoodIdx];
+        const scalePct = 0.5 + (currentFoodHp / food.maxHp) * 0.5;
+
+        ctx.save();
+        ctx.translate(foodPos.x, foodPos.y);
+        ctx.scale(scalePct, scalePct);
+        ctx.font = "72px sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(food.icon, 0, 0);
+        ctx.restore();
+
+        // Render Click Ripples
+        ripples.forEach((r) => {
+          ctx.strokeStyle = `rgba(132, 204, 22, ${r.alpha})`;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.arc(r.x, r.y, r.r, 0, Math.PI * 2);
+          ctx.stroke();
+        });
+
+        // Render Ants
+        ants.forEach((ant) => {
+          ctx.save();
+          ctx.translate(ant.x, ant.y);
+          ctx.rotate(ant.angle);
+
+          // Legs
+          ctx.strokeStyle = "#64748b";
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(-4, -6);
+          ctx.lineTo(4, 6);
+          ctx.moveTo(-4, 6);
+          ctx.lineTo(4, -6);
+          ctx.stroke();
+
+          // Ant Segments
+          ctx.fillStyle = "#0f172a";
+          ctx.beginPath();
+          ctx.arc(-6, 0, 4, 0, Math.PI * 2); // Rear
+          ctx.arc(0, 0, 3, 0, Math.PI * 2); // Center
+          ctx.arc(5, 0, 2.5, 0, Math.PI * 2); // Head
+          ctx.fill();
+
+          // Carrying Food Chunk
+          if (ant.carryingFood) {
+            ctx.fillStyle = food.color;
+            ctx.beginPath();
+            ctx.arc(9, 0, 3.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
+          ctx.restore();
+        });
+
+        // Render Floating Popups
+        popups.forEach((p) => {
+          ctx.fillStyle = `rgba(253, 224, 71, ${p.alpha})`;
+          ctx.font = "bold 14px sans-serif";
+          ctx.textAlign = "center";
+          ctx.fillText(p.text, p.x, p.y);
+        });
+      }
+
+      // Upgrade Button Handlers
+      document.getElementById("upg-speed-btn").onclick = () => {
+        if (cash >= speedCost) {
+          cash -= speedCost;
+          speedLvl++;
+          antBaseSpeed += 0.45;
+          speedCost = Math.floor(speedCost * 1.55);
+          updateUI();
+        }
+      };
+
+      document.getElementById("upg-count-btn").onclick = () => {
+        if (cash >= countCost) {
+          cash -= countCost;
+          totalAnts++;
+          ants.push(spawnAnt());
+          countCost = Math.floor(countCost * 1.5);
+          updateUI();
+        }
+      };
+
+      document.getElementById("upg-strength-btn").onclick = () => {
+        if (cash >= strengthCost) {
+          cash -= strengthCost;
+          strengthLvl++;
+          antStrength += 1;
+          strengthCost = Math.floor(strengthCost * 1.75);
+          updateUI();
+        }
+      };
+
+      document.getElementById("upg-food-btn").onclick = () => {
+        if (cash >= foodCost && currentFoodIdx < FOODS.length - 1) {
+          cash -= foodCost;
+          currentFoodIdx++;
+          currentFoodHp = FOODS[currentFoodIdx].maxHp;
+          foodCost = Math.floor(foodCost * 2.4);
+          updateUI();
+        }
+      };
+
+      function updateUI() {
+        const food = FOODS[currentFoodIdx];
+
+        document.getElementById("cash-display").innerText = `💰 $${cash}`;
+        document.getElementById("ants-count-display").innerText = `🐜 ${ants.length}`;
+
+        // Progress Bar Update
+        document.getElementById("food-name").innerText = `${food.icon} ${food.name.toUpperCase()}`;
+        const pct = Math.max(0, Math.floor((currentFoodHp / food.maxHp) * 100));
+        document.getElementById("food-percent").innerText = `${pct}%`;
+        document.getElementById("food-bar").style.width = `${pct}%`;
+
+        // Upgrades UI Refresh
+        document.getElementById("speed-lvl").innerText = `Lvl ${speedLvl}`;
+        document.getElementById("speed-cost").innerText = `$${speedCost}`;
+        document.getElementById("upg-speed-btn").disabled = cash < speedCost;
+
+        document.getElementById("count-lvl").innerText = `+1 Ant`;
+        document.getElementById("count-cost").innerText = `$${countCost}`;
+        document.getElementById("upg-count-btn").disabled = cash < countCost;
+
+        document.getElementById("strength-lvl").innerText = `Lvl ${strengthLvl}`;
+        document.getElementById("strength-cost").innerText = `$${strengthCost}`;
+        document.getElementById("upg-strength-btn").disabled = cash < strengthCost;
+
+        if (currentFoodIdx < FOODS.length - 1) {
+          const nextFood = FOODS[currentFoodIdx + 1];
+          document.getElementById("food-next-label").innerText = `${nextFood.icon} ${nextFood.name}`;
+          document.getElementById("food-cost").innerText = `$${foodCost}`;
+          document.getElementById("upg-food-btn").disabled = cash < foodCost;
+        } else {
+          document.getElementById("food-next-label").innerText = `MAX LEVEL`;
+          document.getElementById("food-cost").innerText = `MAX`;
+          document.getElementById("upg-food-btn").disabled = true;
+        }
+      }
+
+      // Main Game Loop
+      function gameLoop() {
+        update();
+        draw();
+        requestAnimationFrame(gameLoop);
+      }
+
+      initColony();
+      updateUI();
+      gameLoop();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Sandtrix - Premium Falling Sand Tetris</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap");
+
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background: radial-gradient(circle at center, #1b1b2f 0%, #080811 100%);
+        color: #fff;
+        touch-action: manipulation;
+      }
+
+      /* Glassmorphism Styling */
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .glow-effect {
+        box-shadow: 0 0 25px rgba(124, 58, 237, 0.35);
+      }
+
+      /* Custom Canvas Styling */
+      #game-canvas {
+        border-radius: 12px;
+        background-color: #0c0d14;
+        box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+      }
+
+      /* Neon Button Animations */
+      .control-btn {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        transition: all 0.15s ease;
+      }
+      .control-btn:active {
+        transform: scale(0.92);
+        background: rgba(124, 58, 237, 0.3);
+        border-color: rgba(167, 139, 250, 0.5);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex items-center justify-center overflow-hidden select-none p-2 sm:p-4">
+    <!-- Floating Home Button -->
+    <button onclick="window.location.href = '../index.html'" class="fixed top-4 left-4 z-50 flex items-center gap-2 px-4 py-2.5 rounded-2xl glass-card hover:bg-white/10 text-slate-200 text-xs sm:text-sm font-semibold transition-all duration-200 hover:scale-105 active:scale-95 shadow-lg"><span>🏠</span> Home</button>
+
+    <!-- Main Game Container -->
+    <div class="w-full max-w-[420px] flex flex-col items-center gap-3">
+      <!-- Top Stats Header -->
+      <div class="w-full glass-panel rounded-2xl p-3.5 flex justify-between items-center px-6 border-b border-white/10">
+        <div class="flex flex-col">
+          <span class="text-[10px] tracking-wider uppercase font-extrabold text-slate-400">SCORE</span>
+          <span id="score-val" class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-400 to-amber-500">0</span>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div class="flex flex-col items-end">
+            <span class="text-[10px] tracking-wider uppercase font-extrabold text-slate-400">NEXT</span>
+            <canvas id="next-canvas" width="40" height="40" class="mt-1 rounded-lg bg-black/40 p-1"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Game Viewport -->
+      <div class="relative w-full glass-panel rounded-3xl p-3 flex flex-col items-center glow-effect">
+        <canvas id="game-canvas" width="200" height="320" class="w-full h-auto max-h-[50vh] sm:max-h-[55vh] object-contain"></canvas>
+
+        <!-- Mobile Touch Overlay Controls -->
+        <div class="w-full grid grid-cols-4 gap-2 mt-3 sm:hidden">
+          <button id="btn-left" class="control-btn py-3 rounded-xl flex items-center justify-center text-lg">👈</button>
+          <button id="btn-rotate" class="control-btn py-3 rounded-xl flex items-center justify-center text-lg">🔄</button>
+          <button id="btn-right" class="control-btn py-3 rounded-xl flex items-center justify-center text-lg">👉</button>
+          <button id="btn-down" class="control-btn py-3 rounded-xl flex items-center justify-center text-lg">👇</button>
+        </div>
+
+        <!-- Game Over Modal Overlay -->
+        <div id="game-over-modal" class="absolute inset-0 bg-black/80 backdrop-blur-md rounded-3xl hidden flex-col justify-center items-center gap-4 z-40 p-6 text-center">
+          <div class="w-16 h-16 rounded-2xl bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-3xl mb-1">⏳</div>
+          <h2 class="text-2xl font-black text-rose-400 tracking-wide">GAME OVER</h2>
+          <p class="text-sm text-slate-300">Your final score: <span id="final-score" class="font-bold text-amber-400">0</span></p>
+          <button onclick="resetGame()" class="mt-2 px-8 py-3 rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 font-extrabold text-white shadow-lg shadow-indigo-500/30 hover:scale-105 active:scale-95 transition-all duration-200">PLAY AGAIN</button>
+        </div>
+      </div>
+
+      <!-- Footer Controls Hint (Desktop) -->
+      <div class="hidden sm:flex justify-center items-center gap-4 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+        <span>⬅️➡️ Move</span>
+        <span>•</span>
+        <span>⬆️ / Space Rotate</span>
+        <span>•</span>
+        <span>⬇️ Soft Drop</span>
+      </div>
+    </div>
+
+    <script>
+      const canvas = document.getElementById("game-canvas");
+      const ctx = canvas.getContext("2d");
+      const nextCanvas = document.getElementById("next-canvas");
+      const nextCtx = nextCanvas.getContext("2d");
+
+      // Grid Specs
+      const COLS = 50;
+      const ROWS = 80;
+      const PIXEL_SIZE = 4; // 50 * 4 = 200, 80 * 4 = 320
+
+      // Palette (Neon Premium Colors)
+      const COLORS = [
+        null,
+        "#ff2a6d", // Red/Pink
+        "#05d9e8", // Cyan
+        "#ffc000", // Yellow
+        "#d16200", // Orange
+        "#00ff66", // Green
+        "#b967ff", // Purple
+      ];
+
+      // Tetromino Patterns (Scalable for Grid)
+      const SHAPES = [
+        [[1, 1, 1, 1]], // I
+        [
+          [2, 2],
+          [2, 2],
+        ], // O
+        [
+          [0, 3, 0],
+          [3, 3, 3],
+        ], // T
+        [
+          [0, 0, 4],
+          [4, 4, 4],
+        ], // L
+        [
+          [5, 0, 0],
+          [5, 5, 5],
+        ], // J
+        [
+          [0, 6, 6],
+          [6, 6, 0],
+        ], // S
+        [
+          [7, 7, 0],
+          [0, 7, 7],
+        ], // Z
+      ];
+
+      let grid = Array.from({ length: ROWS }, () => new Array(COLS).fill(0));
+      let score = 0;
+      let isGameOver = false;
+
+      let activePiece = null;
+      let nextPieceType = Math.floor(Math.random() * SHAPES.length);
+
+      // Spawn Piece
+      function spawnPiece() {
+        const shapeIdx = nextPieceType;
+        nextPieceType = Math.floor(Math.random() * SHAPES.length);
+        drawNextPiece();
+
+        const rawShape = SHAPES[shapeIdx];
+        // Scale Shape to 3x size for good sand volume
+        const shape = scaleShape(rawShape, 3);
+
+        activePiece = {
+          shape: shape,
+          x: Math.floor((COLS - shape[0].length) / 2),
+          y: 0,
+        };
+
+        // Check immediate collision
+        if (checkCollision(activePiece.shape, activePiece.x, activePiece.y)) {
+          triggerGameOver();
+        }
+      }
+
+      function scaleShape(shape, factor) {
+        let scaled = [];
+        for (let r = 0; r < shape.length; r++) {
+          for (let f1 = 0; f1 < factor; f1++) {
+            let row = [];
+            for (let c = 0; c < shape[r].length; c++) {
+              for (let f2 = 0; f2 < factor; f2++) {
+                row.push(shape[r][c]);
+              }
+            }
+            scaled.push(row);
+          }
+        }
+        return scaled;
+      }
+
+      function checkCollision(shape, px, py) {
+        for (let r = 0; r < shape.length; r++) {
+          for (let c = 0; c < shape[r].length; c++) {
+            if (shape[r][c] !== 0) {
+              let gx = px + c;
+              let gy = py + r;
+
+              if (gx < 0 || gx >= COLS || gy >= ROWS) return true;
+              if (gy >= 0 && grid[gy][gx] !== 0) return true;
+            }
+          }
+        }
+        return false;
+      }
+
+      // Dissolve Active Piece into Sand Grid
+      function freezePiece() {
+        for (let r = 0; r < activePiece.shape.length; r++) {
+          for (let c = 0; c < activePiece.shape[r].length; c++) {
+            const val = activePiece.shape[r][c];
+            if (val !== 0) {
+              let gx = activePiece.x + c;
+              let gy = activePiece.y + r;
+              if (gy >= 0 && gy < ROWS && gx >= 0 && gx < COLS) {
+                grid[gy][gx] = val;
+              }
+            }
+          }
+        }
+        activePiece = null;
+        spawnPiece();
+      }
+
+      // Physics Update: Sand Simulation (Cellular Automata)
+      function updateSandPhysics() {
+        // Bottom-up evaluation
+        for (let r = ROWS - 2; r >= 0; r--) {
+          // Randomize direction sweep to prevent left/right bias
+          let colsIndices = Array.from({ length: COLS }, (_, i) => i);
+          if (Math.random() < 0.5) colsIndices.reverse();
+
+          for (let c of colsIndices) {
+            let current = grid[r][c];
+            if (current !== 0) {
+              // Directly down
+              if (grid[r + 1][c] === 0) {
+                grid[r + 1][c] = current;
+                grid[r][c] = 0;
+              }
+              // Down-Left or Down-Right
+              else {
+                let dir = Math.random() < 0.5 ? -1 : 1;
+                if (c + dir >= 0 && c + dir < COLS && grid[r + 1][c + dir] === 0) {
+                  grid[r + 1][c + dir] = current;
+                  grid[r][c] = 0;
+                } else if (c - dir >= 0 && c - dir < COLS && grid[r + 1][c - dir] === 0) {
+                  grid[r + 1][c - dir] = current;
+                  grid[r][c] = 0;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      // Sand Line Connection Clearance (Left-to-Right Continuous Sand of Same Color)
+      function checkSandClearance() {
+        let clearedAny = false;
+
+        for (let r = 0; r < ROWS; r++) {
+          for (let colorId = 1; colorId < COLORS.length; colorId++) {
+            if (hasContinuousPath(r, colorId)) {
+              clearConnectedColorPath(r, colorId);
+              score += 150;
+              clearedAny = true;
+            }
+          }
+        }
+
+        if (clearedAny) {
+          document.getElementById("score-val").innerText = score;
+        }
+      }
+
+      // Floodfill BFS to check if color connects left wall to right wall
+      function hasContinuousPath(startRow, colorId) {
+        let visited = Array.from({ length: ROWS }, () => new Array(COLS).fill(false));
+        let queue = [];
+
+        for (let r = 0; r < ROWS; r++) {
+          if (grid[r][0] === colorId) {
+            queue.push([r, 0]);
+            visited[r][0] = true;
+          }
+        }
+
+        while (queue.length > 0) {
+          let [r, c] = queue.shift();
+          if (c === COLS - 1) return true; // Reached right border!
+
+          const neighbors = [
+            [r + 1, c],
+            [r - 1, c],
+            [r, c + 1],
+            [r, c - 1],
+            [r + 1, c + 1],
+            [r - 1, c + 1],
+            [r + 1, c - 1],
+            [r - 1, c - 1],
+          ];
+
+          for (let [nr, nc] of neighbors) {
+            if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS) {
+              if (!visited[nr][nc] && grid[nr][nc] === colorId) {
+                visited[nr][nc] = true;
+                queue.push([nr, nc]);
+              }
+            }
+          }
+        }
+        return false;
+      }
+
+      function clearConnectedColorPath(startRow, colorId) {
+        let visited = Array.from({ length: ROWS }, () => new Array(COLS).fill(false));
+        let queue = [];
+
+        for (let r = 0; r < ROWS; r++) {
+          if (grid[r][0] === colorId) {
+            queue.push([r, 0]);
+            visited[r][0] = true;
+          }
+        }
+
+        let toClear = [];
+
+        while (queue.length > 0) {
+          let [r, c] = queue.shift();
+          toClear.push([r, c]);
+
+          const neighbors = [
+            [r + 1, c],
+            [r - 1, c],
+            [r, c + 1],
+            [r, c - 1],
+            [r + 1, c + 1],
+            [r - 1, c + 1],
+            [r + 1, c - 1],
+            [r - 1, c - 1],
+          ];
+
+          for (let [nr, nc] of neighbors) {
+            if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS) {
+              if (!visited[nr][nc] && grid[nr][nc] === colorId) {
+                visited[nr][nc] = true;
+                queue.push([nr, nc]);
+              }
+            }
+          }
+        }
+
+        // Erase pixels
+        toClear.forEach(([r, c]) => {
+          grid[r][c] = 0;
+        });
+      }
+
+      // Render Function
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Render Sand Pixels
+        for (let r = 0; r < ROWS; r++) {
+          for (let c = 0; c < COLS; c++) {
+            if (grid[r][c] !== 0) {
+              ctx.fillStyle = COLORS[grid[r][c]];
+              ctx.fillRect(c * PIXEL_SIZE, r * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
+            }
+          }
+        }
+
+        // Render Active Falling Piece
+        if (activePiece) {
+          for (let r = 0; r < activePiece.shape.length; r++) {
+            for (let c = 0; c < activePiece.shape[r].length; c++) {
+              const val = activePiece.shape[r][c];
+              if (val !== 0) {
+                ctx.fillStyle = COLORS[val];
+                ctx.fillRect((activePiece.x + c) * PIXEL_SIZE, (activePiece.y + r) * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
+              }
+            }
+          }
+        }
+      }
+
+      function drawNextPiece() {
+        nextCtx.clearRect(0, 0, nextCanvas.width, nextCanvas.height);
+        const rawShape = SHAPES[nextPieceType];
+        const size = 6;
+        const offX = Math.floor((40 - rawShape[0].length * size) / 2);
+        const offY = Math.floor((40 - rawShape.length * size) / 2);
+
+        for (let r = 0; r < rawShape.length; r++) {
+          for (let c = 0; c < rawShape[r].length; c++) {
+            const val = rawShape[r][c];
+            if (val !== 0) {
+              nextCtx.fillStyle = COLORS[val];
+              nextCtx.fillRect(offX + c * size, offY + r * size, size - 1, size - 1);
+            }
+          }
+        }
+      }
+
+      // Player Movement Input
+      function rotatePiece() {
+        if (!activePiece) return;
+        const shape = activePiece.shape;
+        let rotated = shape[0].map((_, index) => shape.map((row) => row[index]).reverse());
+
+        if (!checkCollision(rotated, activePiece.x, activePiece.y)) {
+          activePiece.shape = rotated;
+        }
+      }
+
+      function moveLeft() {
+        if (activePiece && !checkCollision(activePiece.shape, activePiece.x - 2, activePiece.y)) {
+          activePiece.x -= 2;
+        }
+      }
+
+      function moveRight() {
+        if (activePiece && !checkCollision(activePiece.shape, activePiece.x + 2, activePiece.y)) {
+          activePiece.x += 2;
+        }
+      }
+
+      function moveDown() {
+        if (!activePiece) return;
+        if (!checkCollision(activePiece.shape, activePiece.x, activePiece.y + 1)) {
+          activePiece.y += 1;
+        } else {
+          freezePiece();
+        }
+      }
+
+      // Keyboard Listeners
+      document.addEventListener("keydown", (e) => {
+        if (isGameOver) return;
+        if (e.key === "ArrowLeft" || e.key === "a") moveLeft();
+        else if (e.key === "ArrowRight" || e.key === "d") moveRight();
+        else if (e.key === "ArrowDown" || e.key === "s") moveDown();
+        else if (e.key === "ArrowUp" || e.key === " " || e.key === "w") rotatePiece();
+      });
+
+      // Mobile Button Bindings
+      document.getElementById("btn-left").onclick = moveLeft;
+      document.getElementById("btn-right").onclick = moveRight;
+      document.getElementById("btn-down").onclick = moveDown;
+      document.getElementById("btn-rotate").onclick = rotatePiece;
+
+      // Main Game Loop Timer
+      let dropCounter = 0;
+      function gameLoop() {
+        if (isGameOver) return;
+
+        dropCounter++;
+        if (dropCounter >= 8) {
+          // Automatic piece drop rate
+          moveDown();
+          dropCounter = 0;
+        }
+
+        updateSandPhysics();
+        checkSandClearance();
+        draw();
+
+        requestAnimationFrame(gameLoop);
+      }
+
+      function triggerGameOver() {
+        isGameOver = true;
+        document.getElementById("final-score").innerText = score;
+        document.getElementById("game-over-modal").style.display = "flex";
+      }
+
+      function resetGame() {
+        grid = Array.from({ length: ROWS }, () => new Array(COLS).fill(0));
+        score = 0;
+        isGameOver = false;
+        document.getElementById("score-val").innerText = "0";
+        document.getElementById("game-over-modal").style.display = "none";
+        spawnPiece();
+        gameLoop();
+      }
+
+      spawnPiece();
+      gameLoop();
+    </script>
+  </body>
+</html>

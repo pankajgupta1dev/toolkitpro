@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Slice Master</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        user-select: none;
+      }
+      body {
+        background-color: #0d0e15;
+        color: #fff;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        overflow: hidden;
+        padding: 10px;
+      }
+
+      .back-btn {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: #2563eb;
+        color: white;
+        padding: 8px 14px;
+        font-weight: 600;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        font-size: 13px;
+        box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+        transition: background 0.2s;
+        z-index: 50;
+      }
+      .back-btn:hover {
+        background: #3b82f6;
+      }
+
+      #game-wrapper {
+        width: 100%;
+        max-width: 400px;
+        height: 95vh;
+        max-height: 700px;
+        background-color: #161824;
+        border: 2px solid #2e3248;
+        border-radius: 16px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        overflow: hidden;
+      }
+
+      #ui-bar {
+        height: 48px;
+        background: #10111a;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 16px;
+        border-bottom: 2px solid #2e3248;
+        flex-shrink: 0;
+      }
+      .stat-box {
+        font-weight: bold;
+        font-size: 14px;
+        color: #ffd700;
+      }
+
+      #game-canvas {
+        width: 100%;
+        flex-grow: 1;
+        background: #11131f;
+        display: block;
+        cursor: pointer;
+      }
+
+      #game-over-modal {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        z-index: 100;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      #game-over-modal h1 {
+        color: #ff4757;
+        margin-bottom: 8px;
+      }
+      .btn {
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        border: none;
+        padding: 10px 22px;
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+        border-radius: 18px;
+        cursor: pointer;
+        margin-top: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <button onclick="window.location.href = '../index.html'" class="back-btn">🏠 Home</button>
+
+    <div id="game-wrapper">
+      <div id="ui-bar">
+        <div class="stat-box" id="level-display">🚩 Level 1</div>
+        <div class="stat-box" style="color: #00d2d3" id="score-display">🎯 Score: 0</div>
+      </div>
+
+      <canvas id="game-canvas"></canvas>
+
+      <div id="game-over-modal">
+        <h1 id="modal-title">GAME OVER</h1>
+        <p id="final-score">Final Score: 0</p>
+        <button class="btn" onclick="resetGame()">Try Again</button>
+      </div>
+    </div>
+
+    <script>
+      const canvas = document.getElementById("game-canvas");
+      const ctx = canvas.getContext("2d");
+
+      function resizeCanvas() {
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+      }
+      window.addEventListener("resize", resizeCanvas);
+
+      let score = 0;
+      let level = 1;
+      let isGameOver = false;
+      let cameraX = 0;
+
+      // Knife Physics & State
+      const knife = {
+        x: 80,
+        y: 200,
+        vx: 0,
+        vy: 0,
+        angle: 0,
+        vAngle: 0,
+        length: 45,
+        isStuck: false,
+      };
+
+      const gravity = 0.35;
+      let slicedPieces = [];
+      let obstacles = [];
+
+      function generateLevel() {
+        obstacles = [];
+        let startX = 250;
+
+        for (let i = 0; i < 15; i++) {
+          const type = Math.random() < 0.7 ? "sliceable" : "spike";
+          obstacles.push({
+            x: startX,
+            y: 180 + Math.random() * 120,
+            w: 30 + Math.random() * 20,
+            h: 60 + Math.random() * 40,
+            type: type,
+            sliced: false,
+            color: type === "sliceable" ? ["#ff4757", "#2ed573", "#ffa502", "#1e90ff"][Math.floor(Math.random() * 4)] : "#ff0055",
+          });
+          startX += 90 + Math.random() * 50;
+        }
+
+        // End Target Platform
+        obstacles.push({
+          x: startX + 50,
+          y: 150,
+          w: 60,
+          h: 180,
+          type: "target",
+          sliced: false,
+          color: "#ffd700",
+          multiplier: 5,
+        });
+      }
+
+      function flipKnife() {
+        if (isGameOver) return;
+        knife.vy = -7.5;
+        knife.vx = 3.2;
+        knife.vAngle = 0.22;
+        knife.isStuck = false;
+      }
+
+      window.addEventListener("click", (e) => {
+        // Don't flip on clicking back button or modals
+        if (e.target.tagName !== "BUTTON") {
+          flipKnife();
+        }
+      });
+
+      function updatePhysics() {
+        if (knife.isStuck || isGameOver) return;
+
+        knife.vy += gravity;
+        knife.x += knife.vx;
+        knife.y += knife.vy;
+        knife.angle += knife.vAngle;
+
+        // Scroll camera
+        cameraX = knife.x - 80;
+
+        // Boundary Check (Game Over if knife drops down)
+        if (knife.y > canvas.height + 50) {
+          triggerGameOver("GAME OVER");
+        }
+
+        // Check Collision with Obstacles
+        obstacles.forEach((obs) => {
+          if (!obs.sliced && knife.x > obs.x && knife.x < obs.x + obs.w && knife.y > obs.y && knife.y < obs.y + obs.h) {
+            if (obs.type === "sliceable") {
+              obs.sliced = true;
+              score += 10;
+              updateUI();
+
+              // Create Sliced Effects
+              slicedPieces.push({
+                x: obs.x,
+                y: obs.y,
+                w: obs.w,
+                h: obs.h / 2,
+                color: obs.color,
+                vx: 2,
+                vy: -3,
+              });
+              slicedPieces.push({
+                x: obs.x,
+                y: obs.y + obs.h / 2,
+                w: obs.w,
+                h: obs.h / 2,
+                color: obs.color,
+                vx: -2,
+                vy: 3,
+              });
+            } else if (obs.type === "spike") {
+              triggerGameOver("GAME OVER");
+            } else if (obs.type === "target") {
+              knife.isStuck = true;
+              score *= obs.multiplier;
+              updateUI();
+              setTimeout(() => {
+                level++;
+                resetLevel();
+              }, 1200);
+            }
+          }
+        });
+      }
+
+      function drawScene() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.save();
+        ctx.translate(-cameraX, 0);
+
+        // Draw Floor line
+        ctx.strokeStyle = "#2e3248";
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(cameraX - 100, canvas.height - 40);
+        ctx.lineTo(cameraX + canvas.width + 500, canvas.height - 40);
+        ctx.stroke();
+
+        // Draw Obstacles
+        obstacles.forEach((obs) => {
+          if (!obs.sliced) {
+            ctx.fillStyle = obs.color;
+            ctx.beginPath();
+            ctx.roundRect(obs.x, obs.y, obs.w, obs.h, 6);
+            ctx.fill();
+
+            if (obs.type === "spike") {
+              ctx.fillStyle = "#ffffff";
+              ctx.font = "12px sans-serif";
+              ctx.fillText("⚠️", obs.x + obs.w / 4, obs.y + obs.h / 2);
+            } else if (obs.type === "target") {
+              ctx.fillStyle = "#000";
+              ctx.font = "bold 16px sans-serif";
+              ctx.fillText("x5", obs.x + 20, obs.y + obs.h / 2);
+            }
+          }
+        });
+
+        // Draw Sliced Falling Pieces
+        slicedPieces.forEach((p, idx) => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.2;
+
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = 0.8;
+          ctx.fillRect(p.x, p.y, p.w, p.h);
+          ctx.globalAlpha = 1.0;
+
+          if (p.y > canvas.height) slicedPieces.splice(idx, 1);
+        });
+
+        // Draw Knife
+        ctx.save();
+        ctx.translate(knife.x, knife.y);
+        ctx.rotate(knife.angle);
+
+        // Blade
+        ctx.fillStyle = "#e2e8f0";
+        ctx.beginPath();
+        ctx.moveTo(0, -5);
+        ctx.lineTo(knife.length, 0);
+        ctx.lineTo(0, 5);
+        ctx.closePath();
+        ctx.fill();
+
+        // Handle
+        ctx.fillStyle = "#8b5cf6";
+        ctx.fillRect(-15, -4, 15, 8);
+
+        ctx.restore();
+
+        ctx.restore();
+      }
+
+      function updateUI() {
+        document.getElementById("score-display").innerText = `🎯 Score: ${score}`;
+        document.getElementById("level-display").innerText = `🚩 Level ${level}`;
+      }
+
+      function triggerGameOver(title) {
+        isGameOver = true;
+        document.getElementById("modal-title").innerText = title;
+        document.getElementById("final-score").innerText = `Final Score: ${score}`;
+        document.getElementById("game-over-modal").style.display = "flex";
+      }
+
+      function resetLevel() {
+        knife.x = 80;
+        knife.y = 200;
+        knife.vx = 0;
+        knife.vy = 0;
+        knife.angle = 0;
+        knife.vAngle = 0;
+        knife.isStuck = false;
+        cameraX = 0;
+        isGameOver = false;
+        document.getElementById("game-over-modal").style.display = "none";
+        generateLevel();
+        updateUI();
+      }
+
+      function resetGame() {
+        score = 0;
+        level = 1;
+        resetLevel();
+        gameLoop();
+      }
+
+      function gameLoop() {
+        updatePhysics();
+        drawScene();
+        if (!isGameOver) {
+          requestAnimationFrame(gameLoop);
+        }
+      }
+
+      resizeCanvas();
+      generateLevel();
+      updateUI();
+      gameLoop();
+    </script>
+  </body>
+</html>

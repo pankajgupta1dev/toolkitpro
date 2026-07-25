@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Tiny Fishing - Premium Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap");
+
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background: radial-gradient(circle at top, #0f172a 0%, #020617 100%);
+        color: #fff;
+        touch-action: manipulation;
+      }
+
+      /* Premium Glassmorphism */
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      /* Glows */
+      .glow-cyan {
+        box-shadow: 0 0 25px rgba(6, 182, 212, 0.35);
+      }
+
+      /* Shop Card Buttons */
+      .upgrade-btn {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        transition: all 0.2s ease;
+      }
+      .upgrade-btn:hover:not(:disabled) {
+        transform: translateY(-2px);
+        background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.2));
+        border-color: rgba(6, 182, 212, 0.5);
+      }
+      .upgrade-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      /* Canvas styling */
+      #game-canvas {
+        border-radius: 20px;
+        background: linear-gradient(180deg, #38bdf8 0%, #0284c7 15%, #0369a1 40%, #0c4a6e 75%, #082f49 100%);
+        cursor: crosshair;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex items-center justify-center overflow-hidden select-none p-2 sm:p-4">
+    <!-- Home / Back Button -->
+    <button onclick="window.location.href = '../index.html'" class="fixed top-4 left-4 z-50 flex items-center gap-2 px-4 py-2.5 rounded-2xl glass-card hover:bg-white/10 text-slate-200 text-xs sm:text-sm font-semibold transition-all duration-200 hover:scale-105 active:scale-95 shadow-lg"><span>🏠</span> Home</button>
+
+    <!-- Main Game Container -->
+    <div class="w-full max-w-[420px] flex flex-col items-center gap-3">
+      <!-- Top UI Bar -->
+      <div class="w-full glass-panel rounded-2xl p-3 px-5 flex justify-between items-center border-b border-white/10">
+        <div class="flex flex-col">
+          <span class="text-[10px] tracking-wider uppercase font-extrabold text-cyan-400">TOTAL EARNINGS</span>
+          <span id="cash-display" class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-400 to-amber-500">💰 $0</span>
+        </div>
+
+        <div class="flex flex-col items-end">
+          <span class="text-[10px] tracking-wider uppercase font-extrabold text-cyan-400">CATCH COUNT</span>
+          <span id="catch-count-display" class="text-lg font-bold text-slate-200">🎣 0 / 3</span>
+        </div>
+      </div>
+
+      <!-- Game Viewport Canvas -->
+      <div class="relative w-full glass-panel rounded-3xl p-2 flex flex-col items-center glow-cyan">
+        <canvas id="game-canvas" width="380" height="420" class="w-full h-auto max-h-[55vh] object-contain"></canvas>
+
+        <!-- Overlay Play Instructions / Cast Banner -->
+        <div id="cast-banner" class="absolute bottom-6 px-6 py-2.5 rounded-full bg-cyan-500/30 backdrop-blur-md border border-cyan-400/40 text-cyan-200 text-xs font-bold tracking-wider uppercase animate-pulse pointer-events-none">TAP TO CAST LINE 🎣</div>
+      </div>
+
+      <!-- Bottom Shop / Upgrades Section -->
+      <div class="w-full grid grid-cols-3 gap-2">
+        <!-- Line Depth Upgrade -->
+        <button id="upg-depth-btn" class="upgrade-btn rounded-2xl p-2.5 flex flex-col items-center justify-between text-center gap-1">
+          <span class="text-[10px] font-extrabold text-slate-400 uppercase">MAX DEPTH</span>
+          <span id="depth-val" class="text-xs font-bold text-cyan-300">20m</span>
+          <span id="depth-cost" class="text-[11px] font-black text-amber-400">$15</span>
+        </button>
+
+        <!-- Max Fish Capacity Upgrade -->
+        <button id="upg-count-btn" class="upgrade-btn rounded-2xl p-2.5 flex flex-col items-center justify-between text-center gap-1">
+          <span class="text-[10px] font-extrabold text-slate-400 uppercase">MAX FISH</span>
+          <span id="count-val" class="text-xs font-bold text-cyan-300">3 Fish</span>
+          <span id="count-cost" class="text-[11px] font-black text-amber-400">$20</span>
+        </button>
+
+        <!-- Offline Earnings Upgrade -->
+        <button id="upg-rate-btn" class="upgrade-btn rounded-2xl p-2.5 flex flex-col items-center justify-between text-center gap-1">
+          <span class="text-[10px] font-extrabold text-slate-400 uppercase">EARN / MIN</span>
+          <span id="rate-val" class="text-xs font-bold text-cyan-300">$1/m</span>
+          <span id="rate-cost" class="text-[11px] font-black text-amber-400">$30</span>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const canvas = document.getElementById("game-canvas");
+      const ctx = canvas.getContext("2d");
+
+      // Game Economy & Upgrades
+      let cash = 100;
+      let maxDepth = 150; // pixels depth
+      let maxCatches = 3;
+      let offlineRate = 1;
+
+      let depthLevel = 1;
+      let countLevel = 1;
+      let rateLevel = 1;
+
+      let depthCost = 15;
+      let countCost = 20;
+      let rateCost = 30;
+
+      // Game Loop States: 'IDLE', 'CASTING', 'RETURNING'
+      let gameState = "IDLE";
+
+      // Hook State
+      const hook = {
+        x: canvas.width / 2,
+        y: 40,
+        targetY: 40,
+        speed: 3.5,
+        caughtFish: [],
+      };
+
+      // Fish Types Configuration
+      const FISH_SPECIES = [
+        { name: "Common Fish", icon: "🐟", val: 5, depthRange: [80, 200], speed: 1.2, size: 22 },
+        { name: "Clown Fish", icon: "🐠", val: 12, depthRange: [120, 300], speed: 1.6, size: 20 },
+        { name: "Blowfish", icon: "🐡", val: 25, depthRange: [180, 400], speed: 1.0, size: 26 },
+        { name: "Shark", icon: "🦈", val: 60, depthRange: [280, 500], speed: 2.2, size: 34 },
+        { name: "Golden Fish", icon: "✨", val: 120, depthRange: [200, 500], speed: 2.8, size: 18 },
+      ];
+
+      let fishes = [];
+      let bubbles = [];
+
+      // Initialize Bubbles
+      for (let i = 0; i < 20; i++) {
+        bubbles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: 1 + Math.random() * 3,
+          speed: 0.3 + Math.random() * 0.5,
+        });
+      }
+
+      // Spawn Fishes
+      function spawnFishes() {
+        fishes = [];
+        const totalFishes = 22;
+
+        for (let i = 0; i < totalFishes; i++) {
+          // Pick species based on depth
+          const species = FISH_SPECIES[Math.floor(Math.random() * FISH_SPECIES.length)];
+          const dir = Math.random() < 0.5 ? 1 : -1;
+
+          fishes.push({
+            ...species,
+            x: Math.random() * (canvas.width - 40) + 20,
+            y: species.depthRange[0] + Math.random() * (species.depthRange[1] - species.depthRange[0]),
+            dir: dir,
+            isCaught: false,
+          });
+        }
+      }
+
+      // Handle Input (Mouse / Touch)
+      function handleAction(clientX) {
+        if (gameState === "IDLE") {
+          gameState = "CASTING";
+          hook.targetY = 40 + maxDepth;
+          hook.caughtFish = [];
+          document.getElementById("cast-banner").style.display = "none";
+        } else if (gameState === "RETURNING" || gameState === "CASTING") {
+          // Drag Hook Horizontally
+          const rect = canvas.getBoundingClientRect();
+          const touchX = clientX - rect.left;
+          hook.x = Math.max(20, Math.min(canvas.width - 20, touchX));
+        }
+      }
+
+      canvas.addEventListener("mousedown", (e) => handleAction(e.clientX));
+      canvas.addEventListener("mousemove", (e) => {
+        if (e.buttons === 1 && (gameState === "CASTING" || gameState === "RETURNING")) {
+          handleAction(e.clientX);
+        }
+      });
+
+      canvas.addEventListener("touchstart", (e) => {
+        if (e.touches.length > 0) handleAction(e.touches[0].clientX);
+      });
+      canvas.addEventListener("touchmove", (e) => {
+        if (e.touches.length > 0 && (gameState === "CASTING" || gameState === "RETURNING")) {
+          handleAction(e.touches[0].clientX);
+        }
+      });
+
+      // Update Physics & Game Logic
+      function update() {
+        // Hook Movement
+        if (gameState === "CASTING") {
+          hook.y += hook.speed;
+          if (hook.y >= hook.targetY) {
+            gameState = "RETURNING";
+          }
+        } else if (gameState === "RETURNING") {
+          hook.y -= hook.speed * 1.3;
+
+          // Catch Logic
+          if (hook.caughtFish.length < maxCatches) {
+            fishes.forEach((fish) => {
+              if (!fish.isCaught) {
+                const dx = fish.x - hook.x;
+                const dy = fish.y - hook.y;
+                const dist = Math.hypot(dx, dy);
+
+                if (dist < 22) {
+                  fish.isCaught = true;
+                  hook.caughtFish.push(fish);
+                }
+              }
+            });
+          }
+
+          // Reached Surface
+          if (hook.y <= 40) {
+            hook.y = 40;
+            gameState = "IDLE";
+
+            // Calculate Earnings
+            let catchValue = 0;
+            hook.caughtFish.forEach((f) => (catchValue += f.val));
+            cash += catchValue;
+
+            hook.caughtFish = [];
+            spawnFishes();
+            document.getElementById("cast-banner").style.display = "block";
+            updateUI();
+          }
+        }
+
+        // Update Fishes Movement
+        fishes.forEach((fish) => {
+          if (!fish.isCaught) {
+            fish.x += fish.speed * fish.dir;
+            if (fish.x < 10 || fish.x > canvas.width - 10) {
+              fish.dir *= -1;
+            }
+          } else {
+            // Attached to Hook
+            const index = hook.caughtFish.indexOf(fish);
+            fish.x = hook.x + (index % 2 === 0 ? -8 : 8);
+            fish.y = hook.y + 15 + index * 12;
+          }
+        });
+
+        // Update Bubbles
+        bubbles.forEach((b) => {
+          b.y -= b.speed;
+          if (b.y < 0) {
+            b.y = canvas.height;
+            b.x = Math.random() * canvas.width;
+          }
+        });
+
+        updateUI();
+      }
+
+      // Render Canvas
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Camera Offset Shift when hook goes deep
+        ctx.save();
+        let cameraOffsetY = 0;
+        if (hook.y > canvas.height / 2) {
+          cameraOffsetY = -(hook.y - canvas.height / 2);
+        }
+        ctx.translate(0, cameraOffsetY);
+
+        // Render Bubbles
+        ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
+        bubbles.forEach((b) => {
+          ctx.beginPath();
+          ctx.arc(b.x, b.y - cameraOffsetY, b.r, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        // Render Fishing Line
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.7)";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(canvas.width / 2, 0);
+        ctx.lineTo(hook.x, hook.y);
+        ctx.stroke();
+
+        // Render Hook
+        ctx.strokeStyle = "#ffd700";
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(hook.x - 4, hook.y + 4, 6, 0, Math.PI);
+        ctx.stroke();
+
+        // Render Fishes
+        fishes.forEach((fish) => {
+          ctx.font = `${fish.size}px sans-serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+
+          ctx.save();
+          ctx.translate(fish.x, fish.y);
+          if (fish.dir < 0) ctx.scale(-1, 1);
+          ctx.fillText(fish.icon, 0, 0);
+          ctx.restore();
+        });
+
+        ctx.restore();
+      }
+
+      // Upgrades System
+      document.getElementById("upg-depth-btn").onclick = () => {
+        if (cash >= depthCost) {
+          cash -= depthCost;
+          depthLevel++;
+          maxDepth += 50;
+          depthCost = Math.floor(depthCost * 1.6);
+          updateUI();
+        }
+      };
+
+      document.getElementById("upg-count-btn").onclick = () => {
+        if (cash >= countCost) {
+          cash -= countCost;
+          countLevel++;
+          maxCatches += 1;
+          countCost = Math.floor(countCost * 1.8);
+          updateUI();
+        }
+      };
+
+      document.getElementById("upg-rate-btn").onclick = () => {
+        if (cash >= rateCost) {
+          cash -= rateCost;
+          rateLevel++;
+          offlineRate += 2;
+          rateCost = Math.floor(rateCost * 2.0);
+          updateUI();
+        }
+      };
+
+      function updateUI() {
+        document.getElementById("cash-display").innerText = `💰 $${cash}`;
+        document.getElementById("catch-count-display").innerText = `🎣 ${hook.caughtFish.length} / ${maxCatches}`;
+
+        document.getElementById("depth-val").innerText = `${Math.floor(maxDepth / 10)}m`;
+        document.getElementById("depth-cost").innerText = `$${depthCost}`;
+        document.getElementById("upg-depth-btn").disabled = cash < depthCost;
+
+        document.getElementById("count-val").innerText = `${maxCatches} Fish`;
+        document.getElementById("count-cost").innerText = `$${countCost}`;
+        document.getElementById("upg-count-btn").disabled = cash < countCost;
+
+        document.getElementById("rate-val").innerText = `$${offlineRate}/m`;
+        document.getElementById("rate-cost").innerText = `$${rateCost}`;
+        document.getElementById("upg-rate-btn").disabled = cash < rateCost;
+      }
+
+      // Main Game Loop
+      function loop() {
+        update();
+        draw();
+        requestAnimationFrame(loop);
+      }
+
+      spawnFishes();
+      updateUI();
+      loop();
+    </script>
+  </body>
+</html>
