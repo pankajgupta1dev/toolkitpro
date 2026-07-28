@@ -1,65 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/css" href="https://www.xml-sitemaps.com/css/sitemap.css"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <url>
-       <loc>https://toolkitpro.tools/</loc>
-       <lastmod>2026-07-22T11:57:12+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>1.0000</priority>
-  </url>
-  <url>
-       <loc>https://toolkitpro.tools/index.html</loc>
-       <lastmod>2026-07-22T11:57:12+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.8000</priority>
-  </url>
-  <url>
-       <loc>https://toolkitpro.tools/contact.html</loc>
-       <lastmod>2026-07-22T11:57:12+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.8000</priority>
-  </url>
-  <url>
-       <loc>https://toolkitpro.tools/game/MergeCannonDefense.html</loc>
-       <lastmod>2026-07-22T11:57:12+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.8000</priority>
-  </url>
     <url>
-       <loc>https://toolkitpro.tools/game/MergeCannonDefense.html</loc>
-       <lastmod>2026-07-25T11:57:12+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.8000</priority>
-  </url>
-  <url>
-       <loc>https://toolkitpro.tools/about.html</loc>
-       <lastmod>2026-07-22T11:57:12+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.8000</priority>
-  </url>
-  <url>
-       <loc>https://toolkitpro.tools/privacy-policy.html</loc>
-       <lastmod>2026-07-22T11:57:12+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.8000</priority>
-  </url>
-  <url>
-       <loc>https://toolkitpro.tools/terms-and-conditions.html</loc>
-       <lastmod>2026-07-22T11:57:12+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.8000</priority>
-  </url>
-  <url>
-       <loc>https://toolkitpro.tools/disclaimer.html</loc>
-       <lastmod>2026-07-22T11:57:12+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.8000</priority>
-  </url>
-  <url>
-       <loc>https://toolkitpro.tools/dmca.html</loc>
-       <lastmod>2026-07-22T11:57:12+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.8000</priority>
-  </url>
+        <loc>https://toolkitpro.tools/</loc>
+        <lastmod>2026-07-28T08:28:55+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    <url>
+        <loc>https://toolkitpro.tools/index.html</loc>
+        <lastmod>2026-07-28T08:28:55+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://toolkitpro.tools/about.html</loc>
+        <lastmod>2026-07-28T08:28:55+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://toolkitpro.tools/contact.html</loc>
+        <lastmod>2026-07-28T08:28:55+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://toolkitpro.tools/privacy-policy.html</loc>
+        <lastmod>2026-07-28T08:28:55+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://toolkitpro.tools/terms-and-conditions.html</loc>
+        <lastmod>2026-07-28T08:28:55+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://toolkitpro.tools/disclaimer.html</loc>
+        <lastmod>2026-07-28T08:28:55+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://toolkitpro.tools/dmca.html</loc>
+        <lastmod>2026-07-28T08:28:55+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Games -->
+
+    <url>
+        <loc>https://toolkitpro.tools/game/BlumgiRocket.html</loc>
+        <lastmod>2026-07-28T08:28:55+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://toolkitpro.tools/game/carRocket.html</loc>
+        <lastmod>2026-07-28T08:28:55+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://toolkitpro.tools/game/DreadheadParkour.html</loc>
+        <lastmod>2026-07-28T08:28:55+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://toolkitpro.tools/game/IdleAnts.html</loc>
+        <lastmod>2026-07-28T08:28:55+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://toolkitpro.tools/game/MergeCannonDefense.html</loc>
+        <lastmod>2026-07-28T08:28:55+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://toolkitpro.tools/game/Sandtrix.html</loc>
+        <lastmod>2026-07-28T08:28:55+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://toolkitpro.tools/game/SliceMaster.html</loc>
+        <lastmod>2026-07-28T08:28:55+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://toolkitpro.tools/game/StackColors.html</loc>
+        <lastmod>2026-07-28T08:28:55+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://toolkitpro.tools/game/TinyFishing.html</loc>
+        <lastmod>2026-07-28T08:28:55+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://toolkitpro.tools/game/TowerSwap.html</loc>
+        <lastmod>2026-07-28T08:28:55+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+
 </urlset>
